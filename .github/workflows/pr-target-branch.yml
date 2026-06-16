@@ -1,0 +1,58 @@
+name: Validate PR Target Branch
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+      - 'release/**'
+
+jobs:
+  check-pr-target:
+    name: Check PR target branch rules
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate merge direction
+        run: |
+          SOURCE="${{ github.head_ref }}"
+          TARGET="${{ github.base_ref }}"
+
+          echo "PR: $SOURCE → $TARGET"
+
+          # feature/*, fix/*, hotfix/*, chore/*, docs/*, refactor/*, test/* → develop
+          if [[ "$TARGET" == "develop" ]]; then
+            if [[ "$SOURCE" =~ ^(feature|fix|chore|docs|refactor|test)/ ]]; then
+              echo "✅ Valid: $SOURCE → develop"
+              exit 0
+            else
+              echo "❌ Only feature/, fix/, chore/, docs/, refactor/ and test/ branches can target develop."
+              exit 1
+            fi
+          fi
+
+          # release/* → main
+          if [[ "$TARGET" == "main" ]]; then
+            if [[ "$SOURCE" =~ ^release/ ]]; then
+              echo "✅ Valid: $SOURCE → main"
+              exit 0
+            elif [[ "$SOURCE" =~ ^hotfix/ ]]; then
+              echo "✅ Valid (hotfix): $SOURCE → main"
+              exit 0
+            else
+              echo "❌ Only release/* and hotfix/* branches can target main."
+              exit 1
+            fi
+          fi
+
+          # develop → release/*
+          if [[ "$TARGET" =~ ^release/ ]]; then
+            if [[ "$SOURCE" == "develop" ]]; then
+              echo "✅ Valid: develop → $TARGET"
+              exit 0
+            else
+              echo "❌ Only develop can open PRs targeting a release branch."
+              exit 1
+            fi
+          fi
+
+          echo "ℹ️ No specific rule for this target — allowed by default."
