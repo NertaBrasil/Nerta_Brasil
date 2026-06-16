@@ -1,0 +1,242 @@
+/* ============================================================
+   Nerta Brasil — globals.css
+   Cole em app/globals.css. Importe a fonte separadamente
+   (next/font ou <link> Google Fonts: Plus Jakarta Sans + Inter).
+   ============================================================ */
+
+/* ============================================================
+   Nerta Brasil — Color System
+   Source: Nerta_Identidade_Visual_2026.pdf §2 Paleta de Cores
+   Rule #1: Navy Deep is the non-negotiable dominant background.
+   NEVER use white/light backgrounds on primary surfaces.
+   ============================================================ */
+:root {
+  /* ---- Primary (base of every piece) ---- */
+  --navy-deep: #0D1B2E;     /* Fundo principal. Inegociável. */
+  --nerta-blue: #1E7FC8;    /* Cor primária: CTAs, links, highlights */
+  --provisao-gold: #C9951A; /* Exclusiva do distribuidor: badges, selos */
+  --white: #FFFFFF;         /* Títulos e contraste sobre escuro */
+
+  /* ---- Secondary (depth, hierarchy, detail — never dominant) ---- */
+  --navy-mid: #112644;      /* Cards, painéis internos */
+  --navy-light: #163258;    /* Hover states, bordas de componentes */
+  --navy-border: #1E3A5A;   /* Bordas sutis de card (0.5–1px) */
+  --sky-blue: #5BB8F5;      /* Texto em destaque, palavras-chave de produto */
+  --gold-light: #F4C94E;    /* Versão clara do dourado: labels, badges */
+  --teal: #1DB87E;          /* Ícones de benefício, checks, confirmações */
+  --muted-text: #8A9BB0;    /* Corpo de texto, parágrafos */
+  --light-gray: #D9DDE3;    /* Texto terciário, rodapé, breadcrumbs */
+
+  /* ---- Tonal helpers (derived, for shadows/overlays) ---- */
+  --navy-deeper: #081320;   /* below navy-deep, for gradient depth */
+  --blue-soft: rgba(30, 127, 200, 0.12);   /* blue tint fills */
+  --gold-soft: rgba(201, 149, 26, 0.14);   /* gold tint fills */
+  --teal-soft: rgba(29, 184, 126, 0.14);   /* teal tint fills */
+  --scrim: rgba(8, 19, 32, 0.66);          /* modal/overlay scrim */
+
+  /* ============================================================
+     Semantic aliases — reference THESE in components
+     ============================================================ */
+  /* Surfaces (no white surfaces — the system lives in the dark) */
+  --bg-page: var(--navy-deep);
+  --bg-gradient: linear-gradient(135deg, #0D1B2E 0%, #163258 100%);
+  --surface-card: var(--navy-mid);
+  --surface-raised: var(--navy-light);
+  --surface-sunken: var(--navy-deeper);
+
+  /* Borders */
+  --border-subtle: var(--navy-border);
+  --border-strong: var(--navy-light);
+  --border-accent: var(--nerta-blue);
+  --border-partner: var(--provisao-gold);
+
+  /* Text */
+  --text-title: var(--white);
+  --text-highlight: var(--sky-blue);
+  --text-body: var(--muted-text);
+  --text-tertiary: var(--light-gray);
+  --text-partner: var(--provisao-gold);
+  --text-label: var(--muted-text);
+
+  /* Interactive */
+  --action-primary: var(--nerta-blue);
+  --action-primary-hover: #2A8FD8;
+  --action-primary-press: #176FB0;
+  --action-partner: var(--provisao-gold);
+  --action-partner-hover: #DBA52A;
+  --action-disabled-bg: #1A2A40;
+  --action-disabled-text: #5A6B82;
+
+  /* Feedback / status */
+  --status-benefit: var(--teal);
+  --status-success: var(--teal);
+  --focus-ring: rgba(91, 184, 245, 0.55);
+}
+
+/* ============================================================
+   Nerta Brasil — Typographic System
+   Source: PDF §3 Sistema Tipográfico
+   Sans-serif moderno. Bold para títulos. Hierarquia rigorosa
+   de 3 níveis visuais. Tracking negativo em headlines.
+   ============================================================ */
+:root {
+  /* ---- Families ---- */
+  --font-display: 'Plus Jakarta Sans', 'Montserrat', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* ---- Weights ---- */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-black: 800;
+
+  /* ---- Type scale (px) ---- */
+  --size-hero: 56px;      /* impact / KPI top end */
+  --size-display: 40px;   /* hero headline top end */
+  --size-h1: 32px;
+  --size-h2: 28px;
+  --size-h3: 22px;
+  --size-h4: 18px;
+  --size-lg: 16px;
+  --size-base: 14px;      /* body default */
+  --size-sm: 13px;
+  --size-xs: 11px;
+  --size-label: 10px;     /* uppercase section labels */
+
+  /* ---- KPI / impact number ---- */
+  --size-kpi: 48px;       /* 36–56px range */
+
+  /* ---- Line heights ---- */
+  --leading-tight: 1.12;  /* headlines */
+  --leading-snug: 1.3;
+  --leading-body: 1.6;    /* paragraphs */
+
+  /* ---- Letter spacing ---- */
+  --tracking-headline: -0.02em; /* headlines */
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0;
+  --tracking-label: 0.08em;     /* uppercase labels / badges */
+
+  /* ============================================================
+     Semantic type roles (font / weight / size / color cues)
+     ============================================================ */
+  --type-headline-weight: var(--weight-bold);
+  --type-headline-tracking: var(--tracking-headline);
+
+  --type-kpi-weight: var(--weight-bold);
+  --type-label-weight: var(--weight-medium);
+  --type-label-tracking: var(--tracking-label);
+  --type-body-weight: var(--weight-regular);
+  --type-body-leading: var(--leading-body);
+}
+
+/* ============================================================
+   Nerta Brasil — Spacing, Radius, Border, Shadow, Layout
+   Source: PDF §4 (cards radius 8–12px, border 0.5–1px),
+   §9 ("espaçamento generoso entre elementos").
+   ============================================================ */
+:root {
+  /* ---- Spacing scale (4px base, generous rhythm) ---- */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+  /* ---- Radii (cards 8–12px) ---- */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;     /* default card */
+  --radius-lg: 12px;    /* large card / panel */
+  --radius-xl: 16px;
+  --radius-pill: 999px; /* badges, the Nerta logo pill, CTAs */
+
+  /* ---- Borders ---- */
+  --border-width-hairline: 0.5px;
+  --border-width-thin: 1px;
+  --border-accent-width: 3px;  /* left-border accent: 3–4px */
+  --border-accent-width-lg: 4px;
+
+  /* ---- Shadows (subtle on dark — depth, never glow) ---- */
+  --shadow-sm: 0 1px 2px rgba(8, 19, 32, 0.4);
+  --shadow-md: 0 6px 20px rgba(8, 19, 32, 0.45);
+  --shadow-lg: 0 18px 48px rgba(8, 19, 32, 0.55);
+  /* Product photos float WITHOUT shadow (premium recorte) */
+  --shadow-none: none;
+
+  /* ---- Motion ---- */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1); /* @kind other */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); /* @kind other */
+  --duration-fast: 140ms; /* @kind other */
+  --duration-base: 220ms; /* @kind other */
+  --duration-slow: 360ms; /* @kind other */
+
+  /* ---- Layout ---- */
+  --container-max: 1200px;
+  --container-narrow: 820px;
+  --gutter: var(--space-6);
+}
+
+/* ============================================================
+   Nerta Brasil — Base / reset
+   Sets the navy-deep canvas and default body type.
+   Imported last from styles.css.
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--text-body);
+  font-family: var(--font-body);
+  font-size: var(--size-base);
+  line-height: var(--leading-body);
+}
+
+/* Headings default to display family, white, tight tracking */
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-family: var(--font-display);
+  color: var(--text-title);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-headline);
+  line-height: var(--leading-tight);
+}
+
+a {
+  color: var(--nerta-blue);
+  text-decoration: none;
+}
+
+::selection {
+  background: rgba(30, 127, 200, 0.35);
+  color: var(--white);
+}
+
+/* Utility: the signature left-border accent block */
+.nerta-accent-block {
+  border-left: var(--border-accent-width) solid var(--nerta-blue);
+  padding-left: var(--space-4);
+}
+.nerta-accent-block--gold { border-left-color: var(--provisao-gold); }
+.nerta-accent-block--teal { border-left-color: var(--teal); }
+

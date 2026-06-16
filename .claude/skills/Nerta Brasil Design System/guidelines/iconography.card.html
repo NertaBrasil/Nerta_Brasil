@@ -1,0 +1,34 @@
+<!-- @dsCard group="Brand" viewport="700x230" name="Iconografia (Lucide)" subtitle="Ícones de benefício em teal · stroke 2px · substituição CDN" -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; padding: 24px 28px; background: var(--navy-deep); font-family: var(--font-body); }
+  .grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; }
+  .ic { display: flex; flex-direction: column; align-items: center; gap: 9px; }
+  .ic svg { width: 30px; height: 30px; color: var(--teal); stroke-width: 2; }
+  .ic .b svg { color: var(--nerta-blue); }
+  .name { font-size: 10px; color: var(--muted-text); letter-spacing: .03em; }
+</style>
+</head>
+<body>
+  <div class="grid">
+    <div class="ic"><i data-lucide="droplet"></i><span class="name">droplet</span></div>
+    <div class="ic"><i data-lucide="sparkles"></i><span class="name">touchless</span></div>
+    <div class="ic"><i data-lucide="truck"></i><span class="name">frotas</span></div>
+    <div class="ic"><i data-lucide="tractor"></i><span class="name">agro</span></div>
+    <div class="ic"><i data-lucide="flask-conical"></i><span class="name">química</span></div>
+    <div class="ic"><i data-lucide="badge-check"></i><span class="name">certificado</span></div>
+    <div class="ic"><i data-lucide="shield-check"></i><span class="name">proteção</span></div>
+    <div class="ic"><i data-lucide="leaf"></i><span class="name">biodegrad.</span></div>
+    <div class="ic"><i data-lucide="gauge"></i><span class="name">pH</span></div>
+    <div class="ic"><i data-lucide="spray-can"></i><span class="name">aplicação</span></div>
+    <div class="ic"><i data-lucide="circle-check"></i><span class="name">benefício</span></div>
+    <div class="ic"><i data-lucide="package"></i><span class="name">25L</span></div>
+  </div>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

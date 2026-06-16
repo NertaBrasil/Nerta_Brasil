@@ -1,0 +1,52 @@
+/* ============================================================
+   Nerta Brasil — Base / reset
+   Sets the navy-deep canvas and default body type.
+   Imported last from styles.css.
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--text-body);
+  font-family: var(--font-body);
+  font-size: var(--size-base);
+  line-height: var(--leading-body);
+}
+
+/* Headings default to display family, white, tight tracking */
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-family: var(--font-display);
+  color: var(--text-title);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-headline);
+  line-height: var(--leading-tight);
+}
+
+a {
+  color: var(--nerta-blue);
+  text-decoration: none;
+}
+
+::selection {
+  background: rgba(30, 127, 200, 0.35);
+  color: var(--white);
+}
+
+/* Utility: the signature left-border accent block */
+.nerta-accent-block {
+  border-left: var(--border-accent-width) solid var(--nerta-blue);
+  padding-left: var(--space-4);
+}
+.nerta-accent-block--gold { border-left-color: var(--provisao-gold); }
+.nerta-accent-block--teal { border-left-color: var(--teal); }

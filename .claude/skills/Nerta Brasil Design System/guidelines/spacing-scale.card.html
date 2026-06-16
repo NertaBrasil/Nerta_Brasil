@@ -1,0 +1,27 @@
+<!-- @dsCard group="Spacing" viewport="700x200" name="Escala de Espaçamento" subtitle="Base 4px · ritmo generoso entre elementos" -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; padding: 24px 28px; background: var(--navy-deep); font-family: var(--font-body); }
+  .row { display: flex; align-items: flex-end; gap: 18px; }
+  .item { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+  .bar { background: var(--nerta-blue); height: 16px; border-radius: 3px; }
+  .v { color: var(--muted-text); font-size: 11px; }
+  .t { color: var(--light-gray); font-size: 10px; letter-spacing: .04em; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="item"><div class="bar" style="width:8px"></div><span class="t">space-2</span><span class="v">8</span></div>
+    <div class="item"><div class="bar" style="width:16px"></div><span class="t">space-4</span><span class="v">16</span></div>
+    <div class="item"><div class="bar" style="width:24px"></div><span class="t">space-6</span><span class="v">24</span></div>
+    <div class="item"><div class="bar" style="width:32px"></div><span class="t">space-8</span><span class="v">32</span></div>
+    <div class="item"><div class="bar" style="width:48px"></div><span class="t">space-12</span><span class="v">48</span></div>
+    <div class="item"><div class="bar" style="width:64px"></div><span class="t">space-16</span><span class="v">64</span></div>
+    <div class="item"><div class="bar" style="width:96px"></div><span class="t">space-24</span><span class="v">96</span></div>
+  </div>
+</body>
+</html>

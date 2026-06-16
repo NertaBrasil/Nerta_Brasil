@@ -1,0 +1,57 @@
+/* ============================================================
+   Nerta Brasil — Typographic System
+   Source: PDF §3 Sistema Tipográfico
+   Sans-serif moderno. Bold para títulos. Hierarquia rigorosa
+   de 3 níveis visuais. Tracking negativo em headlines.
+   ============================================================ */
+:root {
+  /* ---- Families ---- */
+  --font-display: 'Plus Jakarta Sans', 'Montserrat', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* ---- Weights ---- */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-black: 800;
+
+  /* ---- Type scale (px) ---- */
+  --size-hero: 56px;      /* impact / KPI top end */
+  --size-display: 40px;   /* hero headline top end */
+  --size-h1: 32px;
+  --size-h2: 28px;
+  --size-h3: 22px;
+  --size-h4: 18px;
+  --size-lg: 16px;
+  --size-base: 14px;      /* body default */
+  --size-sm: 13px;
+  --size-xs: 11px;
+  --size-label: 10px;     /* uppercase section labels */
+
+  /* ---- KPI / impact number ---- */
+  --size-kpi: 48px;       /* 36–56px range */
+
+  /* ---- Line heights ---- */
+  --leading-tight: 1.12;  /* headlines */
+  --leading-snug: 1.3;
+  --leading-body: 1.6;    /* paragraphs */
+
+  /* ---- Letter spacing ---- */
+  --tracking-headline: -0.02em; /* headlines */
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0;
+  --tracking-label: 0.08em;     /* uppercase labels / badges */
+
+  /* ============================================================
+     Semantic type roles (font / weight / size / color cues)
+     ============================================================ */
+  --type-headline-weight: var(--weight-bold);
+  --type-headline-tracking: var(--tracking-headline);
+
+  --type-kpi-weight: var(--weight-bold);
+  --type-label-weight: var(--weight-medium);
+  --type-label-tracking: var(--tracking-label);
+  --type-body-weight: var(--weight-regular);
+  --type-body-leading: var(--leading-body);
+}

@@ -1,0 +1,9 @@
+/* ============================================================
+   Nerta Brasil — Webfonts
+   PDF recommends Inter or Plus Jakarta Sans for digital.
+   SUBSTITUTION NOTE: no official font binaries were supplied,
+   so these are loaded from Google Fonts (closest match to the
+   "Montserrat / Inter / Avenir"-class sans described in the
+   guide). If self-hosted brand fonts exist, replace this file.
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
