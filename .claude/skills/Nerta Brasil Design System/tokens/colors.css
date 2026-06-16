@@ -1,0 +1,68 @@
+/* ============================================================
+   Nerta Brasil — Color System
+   Source: Nerta_Identidade_Visual_2026.pdf §2 Paleta de Cores
+   Rule #1: Navy Deep is the non-negotiable dominant background.
+   NEVER use white/light backgrounds on primary surfaces.
+   ============================================================ */
+:root {
+  /* ---- Primary (base of every piece) ---- */
+  --navy-deep: #0D1B2E;     /* Fundo principal. Inegociável. */
+  --nerta-blue: #1E7FC8;    /* Cor primária: CTAs, links, highlights */
+  --provisao-gold: #C9951A; /* Exclusiva do distribuidor: badges, selos */
+  --white: #FFFFFF;         /* Títulos e contraste sobre escuro */
+
+  /* ---- Secondary (depth, hierarchy, detail — never dominant) ---- */
+  --navy-mid: #112644;      /* Cards, painéis internos */
+  --navy-light: #163258;    /* Hover states, bordas de componentes */
+  --navy-border: #1E3A5A;   /* Bordas sutis de card (0.5–1px) */
+  --sky-blue: #5BB8F5;      /* Texto em destaque, palavras-chave de produto */
+  --gold-light: #F4C94E;    /* Versão clara do dourado: labels, badges */
+  --teal: #1DB87E;          /* Ícones de benefício, checks, confirmações */
+  --muted-text: #8A9BB0;    /* Corpo de texto, parágrafos */
+  --light-gray: #D9DDE3;    /* Texto terciário, rodapé, breadcrumbs */
+
+  /* ---- Tonal helpers (derived, for shadows/overlays) ---- */
+  --navy-deeper: #081320;   /* below navy-deep, for gradient depth */
+  --blue-soft: rgba(30, 127, 200, 0.12);   /* blue tint fills */
+  --gold-soft: rgba(201, 149, 26, 0.14);   /* gold tint fills */
+  --teal-soft: rgba(29, 184, 126, 0.14);   /* teal tint fills */
+  --scrim: rgba(8, 19, 32, 0.66);          /* modal/overlay scrim */
+
+  /* ============================================================
+     Semantic aliases — reference THESE in components
+     ============================================================ */
+  /* Surfaces (no white surfaces — the system lives in the dark) */
+  --bg-page: var(--navy-deep);
+  --bg-gradient: linear-gradient(135deg, #0D1B2E 0%, #163258 100%);
+  --surface-card: var(--navy-mid);
+  --surface-raised: var(--navy-light);
+  --surface-sunken: var(--navy-deeper);
+
+  /* Borders */
+  --border-subtle: var(--navy-border);
+  --border-strong: var(--navy-light);
+  --border-accent: var(--nerta-blue);
+  --border-partner: var(--provisao-gold);
+
+  /* Text */
+  --text-title: var(--white);
+  --text-highlight: var(--sky-blue);
+  --text-body: var(--muted-text);
+  --text-tertiary: var(--light-gray);
+  --text-partner: var(--provisao-gold);
+  --text-label: var(--muted-text);
+
+  /* Interactive */
+  --action-primary: var(--nerta-blue);
+  --action-primary-hover: #2A8FD8;
+  --action-primary-press: #176FB0;
+  --action-partner: var(--provisao-gold);
+  --action-partner-hover: #DBA52A;
+  --action-disabled-bg: #1A2A40;
+  --action-disabled-text: #5A6B82;
+
+  /* Feedback / status */
+  --status-benefit: var(--teal);
+  --status-success: var(--teal);
+  --focus-ring: rgba(91, 184, 245, 0.55);
+}

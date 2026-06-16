@@ -1,0 +1,26 @@
+<!-- @dsCard group="Colors" viewport="700x180" name="Cores Primárias" subtitle="A base de toda peça — navy é o fundo inegociável" -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; padding: 22px; background: var(--navy-deep); font-family: var(--font-body); }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .sw { border-radius: var(--radius-md); border: 1px solid var(--navy-border); overflow: hidden; }
+  .chip { height: 78px; }
+  .meta { padding: 10px 12px; background: var(--navy-mid); }
+  .name { color: var(--white); font-weight: 700; font-size: 13px; }
+  .hex { color: var(--muted-text); font-size: 11px; font-family: var(--font-body); letter-spacing: .04em; margin-top: 2px; }
+  .role { color: var(--muted-text); font-size: 10px; margin-top: 6px; line-height: 1.4; }
+</style>
+</head>
+<body>
+  <div class="grid">
+    <div class="sw"><div class="chip" style="background:#0D1B2E;border-bottom:1px solid #1E3A5A"></div><div class="meta"><div class="name">Navy Deep</div><div class="hex">#0D1B2E</div><div class="role">Fundo principal</div></div></div>
+    <div class="sw"><div class="chip" style="background:#1E7FC8"></div><div class="meta"><div class="name">Nerta Blue</div><div class="hex">#1E7FC8</div><div class="role">Primária · CTAs</div></div></div>
+    <div class="sw"><div class="chip" style="background:#C9951A"></div><div class="meta"><div class="name">Provisão Gold</div><div class="hex">#C9951A</div><div class="role">Parceria · selos</div></div></div>
+    <div class="sw"><div class="chip" style="background:#FFFFFF"></div><div class="meta"><div class="name">Branco</div><div class="hex">#FFFFFF</div><div class="role">Títulos · contraste</div></div></div>
+  </div>
+</body>
+</html>

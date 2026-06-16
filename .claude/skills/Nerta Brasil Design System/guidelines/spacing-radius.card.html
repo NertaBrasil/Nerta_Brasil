@@ -1,0 +1,26 @@
+<!-- @dsCard group="Spacing" viewport="700x180" name="Raios & Bordas" subtitle="Cards 8–12px · bordas finas 0.5–1px navy" -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; padding: 24px 28px; background: var(--navy-deep); font-family: var(--font-body); }
+  .row { display: flex; gap: 20px; align-items: center; }
+  .box { width: 92px; height: 72px; background: var(--navy-mid); border: 1px solid var(--navy-border);
+         display: flex; align-items: flex-end; padding: 8px; }
+  .t { color: var(--light-gray); font-size: 10px; letter-spacing: .03em; }
+  .pill { background: var(--navy-mid); border: 1px solid var(--navy-border); border-radius: 999px;
+          height: 72px; width: 120px; display:flex; align-items:flex-end; padding: 8px; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="box" style="border-radius:6px"><span class="t">sm · 6</span></div>
+    <div class="box" style="border-radius:8px"><span class="t">md · 8</span></div>
+    <div class="box" style="border-radius:12px"><span class="t">lg · 12</span></div>
+    <div class="box" style="border-radius:16px"><span class="t">xl · 16</span></div>
+    <div class="pill"><span class="t">pill · 999</span></div>
+  </div>
+</body>
+</html>

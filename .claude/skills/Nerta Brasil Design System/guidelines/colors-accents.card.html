@@ -1,0 +1,27 @@
+<!-- @dsCard group="Colors" viewport="700x180" name="Acentos & Texto" subtitle="Destaque, benefício e hierarquia de texto" -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; padding: 22px; background: var(--navy-deep); font-family: var(--font-body); }
+  .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .sw { border-radius: var(--radius-md); border: 1px solid var(--navy-border); overflow: hidden; }
+  .chip { height: 64px; }
+  .meta { padding: 9px 11px; background: var(--navy-mid); }
+  .name { color: var(--white); font-weight: 700; font-size: 12px; }
+  .hex { color: var(--muted-text); font-size: 10px; letter-spacing: .04em; margin-top: 2px; }
+  .role { color: var(--muted-text); font-size: 9.5px; margin-top: 5px; line-height: 1.35; }
+</style>
+</head>
+<body>
+  <div class="grid">
+    <div class="sw"><div class="chip" style="background:#5BB8F5"></div><div class="meta"><div class="name">Sky Blue</div><div class="hex">#5BB8F5</div><div class="role">Palavra-chave</div></div></div>
+    <div class="sw"><div class="chip" style="background:#F4C94E"></div><div class="meta"><div class="name">Gold Light</div><div class="hex">#F4C94E</div><div class="role">Labels · badges</div></div></div>
+    <div class="sw"><div class="chip" style="background:#1DB87E"></div><div class="meta"><div class="name">Teal</div><div class="hex">#1DB87E</div><div class="role">Benefício · check</div></div></div>
+    <div class="sw"><div class="chip" style="background:#8A9BB0"></div><div class="meta"><div class="name">Muted Text</div><div class="hex">#8A9BB0</div><div class="role">Corpo de texto</div></div></div>
+    <div class="sw"><div class="chip" style="background:#D9DDE3"></div><div class="meta"><div class="name">Light Gray</div><div class="hex">#D9DDE3</div><div class="role">Terciário</div></div></div>
+  </div>
+</body>
+</html>

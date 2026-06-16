@@ -1,0 +1,8 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 64" width="220" height="64" role="img" aria-label="nerta">
+  
+  <path d="M28 14&#xA;           C28 14 14 30 14 41&#xA;           a14 14 0 0 0 28 0&#xA;           C42 30 28 14 28 14 Z" fill="#1E7FC8"></path>
+  <path d="M24 44 a6 6 0 0 0 6 5" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" opacity="0.6"></path>
+  
+  <text x="56" y="44" font-family="&#39;Plus Jakarta Sans&#39;,&#39;Montserrat&#39;,sans-serif" font-size="36" font-weight="800" letter-spacing="-0.5" fill="#FFFFFF">nerta</text>
+</svg>

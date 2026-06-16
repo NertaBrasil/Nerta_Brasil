@@ -1,0 +1,55 @@
+/* ============================================================
+   Nerta Brasil — Spacing, Radius, Border, Shadow, Layout
+   Source: PDF §4 (cards radius 8–12px, border 0.5–1px),
+   §9 ("espaçamento generoso entre elementos").
+   ============================================================ */
+:root {
+  /* ---- Spacing scale (4px base, generous rhythm) ---- */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+  /* ---- Radii (cards 8–12px) ---- */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;     /* default card */
+  --radius-lg: 12px;    /* large card / panel */
+  --radius-xl: 16px;
+  --radius-pill: 999px; /* badges, the Nerta logo pill, CTAs */
+
+  /* ---- Borders ---- */
+  --border-width-hairline: 0.5px;
+  --border-width-thin: 1px;
+  --border-accent-width: 3px;  /* left-border accent: 3–4px */
+  --border-accent-width-lg: 4px;
+
+  /* ---- Shadows (subtle on dark — depth, never glow) ---- */
+  --shadow-sm: 0 1px 2px rgba(8, 19, 32, 0.4);
+  --shadow-md: 0 6px 20px rgba(8, 19, 32, 0.45);
+  --shadow-lg: 0 18px 48px rgba(8, 19, 32, 0.55);
+  /* Product photos float WITHOUT shadow (premium recorte) */
+  --shadow-none: none;
+
+  /* ---- Motion ---- */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1); /* @kind other */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); /* @kind other */
+  --duration-fast: 140ms; /* @kind other */
+  --duration-base: 220ms; /* @kind other */
+  --duration-slow: 360ms; /* @kind other */
+
+  /* ---- Layout ---- */
+  --container-max: 1200px;
+  --container-narrow: 820px;
+  --gutter: var(--space-6);
+}
