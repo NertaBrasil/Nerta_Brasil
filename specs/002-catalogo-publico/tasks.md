@@ -30,14 +30,14 @@ description: "Task list for feature implementation"
 
 **⚠️ CRITICAL**: Nenhuma user story pode começar antes desta fase.
 
-- [ ] T007 [P] Implementar `src/infrastructure/supabase/client.ts` (`createBrowserClient` via `@supabase/ssr`)
-- [ ] T008 [P] Implementar `src/infrastructure/supabase/server.ts` (`createServerClient` via `@supabase/ssr`)
-- [ ] T009 [P] Criar `src/shared/types.ts` com `ActionResult<T>`
-- [ ] T010 [P] Criar `src/shared/utils.ts` com `slugify()` e `cn()`
-- [ ] T011 [P] Criar primitivas `src/shared/components/ui/Badge.tsx` e `src/shared/components/ui/Card.tsx` (usadas pelo indicador de indisponibilidade do `ProductCard`)
-- [ ] T012 Criar `src/features/produtos/types.ts` com `Product`, `Category`, `ProductImage` (dono único — ver `001-vitrine-catalogo/contracts/types.ts`)
-- [ ] T013 Criar `src/features/produtos/index.ts` (barrel inicialmente vazio, populado pelas user stories)
-- [ ] T014 Criar `src/app/layout.tsx` (RSC raiz, importa `globals.css`)
+- [X] T007 [P] Implementar `src/infrastructure/supabase/client.ts` (`createBrowserClient` via `@supabase/ssr`)
+- [X] T008 [P] Implementar `src/infrastructure/supabase/server.ts` (`createServerClient` via `@supabase/ssr`)
+- [X] T009 [P] Criar `src/shared/types.ts` com `ActionResult<T>`
+- [X] T010 [P] Criar `src/shared/utils.ts` com `slugify()` e `cn()`
+- [X] T011 [P] Criar primitivas `src/shared/components/ui/Badge.tsx` e `src/shared/components/ui/Card.tsx` (usadas pelo indicador de indisponibilidade do `ProductCard`) — variante `interactive` usa `hover:` do Tailwind em vez de `useState`, para manter Server Component
+- [X] T012 Criar `src/features/produtos/types.ts` com `Product`, `Category`, `ProductImage` (dono único — ver `001-vitrine-catalogo/contracts/types.ts`) — inclui também `ProductCard`, cuja posse é do mesmo arquivo per o cabeçalho do contrato
+- [X] T013 Criar `src/features/produtos/index.ts` (barrel) — exporta os tipos de T012 desde já (oxlint `no-empty-file` não permite barrel vazio); componentes serão adicionados pelas user stories
+- [X] T014 Criar `src/app/layout.tsx` (RSC raiz, importa `globals.css`)
 
 **Checkpoint**: Fundação pronta — user stories podem começar.
 
