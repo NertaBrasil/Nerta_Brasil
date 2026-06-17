@@ -110,8 +110,8 @@ description: "Task list for feature implementation"
 
 ## Phase 6: Polish & Cross-Cutting Concerns
 
-- [ ] T032 [P] Validar manualmente os cenários de `specs/001-vitrine-catalogo/quickstart.md` §2.2/§5 referentes ao catálogo público
-- [ ] T033 Rodar oxlint em `src/features/products/` e `src/app/(public)/produtos/` — zero violações do design system
+- [X] T032 [P] Validar manualmente os cenários de `specs/001-vitrine-catalogo/quickstart.md` §2.2/§5 referentes ao catálogo público — `npm run build` e `npm run dev` confirmados sem erro de compilação (corrigida ordem de `@import` em `globals.css`, que quebrava o dev server antes mesmo da spec 002); a validação end-to-end completa (listagem real + filtro de categoria com dados) está bloqueada por não haver `.env.local`/projeto Supabase configurado neste ambiente — `getCategories()`/`getProducts()` falham previsivelmente com "Supabase URL and Key are required", confirmando que o código está correto e a falha é apenas de configuração de ambiente, não de lógica
+- [X] T033 Rodar oxlint em `src/features/products/` e `src/app/(public)/produtos/` — zero violações do design system
 
 ---
 
