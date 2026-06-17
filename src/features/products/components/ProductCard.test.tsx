@@ -51,4 +51,9 @@ describe("ProductCard", () => {
     );
     expect(screen.getByRole("img", { name: /produto teste/i })).toBeInTheDocument();
   });
+
+  it("renderiza como link para a página de detalhe do produto", () => {
+    render(<ProductCard product={baseProduct} />);
+    expect(screen.getByRole("link")).toHaveAttribute("href", "/produtos/produto-teste");
+  });
 });

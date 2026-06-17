@@ -98,11 +98,11 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 3 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T030 [P] [US3] RTL: `ProductCard` renderiza como link (`<a href="/produtos/[slug]">`) apontando para o slug do produto, em `src/features/products/components/ProductCard.test.tsx`
+- [X] T030 [P] [US3] RTL: `ProductCard` renderiza como link (`<a href="/produtos/[slug]">`) apontando para o slug do produto, em `src/features/products/components/ProductCard.test.tsx`
 
 ### Implementation for User Story 3
 
-- [ ] T031 [US3] Envolver o conteúdo de `ProductCard.tsx` em `next/link` apontando para `/produtos/${slug}` (depende de T018)
+- [X] T031 [US3] Envolver o conteúdo de `ProductCard.tsx` em `next/link` apontando para `/produtos/${slug}` (depende de T018)
 
 **Checkpoint**: Todas as user stories funcionais independentemente.
 
