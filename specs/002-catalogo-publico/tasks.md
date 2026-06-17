@@ -51,17 +51,17 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 1 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T015 [P] [US1] Vitest: `getProducts()` retorna apenas `active = true`, inclui produtos com `stock = 0`, em `src/features/produtos/queries.test.ts`
-- [ ] T016 [P] [US1] RTL: `ProductCard` exibe indicador de indisponibilidade quando `stock === 0` e placeholder quando `cover_image` é `null`, em `src/features/produtos/components/ProductCard.test.tsx`
+- [X] T015 [P] [US1] Vitest: `getProducts()` retorna apenas `active = true`, inclui produtos com `stock = 0`, em `src/features/produtos/queries.test.ts`
+- [X] T016 [P] [US1] RTL: `ProductCard` exibe indicador de indisponibilidade quando `stock === 0` e placeholder quando `cover_image` é `null`, em `src/features/produtos/components/ProductCard.test.tsx`
 
 ### Implementation for User Story 1
 
-- [ ] T017 [US1] Implementar `getProducts(filters?)` em `src/features/produtos/queries.ts` (depende de T012)
-- [ ] T018 [P] [US1] Implementar `ProductCard.tsx` em `src/features/produtos/components/ProductCard.tsx` (usa `Badge`/`Card` de `shared/components/ui/`)
-- [ ] T019 [US1] Implementar `ProductGrid.tsx` em `src/features/produtos/components/ProductGrid.tsx` (depende de T018)
-- [ ] T020 [US1] Exportar `ProductGrid`, `ProductCard` em `src/features/produtos/index.ts`
-- [ ] T021 [US1] Implementar `src/app/(site)/produtos/page.tsx` (RSC) compondo `ProductGrid` via `getProducts()` (depende de T017, T020)
-- [ ] T022 [US1] Tratar estado vazio (nenhum produto ativo) em `ProductGrid.tsx`, sem erro (Edge Case)
+- [X] T017 [US1] Implementar `getProducts(filters?)` em `src/features/produtos/queries.ts` (depende de T012) — tipo `ProductCard` do contrato renomeado para `ProductSummary` em `features/produtos/types.ts` para não colidir com o componente `ProductCard.tsx`
+- [X] T018 [P] [US1] Implementar `ProductCard.tsx` em `src/features/produtos/components/ProductCard.tsx` (usa `Badge`/`Card` de `shared/components/ui/`)
+- [X] T019 [US1] Implementar `ProductGrid.tsx` em `src/features/produtos/components/ProductGrid.tsx` (depende de T018)
+- [X] T020 [US1] Exportar `ProductGrid`, `ProductCard` em `src/features/produtos/index.ts`
+- [X] T021 [US1] Implementar `src/app/(site)/produtos/page.tsx` (RSC) compondo `ProductGrid` via `getProducts()` (depende de T017, T020)
+- [X] T022 [US1] Tratar estado vazio (nenhum produto ativo) em `ProductGrid.tsx`, sem erro (Edge Case)
 
 **Checkpoint**: User Story 1 funcional e testável de forma independente.
 

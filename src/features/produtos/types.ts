@@ -35,7 +35,9 @@ export type Product = {
   updated_at: string;
 };
 
-export type ProductCard = Pick<
+// Renomeado de "ProductCard" (nome usado em specs/001-vitrine-catalogo/contracts/types.ts)
+// para evitar colisão com o componente ProductCard.tsx, que reexporta este tipo no barrel.
+export type ProductSummary = Pick<
   Product,
   | "id"
   | "slug"
