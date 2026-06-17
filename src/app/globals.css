@@ -1,0 +1,121 @@
+@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap");
+
+/* ============================================================
+   Nerta Brasil — Design tokens (Tailwind v4 CSS-first config)
+   Fonte: .claude/skills/Nerta Brasil Design System/tokens/
+   Regra #1: fundo navy é inegociável — nunca superfície clara.
+   ============================================================ */
+@theme {
+  /* ---- Colors ---- */
+  --color-navy-deep: #0d1b2e;
+  --color-navy-deeper: #081320;
+  --color-navy-mid: #112644;
+  --color-navy-light: #163258;
+  --color-navy-border: #1e3a5a;
+  --color-nerta-blue: #1e7fc8;
+  --color-nerta-blue-hover: #2a8fd8;
+  --color-nerta-blue-press: #176fb0;
+  --color-provisao-gold: #c9951a;
+  --color-provisao-gold-hover: #dba52a;
+  --color-gold-light: #f4c94e;
+  --color-sky-blue: #5bb8f5;
+  --color-teal: #1db87e;
+  --color-muted-text: #8a9bb0;
+  --color-light-gray: #d9dde3;
+  --color-action-disabled-bg: #1a2a40;
+  --color-action-disabled-text: #5a6b82;
+
+  /* ---- Fonts ---- */
+  --font-display: "Plus Jakarta Sans", "Montserrat", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+
+  /* ---- Font sizes (px scale do PDF §3) ---- */
+  --text-hero: 56px;
+  --text-display: 40px;
+  --text-h1: 32px;
+  --text-h2: 28px;
+  --text-h3: 22px;
+  --text-h4: 18px;
+  --text-lg: 16px;
+  --text-base: 14px;
+  --text-sm: 13px;
+  --text-xs: 11px;
+  --text-label: 10px;
+  --text-kpi: 48px;
+
+  /* ---- Line heights ---- */
+  --leading-tight: 1.12;
+  --leading-snug: 1.3;
+  --leading-body: 1.6;
+
+  /* ---- Letter spacing ---- */
+  --tracking-headline: -0.02em;
+  --tracking-label: 0.08em;
+
+  /* ---- Radius (cards 8–12px) ---- */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  /* ---- Shadows (profundidade sutil, nunca glow) ---- */
+  --shadow-sm: 0 1px 2px rgba(8, 19, 32, 0.4);
+  --shadow-md: 0 6px 20px rgba(8, 19, 32, 0.45);
+  --shadow-lg: 0 18px 48px rgba(8, 19, 32, 0.55);
+
+  /* ---- Motion ---- */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================================
+   Base / reset — canvas navy, tipografia padrão
+   ============================================================ */
+body {
+  margin: 0;
+  background: var(--color-navy-deep);
+  color: var(--color-muted-text);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-family: var(--font-display);
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: var(--tracking-headline);
+  line-height: var(--leading-tight);
+}
+
+a {
+  color: var(--color-nerta-blue);
+  text-decoration: none;
+}
+
+::selection {
+  background: rgba(30, 127, 200, 0.35);
+  color: #fff;
+}
+
+/* Motivo assinatura: left-border accent block */
+.nerta-accent-block {
+  border-left: 3px solid var(--color-nerta-blue);
+  padding-left: var(--spacing-4);
+}
+.nerta-accent-block--gold {
+  border-left-color: var(--color-provisao-gold);
+}
+.nerta-accent-block--teal {
+  border-left-color: var(--color-teal);
+}

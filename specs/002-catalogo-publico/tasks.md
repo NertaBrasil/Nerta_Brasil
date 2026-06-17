@@ -17,12 +17,12 @@ description: "Task list for feature implementation"
 
 ## Phase 1: Setup (Shared Infrastructure)
 
-- [ ] T001 Inicializar projeto Next.js 14+ (App Router) com TypeScript em `package.json`, `next.config.ts`, `tsconfig.json` na raiz do repositório
-- [ ] T002 [P] Configurar Tailwind CSS (`tailwind.config.ts`, `postcss.config.js`) e tokens iniciais do design system em `src/app/globals.css`
-- [ ] T003 [P] Configurar oxlint para enforcement do design system (Princípio III) na raiz do repositório
-- [ ] T004 [P] Criar `.env.example` com `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` — nunca commitar `.env`/`.env.local`
-- [ ] T005 [P] Configurar Vitest + React Testing Library (Princípio VI) em `vitest.config.ts`
-- [ ] T006 Criar estrutura de pastas base `src/app/`, `src/features/`, `src/shared/`, `src/infrastructure/` per `specs/001-vitrine-catalogo/plan.md`
+- [X] T001 Inicializar projeto Next.js 14+ (App Router) com TypeScript em `package.json`, `next.config.ts`, `tsconfig.json` na raiz do repositório (Next.js 16.2.9 — satisfaz "14+")
+- [X] T002 [P] Configurar Tailwind CSS (`postcss.config.mjs`) e tokens iniciais do design system em `src/app/globals.css` — Tailwind v4 usa CSS-first config (`@theme`), substituindo o `tailwind.config.ts` da redação original da task
+- [X] T003 [P] Configurar oxlint para enforcement do design system (Princípio III) na raiz do repositório (`.oxlintrc.json` — `no-restricted-imports` bloqueia import profundo entre features e acesso a `infrastructure/supabase/admin.ts` fora de `features/admin/**`; oxlint não suporta `no-restricted-syntax`, então a checagem de hex/px cru fica para code review)
+- [X] T004 [P] Criar `.env.example` com `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` — nunca commitar `.env`/`.env.local`
+- [X] T005 [P] Configurar Vitest + React Testing Library (Princípio VI) em `vitest.config.ts`
+- [X] T006 Criar estrutura de pastas base `src/app/`, `src/features/`, `src/shared/`, `src/infrastructure/` per `specs/001-vitrine-catalogo/plan.md`
 
 ---
 
