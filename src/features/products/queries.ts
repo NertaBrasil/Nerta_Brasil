@@ -1,5 +1,5 @@
 import { createClient } from "@/infrastructure/supabase/server";
-import type { ProductSummary, ProductImage } from "./types";
+import type { Category, ProductSummary, ProductImage } from "./types";
 
 type GetProductsFilters = {
   category_slug?: string;
@@ -64,4 +64,17 @@ export async function getProducts(filters: GetProductsFilters = {}): Promise<Pro
   if (error) throw error;
 
   return ((data ?? []) as unknown as ProductRow[]).map(toProductSummary);
+}
+
+export async function getCategories(): Promise<Category[]> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("categories")
+    .select("id, name, slug, created_at")
+    .order("name", { ascending: true });
+
+  if (error) throw error;
+
+  return (data ?? []) as unknown as Category[];
 }

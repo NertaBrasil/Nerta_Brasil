@@ -35,8 +35,8 @@ description: "Task list for feature implementation"
 - [X] T009 [P] Criar `src/shared/types.ts` com `ActionResult<T>`
 - [X] T010 [P] Criar `src/shared/utils.ts` com `slugify()` e `cn()`
 - [X] T011 [P] Criar primitivas `src/shared/components/ui/Badge.tsx` e `src/shared/components/ui/Card.tsx` (usadas pelo indicador de indisponibilidade do `ProductCard`) — variante `interactive` usa `hover:` do Tailwind em vez de `useState`, para manter Server Component
-- [X] T012 Criar `src/features/produtos/types.ts` com `Product`, `Category`, `ProductImage` (dono único — ver `001-vitrine-catalogo/contracts/types.ts`) — inclui também `ProductCard`, cuja posse é do mesmo arquivo per o cabeçalho do contrato
-- [X] T013 Criar `src/features/produtos/index.ts` (barrel) — exporta os tipos de T012 desde já (oxlint `no-empty-file` não permite barrel vazio); componentes serão adicionados pelas user stories
+- [X] T012 Criar `src/features/products/types.ts` com `Product`, `Category`, `ProductImage` (dono único — ver `001-vitrine-catalogo/contracts/types.ts`) — inclui também `ProductCard`, cuja posse é do mesmo arquivo per o cabeçalho do contrato
+- [X] T013 Criar `src/features/products/index.ts` (barrel) — exporta os tipos de T012 desde já (oxlint `no-empty-file` não permite barrel vazio); componentes serão adicionados pelas user stories
 - [X] T014 Criar `src/app/layout.tsx` (RSC raiz, importa `globals.css`)
 
 **Checkpoint**: Fundação pronta — user stories podem começar.
@@ -51,16 +51,16 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 1 (MANDATORY — write first, must fail) ⚠️
 
-- [X] T015 [P] [US1] Vitest: `getProducts()` retorna apenas `active = true`, inclui produtos com `stock = 0`, em `src/features/produtos/queries.test.ts`
-- [X] T016 [P] [US1] RTL: `ProductCard` exibe indicador de indisponibilidade quando `stock === 0` e placeholder quando `cover_image` é `null`, em `src/features/produtos/components/ProductCard.test.tsx`
+- [X] T015 [P] [US1] Vitest: `getProducts()` retorna apenas `active = true`, inclui produtos com `stock = 0`, em `src/features/products/queries.test.ts`
+- [X] T016 [P] [US1] RTL: `ProductCard` exibe indicador de indisponibilidade quando `stock === 0` e placeholder quando `cover_image` é `null`, em `src/features/products/components/ProductCard.test.tsx`
 
 ### Implementation for User Story 1
 
-- [X] T017 [US1] Implementar `getProducts(filters?)` em `src/features/produtos/queries.ts` (depende de T012) — tipo `ProductCard` do contrato renomeado para `ProductSummary` em `features/produtos/types.ts` para não colidir com o componente `ProductCard.tsx`
-- [X] T018 [P] [US1] Implementar `ProductCard.tsx` em `src/features/produtos/components/ProductCard.tsx` (usa `Badge`/`Card` de `shared/components/ui/`)
-- [X] T019 [US1] Implementar `ProductGrid.tsx` em `src/features/produtos/components/ProductGrid.tsx` (depende de T018)
-- [X] T020 [US1] Exportar `ProductGrid`, `ProductCard` em `src/features/produtos/index.ts`
-- [X] T021 [US1] Implementar `src/app/(site)/produtos/page.tsx` (RSC) compondo `ProductGrid` via `getProducts()` (depende de T017, T020)
+- [X] T017 [US1] Implementar `getProducts(filters?)` em `src/features/products/queries.ts` (depende de T012) — tipo `ProductCard` do contrato renomeado para `ProductSummary` em `features/products/types.ts` para não colidir com o componente `ProductCard.tsx`
+- [X] T018 [P] [US1] Implementar `ProductCard.tsx` em `src/features/products/components/ProductCard.tsx` (usa `Badge`/`Card` de `shared/components/ui/`)
+- [X] T019 [US1] Implementar `ProductGrid.tsx` em `src/features/products/components/ProductGrid.tsx` (depende de T018)
+- [X] T020 [US1] Exportar `ProductGrid`, `ProductCard` em `src/features/products/index.ts`
+- [X] T021 [US1] Implementar `src/app/(public)/produtos/page.tsx` (RSC) compondo `ProductGrid` via `getProducts()` (depende de T017, T020)
 - [X] T022 [US1] Tratar estado vazio (nenhum produto ativo) em `ProductGrid.tsx`, sem erro (Edge Case)
 
 **Checkpoint**: User Story 1 funcional e testável de forma independente.
@@ -75,16 +75,16 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 2 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T023 [P] [US2] Vitest: `getCategories()` e `getProducts({ category_slug })` filtram corretamente, em `src/features/produtos/queries.test.ts`
-- [ ] T024 [P] [US2] RTL: `ProductFilters` seleciona categoria, reseta para "Todas", exibe estado vazio sem produtos na categoria, em `src/features/produtos/components/ProductFilters.test.tsx`
+- [X] T023 [P] [US2] Vitest: `getCategories()` e `getProducts({ category_slug })` filtram corretamente, em `src/features/products/queries.test.ts`
+- [X] T024 [P] [US2] RTL: `ProductFilters` seleciona categoria, reseta para "Todas", exibe estado vazio sem produtos na categoria, em `src/features/products/components/ProductFilters.test.tsx`
 
 ### Implementation for User Story 2
 
-- [ ] T025 [US2] Implementar `getCategories()` em `src/features/produtos/queries.ts` (depende de T012)
-- [ ] T026 [P] [US2] Implementar `ProductFilters.tsx` (Client) em `src/features/produtos/components/ProductFilters.tsx`
-- [ ] T027 [US2] Exportar `ProductFilters` em `src/features/produtos/index.ts`
-- [ ] T028 [US2] Atualizar `src/app/(site)/produtos/page.tsx` para ler `searchParams.category`, repassar a `getProducts({ category_slug })` e renderizar `ProductFilters` (depende de T025, T026)
-- [ ] T029 [US2] Tratar categoria órfã/excluída selecionada: filtro reseta para "Todas" sem quebrar a página (Edge Case)
+- [X] T025 [US2] Implementar `getCategories()` em `src/features/products/queries.ts` (depende de T012)
+- [X] T026 [P] [US2] Implementar `ProductFilters.tsx` (Client) em `src/features/products/components/ProductFilters.tsx`
+- [X] T027 [US2] Exportar `ProductFilters` em `src/features/products/index.ts`
+- [X] T028 [US2] Atualizar `src/app/(public)/produtos/page.tsx` para ler `searchParams.category`, repassar a `getProducts({ category_slug })` e renderizar `ProductFilters` (depende de T025, T026)
+- [X] T029 [US2] Tratar categoria órfã/excluída selecionada: filtro reseta para "Todas" sem quebrar a página (Edge Case) — `getCategories()` valida o slug recebido; se não corresponder a nenhuma categoria real, `categorySlug` fica `undefined` e `getProducts()` não filtra, evitando página quebrada
 
 **Checkpoint**: User Stories 1 e 2 funcionam juntas e independentemente.
 
@@ -98,7 +98,7 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 3 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T030 [P] [US3] RTL: `ProductCard` renderiza como link (`<a href="/produtos/[slug]">`) apontando para o slug do produto, em `src/features/produtos/components/ProductCard.test.tsx`
+- [ ] T030 [P] [US3] RTL: `ProductCard` renderiza como link (`<a href="/produtos/[slug]">`) apontando para o slug do produto, em `src/features/products/components/ProductCard.test.tsx`
 
 ### Implementation for User Story 3
 
@@ -111,7 +111,7 @@ description: "Task list for feature implementation"
 ## Phase 6: Polish & Cross-Cutting Concerns
 
 - [ ] T032 [P] Validar manualmente os cenários de `specs/001-vitrine-catalogo/quickstart.md` §2.2/§5 referentes ao catálogo público
-- [ ] T033 Rodar oxlint em `src/features/produtos/` e `src/app/(site)/produtos/` — zero violações do design system
+- [ ] T033 Rodar oxlint em `src/features/products/` e `src/app/(public)/produtos/` — zero violações do design system
 
 ---
 

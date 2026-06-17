@@ -61,9 +61,9 @@ specs/004-home-landing/
 
 ```text
 src/
-├── app/(site)/
+├── app/(public)/
 │   └── page.tsx                   # RSC — compõe InstitutionalSection + FeaturedSection
-└── features/produtos/
+└── features/products/
     ├── components/
     │   ├── ProductCard.tsx          # Reaproveitado do catálogo (002) sem alteração
     │   └── FeaturedSection.tsx       # RSC — grid de destaques ou estado neutro
@@ -71,7 +71,7 @@ src/
     └── index.ts                         # Barrel já previsto em 001
 ```
 
-**Structure Decision**: Nenhuma pasta nova — reaproveita `features/produtos/`. `InstitutionalSection` (conteúdo estático) vive como componente local de `app/(site)/page.tsx`, já que não tem lógica de domínio nem é reaproveitado por outra página.
+**Structure Decision**: Nenhuma pasta nova — reaproveita `features/products/`. `InstitutionalSection` (conteúdo estático) vive como componente local de `app/(public)/page.tsx`, já que não tem lógica de domínio nem é reaproveitado por outra página.
 
 ## Complexity Tracking
 

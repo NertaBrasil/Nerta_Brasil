@@ -18,7 +18,7 @@ description: "Task list for feature implementation"
 **⚠️ CRITICAL**: Nenhuma user story pode começar antes desta fase.
 
 - [ ] T001 [P] Adicionar biblioteca de cropper client-side às dependências do projeto (recorte 1:1, detalhe de implementação já assumido por 001/Assumptions desta spec)
-- [ ] T002 Implementar `ImageGallery.tsx` (Client, shell inicial) em `src/features/admin/produtos/components/ImageGallery.tsx` — renderiza as imagens existentes do produto em ordem, destacando a posição 1 como "Principal" (sem drag-and-drop ainda; US2 adiciona)
+- [ ] T002 Implementar `ImageGallery.tsx` (Client, shell inicial) em `src/features/admin/products/components/ImageGallery.tsx` — renderiza as imagens existentes do produto em ordem, destacando a posição 1 como "Principal" (sem drag-and-drop ainda; US2 adiciona)
 - [ ] T003 Integrar `ImageGallery` em `src/app/(admin)/produtos/[id]/page.tsx` (página de edição de produto já existente da spec 007) (depende de T002)
 
 **Checkpoint**: Fundação pronta — user stories podem começar.
@@ -33,18 +33,18 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 1 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T004 [P] [US1] Vitest: `uploadProductImage` rejeita arquivo não-imagem antes do upload (FR-009) e insere com `position = último + 1` quando válido, em `src/features/admin/produtos/actions.test.ts`
-- [ ] T005 [P] [US1] RTL: `ImageCropper` bloqueia a conclusão do upload enquanto o recorte 1:1 não for confirmado pelo usuário, em `src/features/admin/produtos/components/ImageCropper.test.tsx`
-- [ ] T006 [P] [US1] RTL: `ImageUploader` rejeita arquivo não-imagem com mensagem clara antes de oferecer a etapa de recorte, em `src/features/admin/produtos/components/ImageUploader.test.tsx`
+- [ ] T004 [P] [US1] Vitest: `uploadProductImage` rejeita arquivo não-imagem antes do upload (FR-009) e insere com `position = último + 1` quando válido, em `src/features/admin/products/actions.test.ts`
+- [ ] T005 [P] [US1] RTL: `ImageCropper` bloqueia a conclusão do upload enquanto o recorte 1:1 não for confirmado pelo usuário, em `src/features/admin/products/components/ImageCropper.test.tsx`
+- [ ] T006 [P] [US1] RTL: `ImageUploader` rejeita arquivo não-imagem com mensagem clara antes de oferecer a etapa de recorte, em `src/features/admin/products/components/ImageUploader.test.tsx`
 
 ### Implementation for User Story 1
 
-- [ ] T007 [US1] Implementar `uploadProductImage(product_id, file)` em `src/features/admin/produtos/actions.ts` — recebe arquivo já recortado 1:1 do client, faz upload para o Storage (`products/{product_id}/{uuid}.png`), insere em `product_images` com `position = último + 1` (FR-004)
-- [ ] T008 [US1] Implementar `ImageUploader.tsx` (Client) em `src/features/admin/produtos/components/ImageUploader.tsx` — seleciona arquivo, valida formato de imagem antes de oferecer o recorte (FR-009)
-- [ ] T009 [US1] Implementar `ImageCropper.tsx` (Client) em `src/features/admin/produtos/components/ImageCropper.tsx` — recorte 1:1 obrigatório usando a biblioteca de T001, só libera confirmação após o recorte completo (FR-002, FR-003)
+- [ ] T007 [US1] Implementar `uploadProductImage(product_id, file)` em `src/features/admin/products/actions.ts` — recebe arquivo já recortado 1:1 do client, faz upload para o Storage (`products/{product_id}/{uuid}.png`), insere em `product_images` com `position = último + 1` (FR-004)
+- [ ] T008 [US1] Implementar `ImageUploader.tsx` (Client) em `src/features/admin/products/components/ImageUploader.tsx` — seleciona arquivo, valida formato de imagem antes de oferecer o recorte (FR-009)
+- [ ] T009 [US1] Implementar `ImageCropper.tsx` (Client) em `src/features/admin/products/components/ImageCropper.tsx` — recorte 1:1 obrigatório usando a biblioteca de T001, só libera confirmação após o recorte completo (FR-002, FR-003)
 - [ ] T010 [US1] Integrar `ImageUploader` + `ImageCropper` em `ImageGallery.tsx` — fluxo completo de upload chamando `uploadProductImage()` (depende de T002, T007, T008, T009)
 - [ ] T011 [US1] Tratar Edge Case: usuário cancela o recorte no meio do processo — a imagem não é salva na galeria (upload considerado incompleto)
-- [ ] T012 [US1] Exportar `uploadProductImage`, `ImageUploader`, `ImageCropper`, `ImageGallery` em `src/features/admin/produtos/index.ts`
+- [ ] T012 [US1] Exportar `uploadProductImage`, `ImageUploader`, `ImageCropper`, `ImageGallery` em `src/features/admin/products/index.ts`
 
 **Checkpoint**: User Story 1 funcional e testável de forma independente.
 
@@ -58,14 +58,14 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 2 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T013 [P] [US2] Vitest: `reorderProductImages` atualiza a `position` de todas as imagens do produto em uma única transação atômica, em `src/features/admin/produtos/actions.test.ts`
-- [ ] T014 [P] [US2] RTL: `ImageGallery` exibe o indicador visual de qual imagem é a "Principal" refletindo a ordem após reordenação, em `src/features/admin/produtos/components/ImageGallery.test.tsx`
+- [ ] T013 [P] [US2] Vitest: `reorderProductImages` atualiza a `position` de todas as imagens do produto em uma única transação atômica, em `src/features/admin/products/actions.test.ts`
+- [ ] T014 [P] [US2] RTL: `ImageGallery` exibe o indicador visual de qual imagem é a "Principal" refletindo a ordem após reordenação, em `src/features/admin/products/components/ImageGallery.test.tsx`
 
 ### Implementation for User Story 2
 
-- [ ] T015 [US2] Implementar `reorderProductImages(input)` em `src/features/admin/produtos/actions.ts` (já contratado em 001)
+- [ ] T015 [US2] Implementar `reorderProductImages(input)` em `src/features/admin/products/actions.ts` (já contratado em 001)
 - [ ] T016 [US2] Adicionar drag-and-drop em `ImageGallery.tsx`, chamando `reorderProductImages()` ao soltar uma imagem em nova posição (depende de T002, T015)
-- [ ] T017 [US2] Exportar `reorderProductImages` em `src/features/admin/produtos/index.ts`
+- [ ] T017 [US2] Exportar `reorderProductImages` em `src/features/admin/products/index.ts`
 
 **Checkpoint**: User Stories 1 e 2 funcionam juntas — apresentação ideal do produto garantida.
 
@@ -79,14 +79,14 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 3 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T018 [P] [US3] Vitest: `deleteProductImage` remove a imagem e recalcula a `position` das demais sem lacunas; quando a imagem removida estava em `position = 1`, a próxima assume automaticamente a "Principal"; quando era a única imagem, o produto passa a não ter nenhuma (Edge Cases), em `src/features/admin/produtos/actions.test.ts`
-- [ ] T019 [P] [US3] RTL: ação de exclusão em `ImageGallery` remove a imagem da listagem e atualiza visualmente qual é a "Principal" quando aplicável, em `src/features/admin/produtos/components/ImageGallery.test.tsx`
+- [ ] T018 [P] [US3] Vitest: `deleteProductImage` remove a imagem e recalcula a `position` das demais sem lacunas; quando a imagem removida estava em `position = 1`, a próxima assume automaticamente a "Principal"; quando era a única imagem, o produto passa a não ter nenhuma (Edge Cases), em `src/features/admin/products/actions.test.ts`
+- [ ] T019 [P] [US3] RTL: ação de exclusão em `ImageGallery` remove a imagem da listagem e atualiza visualmente qual é a "Principal" quando aplicável, em `src/features/admin/products/components/ImageGallery.test.tsx`
 
 ### Implementation for User Story 3
 
-- [ ] T020 [US3] Implementar `deleteProductImage(image_id)` em `src/features/admin/produtos/actions.ts` — remove o arquivo do Storage e o registro, recalcula `position` das demais imagens sem lacunas (depende de T002)
+- [ ] T020 [US3] Implementar `deleteProductImage(image_id)` em `src/features/admin/products/actions.ts` — remove o arquivo do Storage e o registro, recalcula `position` das demais imagens sem lacunas (depende de T002)
 - [ ] T021 [US3] Integrar a ação de exclusão em `ImageGallery.tsx` (depende de T002, T020)
-- [ ] T022 [US3] Exportar `deleteProductImage` em `src/features/admin/produtos/index.ts`
+- [ ] T022 [US3] Exportar `deleteProductImage` em `src/features/admin/products/index.ts`
 
 **Checkpoint**: Todas as user stories funcionais independentemente.
 
@@ -95,7 +95,7 @@ description: "Task list for feature implementation"
 ## Phase 5: Polish & Cross-Cutting Concerns
 
 - [ ] T023 [P] Validar manualmente os cenários de `specs/001-vitrine-catalogo/quickstart.md` referentes à galeria de imagens
-- [ ] T024 Rodar oxlint em `src/features/admin/produtos/components/ImageUploader.tsx`, `ImageCropper.tsx`, `ImageGallery.tsx` — zero violações do design system
+- [ ] T024 Rodar oxlint em `src/features/admin/products/components/ImageUploader.tsx`, `ImageCropper.tsx`, `ImageGallery.tsx` — zero violações do design system
 
 ---
 

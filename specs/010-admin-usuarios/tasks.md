@@ -17,12 +17,12 @@ description: "Task list for feature implementation"
 
 **⚠️ CRITICAL**: Nenhuma user story pode começar antes desta fase.
 
-- [ ] T001 [P] Criar `types.ts` em `src/features/admin/usuarios/types.ts` com `AdminRole`, `AdminProfile`, `CreateUserInput` (dono único destes tipos, revisão de 001 ganhando `password`/`email`)
-- [ ] T002 [P] Criar `createUserSchema` (Zod) em `src/features/admin/usuarios/schemas.ts` — `name`, `email` válido, `password` com tamanho mínimo, `role` dentre `'admin' | 'editor'`
-- [ ] T003 Implementar `getAdminUsers()` em `src/features/admin/usuarios/actions.ts` — verifica `role === 'admin'` do usuário atual, lê `admin_profiles` com e-mail resolvido de `auth.users`, ordenado por `name ASC`, retorna `ActionResult<AdminProfile[]>` (depende de T001)
-- [ ] T004 Implementar `UserList.tsx` (RSC) em `src/features/admin/usuarios/components/UserList.tsx` — tabela de usuários com papel visível, consumindo `getAdminUsers()` (depende de T003)
+- [ ] T001 [P] Criar `types.ts` em `src/features/admin/users/types.ts` com `AdminRole`, `AdminProfile`, `CreateUserInput` (dono único destes tipos, revisão de 001 ganhando `password`/`email`)
+- [ ] T002 [P] Criar `createUserSchema` (Zod) em `src/features/admin/users/schemas.ts` — `name`, `email` válido, `password` com tamanho mínimo, `role` dentre `'admin' | 'editor'`
+- [ ] T003 Implementar `getAdminUsers()` em `src/features/admin/users/actions.ts` — verifica `role === 'admin'` do usuário atual, lê `admin_profiles` com e-mail resolvido de `auth.users`, ordenado por `name ASC`, retorna `ActionResult<AdminProfile[]>` (depende de T001)
+- [ ] T004 Implementar `UserList.tsx` (RSC) em `src/features/admin/users/components/UserList.tsx` — tabela de usuários com papel visível, consumindo `getAdminUsers()` (depende de T003)
 - [ ] T005 Criar `app/(admin)/usuarios/page.tsx` (RSC) compondo `UserList` — rota acessível apenas a `role === 'admin'` (depende de T004)
-- [ ] T006 Exportar `getAdminUsers`, `UserList` em `src/features/admin/usuarios/index.ts`
+- [ ] T006 Exportar `getAdminUsers`, `UserList` em `src/features/admin/users/index.ts`
 
 **Checkpoint**: Fundação pronta — user stories podem começar.
 
@@ -36,19 +36,19 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 1 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T007 [P] [US1] Vitest: `createUser` rejeita quando o usuário atual não tem `role === 'admin'` (inclui `role === 'editor'` e não autenticado), em `src/features/admin/usuarios/actions.test.ts`
+- [ ] T007 [P] [US1] Vitest: `createUser` rejeita quando o usuário atual não tem `role === 'admin'` (inclui `role === 'editor'` e não autenticado), em `src/features/admin/users/actions.test.ts`
 - [ ] T008 [P] [US1] Vitest: `createUser` insere em `auth.users` (Admin API) e em `admin_profiles` com os dados informados, retornando `AdminProfile` completo incluindo `email` (Acceptance Scenario 1)
 - [ ] T009 [P] [US1] Vitest: `createUser` mapeia erro de e-mail duplicado da Admin API para mensagem de duplicidade, sem inserir em `admin_profiles` (FR-003, Acceptance Scenario 2)
 - [ ] T010 [P] [US1] Vitest: `createUser` desfaz a criação em `auth.users` (`auth.admin.deleteUser`) se a inserção em `admin_profiles` falhar (rollback manual, `data-model.md`)
-- [ ] T011 [P] [US1] Vitest: `createUserSchema` rejeita e-mail com formato inválido (FR-004), em `src/features/admin/usuarios/schemas.test.ts`
+- [ ] T011 [P] [US1] Vitest: `createUserSchema` rejeita e-mail com formato inválido (FR-004), em `src/features/admin/users/schemas.test.ts`
 - [ ] T012 [P] [US1] RTL: rota `/admin/usuarios` nega acesso a um usuário com papel 'editor' (Acceptance Scenario 3), em `src/app/(admin)/usuarios/page.test.tsx`
 
 ### Implementation for User Story 1
 
-- [ ] T013 [US1] Implementar `createUser(input)` em `src/features/admin/usuarios/actions.ts` — verifica papel 'admin', valida via `createUserSchema`, chama `auth.admin.createUser()`, insere em `admin_profiles` com rollback em caso de falha (depende de T001, T002)
-- [ ] T014 [US1] Implementar `UserForm.tsx` (Client) em `src/features/admin/usuarios/components/UserForm.tsx` — campos nome/e-mail/senha/papel, chama `createUser()`, exibe erro de duplicidade e de validação de e-mail
+- [ ] T013 [US1] Implementar `createUser(input)` em `src/features/admin/users/actions.ts` — verifica papel 'admin', valida via `createUserSchema`, chama `auth.admin.createUser()`, insere em `admin_profiles` com rollback em caso de falha (depende de T001, T002)
+- [ ] T014 [US1] Implementar `UserForm.tsx` (Client) em `src/features/admin/users/components/UserForm.tsx` — campos nome/e-mail/senha/papel, chama `createUser()`, exibe erro de duplicidade e de validação de e-mail
 - [ ] T015 [US1] Integrar `UserForm` em `app/(admin)/usuarios/page.tsx` (depende de T005, T014)
-- [ ] T016 [US1] Exportar `createUser`, `UserForm` em `src/features/admin/usuarios/index.ts`
+- [ ] T016 [US1] Exportar `createUser`, `UserForm` em `src/features/admin/users/index.ts`
 
 **Checkpoint**: User Story 1 funcional e testável de forma independente — MVP da feature (única porta de entrada de novas contas, FR-010).
 
@@ -62,16 +62,16 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 2 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T017 [P] [US2] Vitest: `deleteUser` rejeita quando o usuário atual não tem `role === 'admin'`, em `src/features/admin/usuarios/actions.test.ts`
+- [ ] T017 [P] [US2] Vitest: `deleteUser` rejeita quando o usuário atual não tem `role === 'admin'`, em `src/features/admin/users/actions.test.ts`
 - [ ] T018 [P] [US2] Vitest: `deleteUser` chama `auth.admin.deleteUser(id)` para um usuário diferente do atual, e a linha em `admin_profiles` é removida via cascade (Acceptance Scenario 1)
-- [ ] T019 [P] [US2] RTL: acionar a exclusão em `DeleteUserModal` exibe scrim escuro e exige confirmação explícita antes de chamar `deleteUser()` (Acceptance Scenario 2, FR-006), em `src/features/admin/usuarios/components/DeleteUserModal.test.tsx`
+- [ ] T019 [P] [US2] RTL: acionar a exclusão em `DeleteUserModal` exibe scrim escuro e exige confirmação explícita antes de chamar `deleteUser()` (Acceptance Scenario 2, FR-006), em `src/features/admin/users/components/DeleteUserModal.test.tsx`
 
 ### Implementation for User Story 2
 
-- [ ] T020 [US2] Implementar `deleteUser(id)` em `src/features/admin/usuarios/actions.ts` — verifica papel 'admin', chama `auth.admin.deleteUser(id)` (depende de T001)
-- [ ] T021 [US2] Implementar `DeleteUserModal.tsx` (Client) em `src/features/admin/usuarios/components/DeleteUserModal.tsx` — scrim escuro, confirmação explícita, chama `deleteUser()` (depende de T020)
+- [ ] T020 [US2] Implementar `deleteUser(id)` em `src/features/admin/users/actions.ts` — verifica papel 'admin', chama `auth.admin.deleteUser(id)` (depende de T001)
+- [ ] T021 [US2] Implementar `DeleteUserModal.tsx` (Client) em `src/features/admin/users/components/DeleteUserModal.tsx` — scrim escuro, confirmação explícita, chama `deleteUser()` (depende de T020)
 - [ ] T022 [US2] Integrar `DeleteUserModal` em `UserList.tsx` (ação de exclusão por linha) (depende de T004, T021)
-- [ ] T023 [US2] Exportar `deleteUser`, `DeleteUserModal` em `src/features/admin/usuarios/index.ts`
+- [ ] T023 [US2] Exportar `deleteUser`, `DeleteUserModal` em `src/features/admin/users/index.ts`
 
 **Checkpoint**: User Stories 1 e 2 funcionam juntas — ciclo básico de gestão de acesso completo.
 
@@ -85,8 +85,8 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 3 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T024 [P] [US3] Vitest: `deleteUser(id)` rejeita quando `id` é igual ao `id` do usuário atual, retornando erro claro e sem chamar a Admin API (Acceptance Scenario 2, FR-007, SC-001), em `src/features/admin/usuarios/actions.test.ts`
-- [ ] T025 [P] [US3] RTL: a ação de exclusão fica indisponível/bloqueada na linha do próprio admin logado em `UserList`/`DeleteUserModal` (Acceptance Scenario 1), em `src/features/admin/usuarios/components/UserList.test.tsx`
+- [ ] T024 [P] [US3] Vitest: `deleteUser(id)` rejeita quando `id` é igual ao `id` do usuário atual, retornando erro claro e sem chamar a Admin API (Acceptance Scenario 2, FR-007, SC-001), em `src/features/admin/users/actions.test.ts`
+- [ ] T025 [P] [US3] RTL: a ação de exclusão fica indisponível/bloqueada na linha do próprio admin logado em `UserList`/`DeleteUserModal` (Acceptance Scenario 1), em `src/features/admin/users/components/UserList.test.tsx`
 
 ### Implementation for User Story 3
 
@@ -100,7 +100,7 @@ description: "Task list for feature implementation"
 ## Phase 5: Polish & Cross-Cutting Concerns
 
 - [ ] T028 [P] Validar manualmente os cenários de `quickstart.md` desta spec
-- [ ] T029 Rodar oxlint em `src/features/admin/usuarios/components/UserForm.tsx`, `UserList.tsx`, `DeleteUserModal.tsx` — zero violações do design system
+- [ ] T029 Rodar oxlint em `src/features/admin/users/components/UserForm.tsx`, `UserList.tsx`, `DeleteUserModal.tsx` — zero violações do design system
 - [ ] T030 Confirmar Edge Case: sessão de um usuário excluído é negada na próxima verificação de papel (`getCurrentAdminProfile()` retorna `null` após o perfil ser removido via cascade), mesmo com token ainda válido (SC-004)
 
 ---

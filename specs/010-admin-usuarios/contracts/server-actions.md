@@ -3,7 +3,7 @@
 **Date**: 2026-06-16
 **Feature**: [spec.md](../spec.md)
 
-Revisão de `001-vitrine-catalogo/contracts/server-actions.md#server-actions--admin-usuários` para esta feature. Único arquivo: `features/admin/usuarios/actions.ts`. Todas exigem `getCurrentAdminProfile()?.role === 'admin'` (não `editor`) — checagem feita dentro de cada action, não apenas na UI.
+Revisão de `001-vitrine-catalogo/contracts/server-actions.md#server-actions--admin-usuários` para esta feature. Único arquivo: `features/admin/users/actions.ts`. Todas exigem `getCurrentAdminProfile()?.role === 'admin'` (não `editor`) — checagem feita dentro de cada action, não apenas na UI.
 
 ---
 

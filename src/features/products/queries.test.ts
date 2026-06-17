@@ -43,7 +43,12 @@ const FIXTURE_PRODUCTS = [
   },
 ];
 
-function createQueryBuilder() {
+const FIXTURE_CATEGORIES = [
+  { id: "cat-1", name: "Categoria A", slug: "categoria-a", created_at: "2026-01-01T00:00:00Z" },
+  { id: "cat-2", name: "Categoria B", slug: "categoria-b", created_at: "2026-01-02T00:00:00Z" },
+];
+
+function createQueryBuilder(data: unknown) {
   const builder: {
     select: ReturnType<typeof vi.fn>;
     eq: ReturnType<typeof vi.fn>;
@@ -54,7 +59,7 @@ function createQueryBuilder() {
     eq: vi.fn(() => builder),
     order: vi.fn(() => builder),
     // eslint-disable-next-line unicorn/no-thenable -- imita o builder thenable real do supabase-js
-    then: (resolve) => Promise.resolve({ data: FIXTURE_PRODUCTS, error: null }).then(resolve),
+    then: (resolve) => Promise.resolve({ data, error: null }).then(resolve),
   };
   return builder;
 }
@@ -65,7 +70,7 @@ vi.mock("@/infrastructure/supabase/server", () => ({
   createClient: vi.fn(async () => ({ from: fromMock })),
 }));
 
-const { getProducts } = await import("./queries");
+const { getProducts, getCategories } = await import("./queries");
 
 describe("getProducts", () => {
   beforeEach(() => {
@@ -73,7 +78,7 @@ describe("getProducts", () => {
   });
 
   it("consulta a tabela products filtrando active = true", async () => {
-    const builder = createQueryBuilder();
+    const builder = createQueryBuilder(FIXTURE_PRODUCTS);
     fromMock.mockReturnValue(builder);
 
     await getProducts();
@@ -83,7 +88,7 @@ describe("getProducts", () => {
   });
 
   it("inclui produtos com stock = 0 no resultado", async () => {
-    const builder = createQueryBuilder();
+    const builder = createQueryBuilder(FIXTURE_PRODUCTS);
     fromMock.mockReturnValue(builder);
 
     const products = await getProducts();
@@ -94,7 +99,7 @@ describe("getProducts", () => {
   });
 
   it("mapeia a primeira imagem (position = 1) como cover_image", async () => {
-    const builder = createQueryBuilder();
+    const builder = createQueryBuilder(FIXTURE_PRODUCTS);
     fromMock.mockReturnValue(builder);
 
     const products = await getProducts();
@@ -104,5 +109,35 @@ describe("getProducts", () => {
 
     const semEstoque = products.find((product) => product.slug === "produto-sem-estoque");
     expect(semEstoque?.cover_image).toBeNull();
+  });
+
+  it("filtra por category_slug quando informado", async () => {
+    const builder = createQueryBuilder([FIXTURE_PRODUCTS[0]]);
+    fromMock.mockReturnValue(builder);
+
+    const products = await getProducts({ category_slug: "categoria-a" });
+
+    expect(builder.eq).toHaveBeenCalledWith("active", true);
+    expect(builder.eq).toHaveBeenCalledWith("category.slug", "categoria-a");
+    expect(products).toHaveLength(1);
+    expect(products[0].category?.slug).toBe("categoria-a");
+  });
+});
+
+describe("getCategories", () => {
+  beforeEach(() => {
+    fromMock.mockReset();
+  });
+
+  it("consulta a tabela categories ordenada por name ASC", async () => {
+    const builder = createQueryBuilder(FIXTURE_CATEGORIES);
+    fromMock.mockReturnValue(builder);
+
+    const categories = await getCategories();
+
+    expect(fromMock).toHaveBeenCalledWith("categories");
+    expect(builder.order).toHaveBeenCalledWith("name", { ascending: true });
+    expect(categories).toHaveLength(2);
+    expect(categories[0].slug).toBe("categoria-a");
   });
 });
