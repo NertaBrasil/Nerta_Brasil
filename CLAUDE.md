@@ -36,3 +36,13 @@ Use the PR template (`.github/pull_request_template.md`). Key rules enforced by 
 ## Design System
 
 O design system da Nerta Brasil está em `.claude/skills/nerta-design/`. Para qualquer trabalho de UI, leia o `SKILL.md` dessa pasta primeiro.
+
+## Arquitetura de Código
+
+As convenções de arquitetura (camadas `app/`, `features/`, `shared/`, `infrastructure/`, separação `queries.ts`/`actions.ts`, dono único de tipos, auth em duas camadas) estão em `.claude/skills/Nerta Brasil Code Architecture/SKILL.md`. Leia antes de criar qualquer arquivo novo em `src/`.
+
+<!-- SPECKIT START -->
+For additional context about technologies to be used, project structure,
+shell commands, and other important information, read the current plan
+at `specs/001-vitrine-catalogo/plan.md`.
+<!-- SPECKIT END -->
