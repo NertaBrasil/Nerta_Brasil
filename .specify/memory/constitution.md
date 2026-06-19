@@ -1,22 +1,18 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version change: 1.0.0 → 1.1.0
-Modified principles: none renamed
-Added sections:
-  - VI. Test-Driven Development Obrigatório
+Version change: 1.1.0 → 1.2.0
+Modified principles:
+  - I. Vitrine-First — Sem Checkout Próprio (conteúdo expandido para sancionar um
+    segundo caminho de conversão; título inalterado)
+Added sections: none
 Removed sections: none
 Templates requiring updates:
-  ✅ tasks-template.md — seções "Tests for User Story N" e nota de Tests deixam de ser
-     OPTIONAL e passam a MANDATORY, alinhadas ao novo Princípio VI
   ✅ plan-template.md — sem mudança estrutural necessária (Constitution Check já é
      derivado dinamicamente do arquivo de constituição)
-  ⚠ spec-template.md — sem mudança necessária (TDD é decisão de implementação, fora do
-     escopo de spec.md, que permanece tech-agnostic)
-  ⚠ specs/001-vitrine-catalogo/plan.md — campo "Testing" no Technical Context ainda
-     reflete a premissa antiga ("validação manual, sem suite automatizada"); requer
-     atualização manual para refletir o Princípio VI antes de qualquer novo /speckit-plan
-     reaproveitar esse documento como referência
+  ⚠ spec-template.md — sem mudança necessária (caminhos de conversão são regra de
+     negócio, não estrutura de template)
+  ⚠ tasks-template.md — sem mudança necessária
 Follow-up TODOs: none
 -->
 
@@ -26,17 +22,27 @@ Follow-up TODOs: none
 
 ### I. Vitrine-First — Sem Checkout Próprio
 
-O site é **vitrine + SEO**. O único caminho de compra é o botão
-"Comprar no Mercado Livre", que abre em nova aba (`target="_blank"`)
-e dispara eventos GA/Pixel no clique.
+O site é **vitrine + SEO**. Cada produto tem um único caminho de conversão
+ativo por vez, configurado pelo admin no cadastro do produto: o botão
+"Comprar no Mercado Livre" (padrão), que abre em nova aba
+(`target="_blank"`) e dispara eventos GA/Pixel no clique, OU o Formulário
+de Parceria (extensão sancionada — spec 011-formulario-parceria), usado em
+produtos cujo objetivo é geração de lead B2B (candidatura a
+parceria/revenda) em vez de venda direta.
 
 - Nunca implementar carrinho, checkout próprio ou área logada para
-  o usuário final.
-- O usuário final NUNCA faz login. Autenticação existe apenas em
+  o usuário final — vale para os dois caminhos de conversão.
+- O usuário final NUNCA faz login, nem para comprar via Mercado Livre nem
+  para enviar o Formulário de Parceria. Autenticação existe apenas em
   `/admin/*` via Supabase Auth.
-- O MVP é: landing → catálogo → página de produto → redirect ML.
-  Qualquer feature fora desse escopo DEVE ser recusada ou justificada
-  como extensão explicitamente aprovada.
+- O Formulário de Parceria é um formulário de captura de lead — sem
+  pagamento, sem conta de usuário e sem persistência de sessão para quem
+  o preenche. Não é um carrinho nem um checkout.
+- O MVP é: landing → catálogo → página de produto → (redirect ML OU
+  Formulário de Parceria). Esta é a única exceção sancionada ao caminho
+  único original. Qualquer outro caminho de conversão fora desses dois
+  DEVE ser recusado ou justificado como nova extensão explicitamente
+  aprovada (mesma regra de antes).
 
 ### II. Server Component por Padrão
 
@@ -165,4 +171,4 @@ ser resolvidos em favor da constituição.
 princípios I–VI antes de merge. O Constitution Check no `plan.md` é o
 gate formal.
 
-**Version**: 1.1.0 | **Ratified**: 2026-06-16 | **Last Amended**: 2026-06-16
+**Version**: 1.2.0 | **Ratified**: 2026-06-16 | **Last Amended**: 2026-06-19
