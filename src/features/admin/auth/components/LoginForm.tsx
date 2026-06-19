@@ -35,6 +35,7 @@ export function LoginForm() {
       <Input
         label="E-mail"
         type="email"
+        placeholder="admin@nerta.com.br"
         autoComplete="email"
         required
         value={email}
@@ -43,6 +44,7 @@ export function LoginForm() {
       <Input
         label="Senha"
         type="password"
+        placeholder="••••••••"
         autoComplete="current-password"
         required
         value={password}
@@ -53,8 +55,8 @@ export function LoginForm() {
           {error}
         </p>
       )}
-      <Button type="submit" fullWidth disabled={pending}>
-        {pending ? "Entrando..." : "Entrar"}
+      <Button type="submit" size="lg" fullWidth disabled={pending}>
+        {pending ? "Entrando..." : "Acessar painel"}
       </Button>
     </form>
   );
