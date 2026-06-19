@@ -70,7 +70,7 @@ src/
 │   ├── page.tsx                       # RSC — compõe ProductList + entradas para criar/editar
 │   ├── novo/page.tsx                  # RSC — compõe ProductForm em modo criação
 │   └── [id]/page.tsx                   # RSC — compõe ProductForm em modo edição
-└── features/admin/produtos/
+└── features/admin/products/
     ├── components/
     │   ├── ProductList.tsx              # RSC — listagem completa, incluindo inativos
     │   ├── ProductForm.tsx                # Client — criação/edição, slug, toggle de status
@@ -80,7 +80,7 @@ src/
     └── index.ts                                  # Barrel já previsto em 001
 ```
 
-**Structure Decision**: Nenhuma pasta nova — reaproveita `features/admin/produtos/` já planejado em 001. O seletor de categoria dentro de `ProductForm` consome `getCategories()` de `features/admin/categorias/` (spec 006), sem duplicar a query. Upload de imagens e reordenação de destaques permanecem fora desta árvore, em `features/admin/produtos/components/` apenas quando suas próprias specs (008, 009) os introduzirem.
+**Structure Decision**: Nenhuma pasta nova — reaproveita `features/admin/products/` já planejado em 001. O seletor de categoria dentro de `ProductForm` consome `getCategories()` de `features/admin/categories/` (spec 006), sem duplicar a query. Upload de imagens e reordenação de destaques permanecem fora desta árvore, em `features/admin/products/components/` apenas quando suas próprias specs (008, 009) os introduzirem.
 
 ## Complexity Tracking
 

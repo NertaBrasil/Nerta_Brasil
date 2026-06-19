@@ -61,9 +61,9 @@ specs/003-pagina-produto/
 
 ```text
 src/
-├── app/(site)/produtos/[slug]/
+├── app/(public)/produtos/[slug]/
 │   └── page.tsx                  # RSC — chama getProductBySlug(slug); notFound() se null
-└── features/produtos/
+└── features/products/
     ├── components/
     │   ├── ProductGallery.tsx     # RSC — galeria 1:1 com placeholder quando vazia
     │   ├── ProductSpecs.tsx        # RSC — ficha técnica/atributos
@@ -74,7 +74,7 @@ src/
     └── analytics.ts                   # trackBuyClick(slug) — já contratada em 001
 ```
 
-**Structure Decision**: Nenhuma pasta nova — reaproveita `features/produtos/` e `infrastructure/analytics.ts` já planejados em 001. `app/(site)/produtos/[slug]/page.tsx` permanece composição pura: busca o produto e delega renderização aos componentes da feature.
+**Structure Decision**: Nenhuma pasta nova — reaproveita `features/products/` e `infrastructure/analytics.ts` já planejados em 001. `app/(public)/produtos/[slug]/page.tsx` permanece composição pura: busca o produto e delega renderização aos componentes da feature.
 
 ## Complexity Tracking
 

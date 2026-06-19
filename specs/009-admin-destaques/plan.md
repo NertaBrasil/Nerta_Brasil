@@ -67,7 +67,7 @@ specs/009-admin-destaques/
 src/
 ├── app/(admin)/destaques/
 │   └── page.tsx                          # RSC — compõe FeaturedGrid
-└── features/admin/destaques/
+└── features/admin/featured/
     ├── components/
     │   └── FeaturedGrid.tsx                # Client — drag-and-drop, toggle, estado vazio
     ├── actions.ts                            # toggleFeatured (revisado), reorderFeatured (novo)
@@ -75,7 +75,7 @@ src/
     └── index.ts                                  # Barrel já previsto em 001
 ```
 
-**Structure Decision**: Nenhuma pasta nova fora do já previsto em `features/admin/destaques/` (001, linha ~121). `reorderFeatured` e `ReorderFeaturedInput` são adicionados a `actions.ts`/`types.ts` dessa mesma feature, ao lado de `toggleFeatured`. A migração de schema (`featured_position`) acompanha esta feature na fase de implementação, não em 001 ou 007.
+**Structure Decision**: Nenhuma pasta nova fora do já previsto em `features/admin/featured/` (001, linha ~121). `reorderFeatured` e `ReorderFeaturedInput` são adicionados a `actions.ts`/`types.ts` dessa mesma feature, ao lado de `toggleFeatured`. A migração de schema (`featured_position`) acompanha esta feature na fase de implementação, não em 001 ou 007.
 
 ## Complexity Tracking
 
