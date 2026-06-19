@@ -44,7 +44,7 @@ As convenções de arquitetura (camadas `app/`, `features/`, `shared/`, `infrast
 ## Convenção de Idioma no Código (P0 — não-negociável)
 
 - **Código sempre em inglês**: nomes de pastas, arquivos, funções, variáveis, tipos, componentes e propriedades dentro de `src/` são em inglês com nomenclatura clean code (ex: `features/products`, `getProducts()`, `ProductsPage`, `ProductFilters`). Nunca crie uma pasta/arquivo/identificador em português.
-- **Exceção deliberada — URL segments**: os segmentos de rota visíveis ao usuário final (ex: `/produtos`, `/produtos/[slug]`) permanecem em português, pois o site atende o público brasileiro e essas URLs carregam valor de SEO. Ou seja, a pasta de rota pode se chamar `app/produtos/page.tsx` (segmento de URL em PT-BR) enquanto a função do componente é `ProductsPage` e ela importa de `@/features/products` (código em inglês).
+- **Exceção deliberada — URL segments**: os segmentos de rota visíveis ao usuário final (ex: `/produtos`, `/produtos/[slug]`) permanecem em português, pois o site atende o público brasileiro e essas URLs carregam valor de SEO. Ou seja, a pasta de rota pode se chamar `app/(public)/produtos/page.tsx` (segmento de URL em PT-BR; `(public)` não aparece na URL) enquanto a função do componente é `ProductsPage` e ela importa de `@/features/products` (código em inglês).
 - Strings visíveis ao usuário (UI, textos, mensagens de erro) e descrições de teste (`describe`/`it`) continuam em português — a convenção de idioma é sobre estrutura/identificadores de código, não sobre conteúdo voltado ao usuário ou comentários de teste.
 - Ao encontrar código/pastas existentes em português (fora de URL segments), corrija para inglês como parte do trabalho em andamento.
 
@@ -54,11 +54,14 @@ As convenções de arquitetura (camadas `app/`, `features/`, `shared/`, `infrast
 - Processo completo, regras de DDL e passo a passo: `db/controle/PROCEDURE.md`.
 - Dados de exemplo (DML) ficam em `supabase/seed.sql`, nunca em uma migration.
 
-## Estrutura de Rotas — sem Route Groups (`app/(grupo)/`)
+## Estrutura de Rotas — Route Groups (`app/(grupo)/`)
 
-- **Não usamos route groups com parênteses.** Páginas públicas (vitrine, home, sobre) ficam diretamente em `app/` (ex: `app/produtos/page.tsx`, `app/produtos/[slug]/page.tsx`), herdando o `app/layout.tsx` raiz.
-- **Admin é uma pasta literal `app/admin/`** (sem parênteses) — isso já produz o prefixo `/admin/*` que o `middleware.ts` precisa proteger, e evita colisão de URL com as rotas públicas (um route group `(admin)/produtos` geraria `/produtos`, colidindo com a vitrine).
-- Cada seção (`app/` para público, `app/admin/`) tem seu próprio `layout.tsx` quando precisar de chrome diferente (header/footer da vitrine vs. Sidebar do admin) — isso é feito com layouts aninhados normais do Next.js, não com route groups.
+Route groups com parênteses são o padrão recomendado pelo Next.js para compartilhar layout entre rotas-irmãs sem afetar a URL, e é isso que usamos aqui — com uma única regra para evitar colisão de URL:
+
+- **Um route group só pode ser usado quando o segmento de URL real já está garantido por outro meio** (pasta literal ou pelo próprio agrupamento não introduzir ambiguidade). Nunca crie dois route groups de nível equivalente que produzam o mesmo path resolvido.
+- **Vitrine pública**: `app/(public)/produtos/page.tsx`, `app/(public)/produtos/[slug]/page.tsx`, `app/(public)/sobre/page.tsx` etc. — o group `(public)` não aparece na URL (`/produtos`, `/produtos/[slug]`, `/sobre`); existe só para dar a essas páginas um `layout.tsx` próprio (header/footer da vitrine), distinto do admin.
+- **Admin**: a pasta `app/admin/` é **literal** (sem parênteses) — é ela que produz o prefixo `/admin/*` que o `middleware.ts` protege. Dentro dela, `app/admin/login/page.tsx` fica fora de qualquer group (página pública dentro do admin, sem guard). As demais páginas autenticadas vivem em um group aninhado, `app/admin/(protected)/`, que carrega o `layout.tsx` com o guard de papel (defesa em profundidade) e o Sidebar — esse group aninhado não colide com nada porque já está dentro do prefixo literal `/admin/`.
+- **Por que isso não colide com a vitrine**: a regra problemática seria um group de **topo** tipo `(admin)/produtos` (resolveria para `/produtos`, colidindo com a vitrine). Um group **aninhado** dentro de uma pasta literal (`admin/(protected)/...`) não tem esse risco, porque o prefixo `/admin/` já está fixado pela pasta literal antes do group entrar em jogo.
 
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
