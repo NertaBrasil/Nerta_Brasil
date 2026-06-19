@@ -11,9 +11,9 @@ export function ProductCard({ product }: ProductCardProps) {
   const isUnavailable = product.stock === 0;
 
   return (
-    <Link href={`/produtos/${product.slug}`}>
-      <Card accent="blue" interactive padding="4">
-        <div className="aspect-square w-full overflow-hidden rounded-md bg-navy-deeper">
+    <Link href={`/produtos/${product.slug}`} className="block h-full">
+      <Card accent="blue" interactive padding="4" className="flex h-full flex-col">
+        <div className="relative aspect-square w-full overflow-hidden rounded-md bg-navy-deeper">
           {product.cover_image ? (
             <img
               src={product.cover_image.url}
@@ -28,14 +28,18 @@ export function ProductCard({ product }: ProductCardProps) {
               Sem imagem
             </div>
           )}
+          {isUnavailable && (
+            <div className="absolute left-3 top-3">
+              <Badge tone="neutral">Indisponível</Badge>
+            </div>
+          )}
         </div>
 
-        <div className="mt-4 flex flex-col gap-2">
-          {isUnavailable && <Badge tone="neutral">Indisponível</Badge>}
+        <div className="mt-4 flex flex-1 flex-col gap-2">
           <h3 className="text-h4">{product.name}</h3>
           <p className="text-sm text-muted-text">{product.line}</p>
           {product.short_description && (
-            <p className="text-sm text-muted-text">{product.short_description}</p>
+            <p className="line-clamp-2 text-sm text-muted-text">{product.short_description}</p>
           )}
         </div>
       </Card>
