@@ -16,7 +16,7 @@ Página pública de listagem de produtos ativos, com filtro por categoria, sem b
 
 **Storage**: PostgreSQL (Supabase) — leitura das tabelas `products` e `categories`, já definidas em `001-vitrine-catalogo/data-model.md`. Nenhuma escrita ocorre nesta feature.
 
-**Testing**: TDD obrigatório (Princípio VI) — Vitest cobre `getProducts(filters?)` em `features/produtos/queries.ts` (filtro por categoria, exclusão de inativos, inclusão de estoque zero); React Testing Library cobre `ProductCard` (indicador de indisponibilidade quando `stock === 0`) e `ProductFilters` (seleção de categoria).
+**Testing**: TDD obrigatório (Princípio VI) — Vitest cobre `getProducts(filters?)` em `features/products/queries.ts` (filtro por categoria, exclusão de inativos, inclusão de estoque zero); React Testing Library cobre `ProductCard` (indicador de indisponibilidade quando `stock === 0`) e `ProductFilters` (seleção de categoria).
 
 **Target Platform**: Web, rota `/produtos`, pública (sem autenticação), Server Component.
 
@@ -61,9 +61,9 @@ specs/002-catalogo-publico/
 
 ```text
 src/
-├── app/(site)/produtos/
-│   └── page.tsx                  # RSC — compõe ProductGrid + ProductFilters via barrel de features/produtos
-└── features/produtos/
+├── app/(public)/produtos/
+│   └── page.tsx                  # RSC — compõe ProductGrid + ProductFilters via barrel de features/products
+└── features/products/
     ├── components/
     │   ├── ProductGrid.tsx        # RSC — renderiza a lista de ProductCard
     │   ├── ProductCard.tsx        # RSC — card individual (decide indicador de indisponibilidade)
@@ -72,7 +72,7 @@ src/
     └── index.ts                     # Barrel já previsto em 001
 ```
 
-**Structure Decision**: Nenhuma pasta nova — reaproveita `features/produtos/` já planejado em 001. `app/(site)/produtos/page.tsx` apenas lê `searchParams.category` e repassa para `getProducts({ category_slug })`, mantendo a página como composição pura.
+**Structure Decision**: Nenhuma pasta nova — reaproveita `features/products/` já planejado em 001. `app/(public)/produtos/page.tsx` apenas lê `searchParams.category` e repassa para `getProducts({ category_slug })`, mantendo a página como composição pura.
 
 ## Complexity Tracking
 

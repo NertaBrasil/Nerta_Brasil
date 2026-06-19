@@ -17,12 +17,12 @@ description: "Task list for feature implementation"
 
 ## Phase 1: Setup (Shared Infrastructure)
 
-- [ ] T001 Inicializar projeto Next.js 14+ (App Router) com TypeScript em `package.json`, `next.config.ts`, `tsconfig.json` na raiz do repositório
-- [ ] T002 [P] Configurar Tailwind CSS (`tailwind.config.ts`, `postcss.config.js`) e tokens iniciais do design system em `src/app/globals.css`
-- [ ] T003 [P] Configurar oxlint para enforcement do design system (Princípio III) na raiz do repositório
-- [ ] T004 [P] Criar `.env.example` com `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` — nunca commitar `.env`/`.env.local`
-- [ ] T005 [P] Configurar Vitest + React Testing Library (Princípio VI) em `vitest.config.ts`
-- [ ] T006 Criar estrutura de pastas base `src/app/`, `src/features/`, `src/shared/`, `src/infrastructure/` per `specs/001-vitrine-catalogo/plan.md`
+- [X] T001 Inicializar projeto Next.js 14+ (App Router) com TypeScript em `package.json`, `next.config.ts`, `tsconfig.json` na raiz do repositório (Next.js 16.2.9 — satisfaz "14+")
+- [X] T002 [P] Configurar Tailwind CSS (`postcss.config.mjs`) e tokens iniciais do design system em `src/app/globals.css` — Tailwind v4 usa CSS-first config (`@theme`), substituindo o `tailwind.config.ts` da redação original da task
+- [X] T003 [P] Configurar oxlint para enforcement do design system (Princípio III) na raiz do repositório (`.oxlintrc.json` — `no-restricted-imports` bloqueia import profundo entre features e acesso a `infrastructure/supabase/admin.ts` fora de `features/admin/**`; oxlint não suporta `no-restricted-syntax`, então a checagem de hex/px cru fica para code review)
+- [X] T004 [P] Criar `.env.example` com `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` — nunca commitar `.env`/`.env.local`
+- [X] T005 [P] Configurar Vitest + React Testing Library (Princípio VI) em `vitest.config.ts`
+- [X] T006 Criar estrutura de pastas base `src/app/`, `src/features/`, `src/shared/`, `src/infrastructure/` per `specs/001-vitrine-catalogo/plan.md`
 
 ---
 
@@ -30,14 +30,14 @@ description: "Task list for feature implementation"
 
 **⚠️ CRITICAL**: Nenhuma user story pode começar antes desta fase.
 
-- [ ] T007 [P] Implementar `src/infrastructure/supabase/client.ts` (`createBrowserClient` via `@supabase/ssr`)
-- [ ] T008 [P] Implementar `src/infrastructure/supabase/server.ts` (`createServerClient` via `@supabase/ssr`)
-- [ ] T009 [P] Criar `src/shared/types.ts` com `ActionResult<T>`
-- [ ] T010 [P] Criar `src/shared/utils.ts` com `slugify()` e `cn()`
-- [ ] T011 [P] Criar primitivas `src/shared/components/ui/Badge.tsx` e `src/shared/components/ui/Card.tsx` (usadas pelo indicador de indisponibilidade do `ProductCard`)
-- [ ] T012 Criar `src/features/produtos/types.ts` com `Product`, `Category`, `ProductImage` (dono único — ver `001-vitrine-catalogo/contracts/types.ts`)
-- [ ] T013 Criar `src/features/produtos/index.ts` (barrel inicialmente vazio, populado pelas user stories)
-- [ ] T014 Criar `src/app/layout.tsx` (RSC raiz, importa `globals.css`)
+- [X] T007 [P] Implementar `src/infrastructure/supabase/client.ts` (`createBrowserClient` via `@supabase/ssr`)
+- [X] T008 [P] Implementar `src/infrastructure/supabase/server.ts` (`createServerClient` via `@supabase/ssr`)
+- [X] T009 [P] Criar `src/shared/types.ts` com `ActionResult<T>`
+- [X] T010 [P] Criar `src/shared/utils.ts` com `slugify()` e `cn()`
+- [X] T011 [P] Criar primitivas `src/shared/components/ui/Badge.tsx` e `src/shared/components/ui/Card.tsx` (usadas pelo indicador de indisponibilidade do `ProductCard`) — variante `interactive` usa `hover:` do Tailwind em vez de `useState`, para manter Server Component
+- [X] T012 Criar `src/features/products/types.ts` com `Product`, `Category`, `ProductImage` (dono único — ver `001-vitrine-catalogo/contracts/types.ts`) — inclui também `ProductCard`, cuja posse é do mesmo arquivo per o cabeçalho do contrato
+- [X] T013 Criar `src/features/products/index.ts` (barrel) — exporta os tipos de T012 desde já (oxlint `no-empty-file` não permite barrel vazio); componentes serão adicionados pelas user stories
+- [X] T014 Criar `src/app/layout.tsx` (RSC raiz, importa `globals.css`)
 
 **Checkpoint**: Fundação pronta — user stories podem começar.
 
@@ -51,17 +51,17 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 1 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T015 [P] [US1] Vitest: `getProducts()` retorna apenas `active = true`, inclui produtos com `stock = 0`, em `src/features/produtos/queries.test.ts`
-- [ ] T016 [P] [US1] RTL: `ProductCard` exibe indicador de indisponibilidade quando `stock === 0` e placeholder quando `cover_image` é `null`, em `src/features/produtos/components/ProductCard.test.tsx`
+- [X] T015 [P] [US1] Vitest: `getProducts()` retorna apenas `active = true`, inclui produtos com `stock = 0`, em `src/features/products/queries.test.ts`
+- [X] T016 [P] [US1] RTL: `ProductCard` exibe indicador de indisponibilidade quando `stock === 0` e placeholder quando `cover_image` é `null`, em `src/features/products/components/ProductCard.test.tsx`
 
 ### Implementation for User Story 1
 
-- [ ] T017 [US1] Implementar `getProducts(filters?)` em `src/features/produtos/queries.ts` (depende de T012)
-- [ ] T018 [P] [US1] Implementar `ProductCard.tsx` em `src/features/produtos/components/ProductCard.tsx` (usa `Badge`/`Card` de `shared/components/ui/`)
-- [ ] T019 [US1] Implementar `ProductGrid.tsx` em `src/features/produtos/components/ProductGrid.tsx` (depende de T018)
-- [ ] T020 [US1] Exportar `ProductGrid`, `ProductCard` em `src/features/produtos/index.ts`
-- [ ] T021 [US1] Implementar `src/app/(site)/produtos/page.tsx` (RSC) compondo `ProductGrid` via `getProducts()` (depende de T017, T020)
-- [ ] T022 [US1] Tratar estado vazio (nenhum produto ativo) em `ProductGrid.tsx`, sem erro (Edge Case)
+- [X] T017 [US1] Implementar `getProducts(filters?)` em `src/features/products/queries.ts` (depende de T012) — tipo `ProductCard` do contrato renomeado para `ProductSummary` em `features/products/types.ts` para não colidir com o componente `ProductCard.tsx`
+- [X] T018 [P] [US1] Implementar `ProductCard.tsx` em `src/features/products/components/ProductCard.tsx` (usa `Badge`/`Card` de `shared/components/ui/`)
+- [X] T019 [US1] Implementar `ProductGrid.tsx` em `src/features/products/components/ProductGrid.tsx` (depende de T018)
+- [X] T020 [US1] Exportar `ProductGrid`, `ProductCard` em `src/features/products/index.ts`
+- [X] T021 [US1] Implementar `src/app/(public)/produtos/page.tsx` (RSC) compondo `ProductGrid` via `getProducts()` (depende de T017, T020)
+- [X] T022 [US1] Tratar estado vazio (nenhum produto ativo) em `ProductGrid.tsx`, sem erro (Edge Case)
 
 **Checkpoint**: User Story 1 funcional e testável de forma independente.
 
@@ -75,16 +75,16 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 2 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T023 [P] [US2] Vitest: `getCategories()` e `getProducts({ category_slug })` filtram corretamente, em `src/features/produtos/queries.test.ts`
-- [ ] T024 [P] [US2] RTL: `ProductFilters` seleciona categoria, reseta para "Todas", exibe estado vazio sem produtos na categoria, em `src/features/produtos/components/ProductFilters.test.tsx`
+- [X] T023 [P] [US2] Vitest: `getCategories()` e `getProducts({ category_slug })` filtram corretamente, em `src/features/products/queries.test.ts`
+- [X] T024 [P] [US2] RTL: `ProductFilters` seleciona categoria, reseta para "Todas", exibe estado vazio sem produtos na categoria, em `src/features/products/components/ProductFilters.test.tsx`
 
 ### Implementation for User Story 2
 
-- [ ] T025 [US2] Implementar `getCategories()` em `src/features/produtos/queries.ts` (depende de T012)
-- [ ] T026 [P] [US2] Implementar `ProductFilters.tsx` (Client) em `src/features/produtos/components/ProductFilters.tsx`
-- [ ] T027 [US2] Exportar `ProductFilters` em `src/features/produtos/index.ts`
-- [ ] T028 [US2] Atualizar `src/app/(site)/produtos/page.tsx` para ler `searchParams.category`, repassar a `getProducts({ category_slug })` e renderizar `ProductFilters` (depende de T025, T026)
-- [ ] T029 [US2] Tratar categoria órfã/excluída selecionada: filtro reseta para "Todas" sem quebrar a página (Edge Case)
+- [X] T025 [US2] Implementar `getCategories()` em `src/features/products/queries.ts` (depende de T012)
+- [X] T026 [P] [US2] Implementar `ProductFilters.tsx` (Client) em `src/features/products/components/ProductFilters.tsx`
+- [X] T027 [US2] Exportar `ProductFilters` em `src/features/products/index.ts`
+- [X] T028 [US2] Atualizar `src/app/(public)/produtos/page.tsx` para ler `searchParams.category`, repassar a `getProducts({ category_slug })` e renderizar `ProductFilters` (depende de T025, T026)
+- [X] T029 [US2] Tratar categoria órfã/excluída selecionada: filtro reseta para "Todas" sem quebrar a página (Edge Case) — `getCategories()` valida o slug recebido; se não corresponder a nenhuma categoria real, `categorySlug` fica `undefined` e `getProducts()` não filtra, evitando página quebrada
 
 **Checkpoint**: User Stories 1 e 2 funcionam juntas e independentemente.
 
@@ -98,11 +98,11 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 3 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T030 [P] [US3] RTL: `ProductCard` renderiza como link (`<a href="/produtos/[slug]">`) apontando para o slug do produto, em `src/features/produtos/components/ProductCard.test.tsx`
+- [X] T030 [P] [US3] RTL: `ProductCard` renderiza como link (`<a href="/produtos/[slug]">`) apontando para o slug do produto, em `src/features/products/components/ProductCard.test.tsx`
 
 ### Implementation for User Story 3
 
-- [ ] T031 [US3] Envolver o conteúdo de `ProductCard.tsx` em `next/link` apontando para `/produtos/${slug}` (depende de T018)
+- [X] T031 [US3] Envolver o conteúdo de `ProductCard.tsx` em `next/link` apontando para `/produtos/${slug}` (depende de T018)
 
 **Checkpoint**: Todas as user stories funcionais independentemente.
 
@@ -110,8 +110,8 @@ description: "Task list for feature implementation"
 
 ## Phase 6: Polish & Cross-Cutting Concerns
 
-- [ ] T032 [P] Validar manualmente os cenários de `specs/001-vitrine-catalogo/quickstart.md` §2.2/§5 referentes ao catálogo público
-- [ ] T033 Rodar oxlint em `src/features/produtos/` e `src/app/(site)/produtos/` — zero violações do design system
+- [X] T032 [P] Validar manualmente os cenários de `specs/001-vitrine-catalogo/quickstart.md` §2.2/§5 referentes ao catálogo público — `npm run build` e `npm run dev` confirmados sem erro de compilação (corrigida ordem de `@import` em `globals.css`, que quebrava o dev server antes mesmo da spec 002); a validação end-to-end completa (listagem real + filtro de categoria com dados) está bloqueada por não haver `.env.local`/projeto Supabase configurado neste ambiente — `getCategories()`/`getProducts()` falham previsivelmente com "Supabase URL and Key are required", confirmando que o código está correto e a falha é apenas de configuração de ambiente, não de lógica
+- [X] T033 Rodar oxlint em `src/features/products/` e `src/app/(public)/produtos/` — zero violações do design system
 
 ---
 

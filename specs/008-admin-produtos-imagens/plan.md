@@ -64,7 +64,7 @@ specs/008-admin-produtos-imagens/
 
 ```text
 src/
-└── features/admin/produtos/
+└── features/admin/products/
     ├── components/
     │   ├── ImageUploader.tsx       # Client — seleciona arquivo, valida formato (FR-009)
     │   ├── ImageCropper.tsx         # Client — recorte 1:1 obrigatório antes de confirmar
@@ -73,7 +73,7 @@ src/
     └── index.ts                         # Barrel já previsto em 001 (mesma feature de 007)
 ```
 
-**Structure Decision**: Nenhuma pasta nova — os componentes de imagem entram em `features/admin/produtos/components/`, ao lado de `ProductForm.tsx` (spec 007), já que pertencem ao mesmo domínio (`produtos`) previsto em 001. `actions.ts` e `index.ts` são compartilhados com a spec 007 (CRUD básico), sem necessidade de uma segunda feature/barrel.
+**Structure Decision**: Nenhuma pasta nova — os componentes de imagem entram em `features/admin/products/components/`, ao lado de `ProductForm.tsx` (spec 007), já que pertencem ao mesmo domínio (`produtos`) previsto em 001. `actions.ts` e `index.ts` são compartilhados com a spec 007 (CRUD básico), sem necessidade de uma segunda feature/barrel.
 
 ## Complexity Tracking
 

@@ -17,11 +17,11 @@ description: "Task list for feature implementation"
 
 **⚠️ CRITICAL**: Nenhuma user story pode começar antes desta fase.
 
-- [ ] T001 [P] Criar `productSchema` (Zod) em `src/features/admin/produtos/schemas.ts` — nome, linha comercial, descrição curta, descrição completa, ficha técnica, `category_id` (uuid de categoria existente), estoque (inteiro não-negativo), `active` (boolean), `ml_url`
-- [ ] T002 Implementar `getAllProducts()` em `src/features/admin/produtos/queries.ts` — retorna todos os produtos (ativos e inativos), com categoria e imagem de capa, para a listagem administrativa (FR-010); não exige checagem de papel própria (contexto já protegido por `middleware.ts`/`(admin)/layout.tsx`, ver Convenção de Arquitetura §1)
-- [ ] T003 Implementar `ProductList.tsx` (RSC) em `src/features/admin/produtos/components/ProductList.tsx` — usa `getAllProducts()`, exibe status ativo/inativo de cada produto (depende de T002)
+- [ ] T001 [P] Criar `productSchema` (Zod) em `src/features/admin/products/schemas.ts` — nome, linha comercial, descrição curta, descrição completa, ficha técnica, `category_id` (uuid de categoria existente), estoque (inteiro não-negativo), `active` (boolean), `ml_url`
+- [ ] T002 Implementar `getAllProducts()` em `src/features/admin/products/queries.ts` — retorna todos os produtos (ativos e inativos), com categoria e imagem de capa, para a listagem administrativa (FR-010); não exige checagem de papel própria (contexto já protegido por `middleware.ts`/`(admin)/layout.tsx`, ver Convenção de Arquitetura §1)
+- [ ] T003 Implementar `ProductList.tsx` (RSC) em `src/features/admin/products/components/ProductList.tsx` — usa `getAllProducts()`, exibe status ativo/inativo de cada produto (depende de T002)
 - [ ] T004 Implementar `src/app/(admin)/produtos/page.tsx` (RSC) compondo `ProductList` (depende de T003)
-- [ ] T005 Criar `src/features/admin/produtos/index.ts` (barrel inicialmente vazio, populado pelas user stories)
+- [ ] T005 Criar `src/features/admin/products/index.ts` (barrel inicialmente vazio, populado pelas user stories)
 
 **Checkpoint**: Fundação pronta — user stories podem começar.
 
@@ -35,16 +35,16 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 1 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T006 [P] [US1] Vitest: `createProduct` gera slug a partir do nome, aceita slug customizado, rejeita slug duplicado, exige `category_id` de categoria existente, e rejeita estoque negativo, em `src/features/admin/produtos/actions.test.ts`
-- [ ] T007 [P] [US1] RTL: `ProductForm` sugere slug a partir do nome digitado, permite edição manual, e exibe erro de validação quando um campo obrigatório (nome ou categoria) está ausente, em `src/features/admin/produtos/components/ProductForm.test.tsx`
+- [ ] T006 [P] [US1] Vitest: `createProduct` gera slug a partir do nome, aceita slug customizado, rejeita slug duplicado, exige `category_id` de categoria existente, e rejeita estoque negativo, em `src/features/admin/products/actions.test.ts`
+- [ ] T007 [P] [US1] RTL: `ProductForm` sugere slug a partir do nome digitado, permite edição manual, e exibe erro de validação quando um campo obrigatório (nome ou categoria) está ausente, em `src/features/admin/products/components/ProductForm.test.tsx`
 
 ### Implementation for User Story 1
 
-- [ ] T008 [US1] Implementar `createProduct(input)` em `src/features/admin/produtos/actions.ts` (depende de T001)
-- [ ] T009 [US1] Implementar `ProductForm.tsx` (Client) em `src/features/admin/produtos/components/ProductForm.tsx` — modo criação, sugestão de slug via `slugify()`, seletor de categoria populado por `getCategories()` (spec 006), chama `createProduct()`
+- [ ] T008 [US1] Implementar `createProduct(input)` em `src/features/admin/products/actions.ts` (depende de T001)
+- [ ] T009 [US1] Implementar `ProductForm.tsx` (Client) em `src/features/admin/products/components/ProductForm.tsx` — modo criação, sugestão de slug via `slugify()`, seletor de categoria populado por `getCategories()` (spec 006), chama `createProduct()`
 - [ ] T010 [US1] Implementar `src/app/(admin)/produtos/novo/page.tsx` (RSC) compondo `ProductForm` em modo criação (depende de T009)
 - [ ] T011 [US1] Tratar Edge Case: categoria excluída entre o carregamento do formulário e a submissão — `createProduct` rejeita com erro claro pedindo categoria válida
-- [ ] T012 [US1] Exportar `createProduct`, `ProductForm` em `src/features/admin/produtos/index.ts`
+- [ ] T012 [US1] Exportar `createProduct`, `ProductForm` em `src/features/admin/products/index.ts`
 
 **Checkpoint**: User Story 1 funcional e testável de forma independente.
 
@@ -58,15 +58,15 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 2 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T013 [P] [US2] Vitest: `updateProduct` atualiza atributos com sucesso, rejeita slug que já pertence a outro produto, rejeita categoria inválida/excluída, e rejeita estoque negativo, em `src/features/admin/produtos/actions.test.ts`
-- [ ] T014 [P] [US2] RTL: `ProductForm` em modo edição pré-popula os campos existentes e salva as alterações, em `src/features/admin/produtos/components/ProductForm.test.tsx`
+- [ ] T013 [P] [US2] Vitest: `updateProduct` atualiza atributos com sucesso, rejeita slug que já pertence a outro produto, rejeita categoria inválida/excluída, e rejeita estoque negativo, em `src/features/admin/products/actions.test.ts`
+- [ ] T014 [P] [US2] RTL: `ProductForm` em modo edição pré-popula os campos existentes e salva as alterações, em `src/features/admin/products/components/ProductForm.test.tsx`
 
 ### Implementation for User Story 2
 
-- [ ] T015 [US2] Implementar `updateProduct(input)` em `src/features/admin/produtos/actions.ts` (depende de T001)
+- [ ] T015 [US2] Implementar `updateProduct(input)` em `src/features/admin/products/actions.ts` (depende de T001)
 - [ ] T016 [US2] Adaptar `ProductForm.tsx` para suportar modo edição (recebe produto existente via props) (depende de T009)
 - [ ] T017 [US2] Implementar `src/app/(admin)/produtos/[id]/page.tsx` (RSC) compondo `ProductForm` em modo edição (depende de T016)
-- [ ] T018 [US2] Exportar `updateProduct` em `src/features/admin/produtos/index.ts`
+- [ ] T018 [US2] Exportar `updateProduct` em `src/features/admin/products/index.ts`
 
 **Checkpoint**: User Stories 1 e 2 funcionam juntas — ciclo básico de manutenção do catálogo completo.
 
@@ -80,8 +80,8 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 3 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T019 [P] [US3] Vitest: alternar `active` via `updateProduct` não altera o valor de estoque e vice-versa — status e estoque são controles independentes (Edge Case), em `src/features/admin/produtos/actions.test.ts`
-- [ ] T020 [P] [US3] RTL: ação de alternar status em `ProductList` reflete imediatamente sem exigir reabertura do formulário completo, em `src/features/admin/produtos/components/ProductList.test.tsx`
+- [ ] T019 [P] [US3] Vitest: alternar `active` via `updateProduct` não altera o valor de estoque e vice-versa — status e estoque são controles independentes (Edge Case), em `src/features/admin/products/actions.test.ts`
+- [ ] T020 [P] [US3] RTL: ação de alternar status em `ProductList` reflete imediatamente sem exigir reabertura do formulário completo, em `src/features/admin/products/components/ProductList.test.tsx`
 
 ### Implementation for User Story 3
 
@@ -100,15 +100,15 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 4 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T023 [P] [US4] Vitest: `deleteProduct` exclui o produto e todas as imagens vinculadas em cascade (cascade já contratado em 001), em `src/features/admin/produtos/actions.test.ts`
-- [ ] T024 [P] [US4] RTL: `DeleteProductModal` exige confirmação explícita com scrim escuro antes de executar a exclusão, em `src/features/admin/produtos/components/DeleteProductModal.test.tsx`
+- [ ] T023 [P] [US4] Vitest: `deleteProduct` exclui o produto e todas as imagens vinculadas em cascade (cascade já contratado em 001), em `src/features/admin/products/actions.test.ts`
+- [ ] T024 [P] [US4] RTL: `DeleteProductModal` exige confirmação explícita com scrim escuro antes de executar a exclusão, em `src/features/admin/products/components/DeleteProductModal.test.tsx`
 
 ### Implementation for User Story 4
 
-- [ ] T025 [US4] Implementar `deleteProduct(id)` em `src/features/admin/produtos/actions.ts` — exclui produto e `product_images` vinculadas em cascade, remove arquivos do Storage (já contratado em 001)
-- [ ] T026 [US4] Implementar `DeleteProductModal.tsx` (Client) em `src/features/admin/produtos/components/DeleteProductModal.tsx` — confirmação com scrim escuro (FR-009)
+- [ ] T025 [US4] Implementar `deleteProduct(id)` em `src/features/admin/products/actions.ts` — exclui produto e `product_images` vinculadas em cascade, remove arquivos do Storage (já contratado em 001)
+- [ ] T026 [US4] Implementar `DeleteProductModal.tsx` (Client) em `src/features/admin/products/components/DeleteProductModal.tsx` — confirmação com scrim escuro (FR-009)
 - [ ] T027 [US4] Integrar `DeleteProductModal` em `ProductList.tsx` como ação de exclusão por produto (depende de T002, T026)
-- [ ] T028 [US4] Exportar `deleteProduct`, `DeleteProductModal` em `src/features/admin/produtos/index.ts`
+- [ ] T028 [US4] Exportar `deleteProduct`, `DeleteProductModal` em `src/features/admin/products/index.ts`
 
 **Checkpoint**: Todas as user stories funcionais independentemente.
 
@@ -117,7 +117,7 @@ description: "Task list for feature implementation"
 ## Phase 6: Polish & Cross-Cutting Concerns
 
 - [ ] T029 [P] Validar manualmente os cenários de `specs/001-vitrine-catalogo/quickstart.md` referentes ao CRUD de produtos
-- [ ] T030 Rodar oxlint em `src/features/admin/produtos/` e `src/app/(admin)/produtos/` — zero violações do design system
+- [ ] T030 Rodar oxlint em `src/features/admin/products/` e `src/app/(admin)/produtos/` — zero violações do design system
 
 ---
 

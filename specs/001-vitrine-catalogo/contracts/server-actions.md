@@ -20,7 +20,7 @@ Envolvido em `cache()` do React — uma única consulta ao banco por request, me
 
 ---
 
-## Queries — Vitrine pública (`features/produtos/queries.ts`)
+## Queries — Vitrine pública (`features/products/queries.ts`)
 
 ### `getProducts(filters?)`
 ```ts
@@ -51,7 +51,7 @@ Retorna todas as categorias ordenadas por `name ASC`. Usado nos filtros do catá
 
 ---
 
-## Server Actions — Admin Produtos (`features/admin/produtos/actions.ts`)
+## Server Actions — Admin Produtos (`features/admin/products/actions.ts`)
 
 > Todas chamam `getCurrentAdminProfile()` e exigem `role IN ('admin', 'editor')`.
 
@@ -95,7 +95,7 @@ Atualiza `position` de todas as imagens do produto em uma única transação.
 
 ---
 
-## Server Actions — Admin Categorias (`features/admin/categorias/actions.ts`)
+## Server Actions — Admin Categorias (`features/admin/categories/actions.ts`)
 
 > Todas exigem `role IN ('admin', 'editor')`.
 
@@ -118,7 +118,7 @@ deleteCategory(id: string): Promise<ActionResult>
 
 ---
 
-## Server Actions — Admin Destaques (`features/admin/destaques/actions.ts`)
+## Server Actions — Admin Destaques (`features/admin/featured/actions.ts`)
 
 > Exige `role IN ('admin', 'editor')`.
 
@@ -133,7 +133,7 @@ Atualiza `products.featured` para o valor informado.
 
 ---
 
-## Server Actions — Admin Usuários (`features/admin/usuarios/actions.ts`)
+## Server Actions — Admin Usuários (`features/admin/users/actions.ts`)
 
 > **Exclusivo para `role = 'admin'`** — checagem feita dentro da action, não apenas na UI.
 
