@@ -6,3 +6,5 @@ Controle manual de execução por ambiente. Ver [PROCEDURE.md](./PROCEDURE.md) p
 |------|------|-----------|----------|------------|------------|--------------|--------|
 | 0001 | UP | initial_schema | local | supabase/migrations/20260617221247_initial_schema.sql | 2026-06-17 | Matheus Dias Campos | executado ✅ |
 | 0002 | UP | grant_data_api_access | local | supabase/migrations/20260617232437_grant_data_api_access.sql | 2026-06-17 | Matheus Dias Campos | executado ✅ |
+| 0001 | UP | initial_schema | produção (Supabase) | projeto `wcouxyjezwmabeapvbsq` | 2026-06-19 | Matheus Dias Campos | executado ✅ |
+| 0002 | UP | grant_data_api_access | produção (Supabase) | projeto `wcouxyjezwmabeapvbsq` | 2026-06-19 | Matheus Dias Campos | executado ✅ |
