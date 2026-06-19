@@ -4,12 +4,12 @@
  * Gerado durante o planejamento — NÃO é código de produção ainda.
  *
  * Mapeamento para a árvore real (ver "Code Architecture Conventions" em plan.md):
- *   Category, ProductImage, Product, ProductCard → features/produtos/types.ts
- *   AdminRole, AdminProfile                       → features/admin/usuarios/types.ts
+ *   Category, ProductImage, Product, ProductCard → features/products/types.ts
+ *   AdminRole, AdminProfile                       → features/admin/users/types.ts
  *   CreateProductInput, UpdateProductInput,
- *   ReorderImagesInput                             → features/admin/produtos/types.ts
- *   CreateCategoryInput, UpdateCategoryInput        → features/admin/categorias/types.ts
- *   CreateUserInput                                 → features/admin/usuarios/types.ts
+ *   ReorderImagesInput                             → features/admin/products/types.ts
+ *   CreateCategoryInput, UpdateCategoryInput        → features/admin/categories/types.ts
+ *   CreateUserInput                                 → features/admin/users/types.ts
  *   ActionResult                                    → shared/types.ts (genérico, sem domínio)
  *
  * Cada feature importa apenas o que precisa via `import type`, nunca o barrel
@@ -17,7 +17,7 @@
  */
 
 // ---------------------------------------------------------------------------
-// Domínio público (vitrine) — dono: features/produtos/types.ts
+// Domínio público (vitrine) — dono: features/products/types.ts
 // ---------------------------------------------------------------------------
 
 export type Category = {

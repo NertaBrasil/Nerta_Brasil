@@ -65,7 +65,7 @@ specs/010-admin-usuarios/
 ### Source Code (repository root)
 
 ```text
-src/features/admin/usuarios/
+src/features/admin/users/
 ├── components/
 │   ├── UserList.tsx        # RSC — tabela de usuários com papel visível
 │   ├── UserForm.tsx         # Client — criação de novo usuário (nome, e-mail, senha, papel)
@@ -76,7 +76,7 @@ src/features/admin/usuarios/
 └── index.ts                      # Barrel — único ponto de entrada consumido por app/(admin)/usuarios/page.tsx
 ```
 
-**Structure Decision**: Reaproveita a árvore já planejada em `001-vitrine-catalogo/plan.md` (linhas 123–128) para `features/admin/usuarios/`. Nenhuma pasta nova fora do já previsto. `app/(admin)/usuarios/page.tsx` apenas compõe `UserList` e `UserForm` importados do barrel — toda lógica de autorização e mutação vive em `actions.ts`.
+**Structure Decision**: Reaproveita a árvore já planejada em `001-vitrine-catalogo/plan.md` (linhas 123–128) para `features/admin/users/`. Nenhuma pasta nova fora do já previsto. `app/(admin)/usuarios/page.tsx` apenas compõe `UserList` e `UserForm` importados do barrel — toda lógica de autorização e mutação vive em `actions.ts`.
 
 ## Complexity Tracking
 

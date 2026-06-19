@@ -17,10 +17,10 @@ description: "Task list for feature implementation"
 
 **⚠️ CRITICAL**: Nenhuma user story pode começar antes desta fase.
 
-- [ ] T001 [P] Criar `categorySchema` (Zod) em `src/features/admin/categorias/schemas.ts` — nome obrigatório, slug derivado/editável, ambos não vazios
-- [ ] T002 Implementar `CategoryList.tsx` (RSC) em `src/features/admin/categorias/components/CategoryList.tsx` — usa `getCategories()` (já implementada em `features/produtos/queries.ts` pela spec 002) para exibir a listagem completa de categorias, independentemente de terem produtos vinculados (FR-008)
+- [ ] T001 [P] Criar `categorySchema` (Zod) em `src/features/admin/categories/schemas.ts` — nome obrigatório, slug derivado/editável, ambos não vazios
+- [ ] T002 Implementar `CategoryList.tsx` (RSC) em `src/features/admin/categories/components/CategoryList.tsx` — usa `getCategories()` (já implementada em `features/products/queries.ts` pela spec 002) para exibir a listagem completa de categorias, independentemente de terem produtos vinculados (FR-008)
 - [ ] T003 Implementar `src/app/(admin)/categorias/page.tsx` (RSC) compondo `CategoryList` (depende de T002)
-- [ ] T004 Criar `src/features/admin/categorias/index.ts` (barrel inicialmente vazio, populado pelas user stories)
+- [ ] T004 Criar `src/features/admin/categories/index.ts` (barrel inicialmente vazio, populado pelas user stories)
 
 **Checkpoint**: Fundação pronta — user stories podem começar.
 
@@ -34,16 +34,16 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 1 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T005 [P] [US1] Vitest: `createCategory` gera slug a partir do nome quando não informado, aceita slug customizado, e rejeita nome/slug já usados por outra categoria com erro de duplicidade, em `src/features/admin/categorias/actions.test.ts`
-- [ ] T006 [P] [US1] RTL: `CategoryForm` sugere slug a partir do nome digitado e permite edição manual antes de salvar, em `src/features/admin/categorias/components/CategoryForm.test.tsx`
+- [ ] T005 [P] [US1] Vitest: `createCategory` gera slug a partir do nome quando não informado, aceita slug customizado, e rejeita nome/slug já usados por outra categoria com erro de duplicidade, em `src/features/admin/categories/actions.test.ts`
+- [ ] T006 [P] [US1] RTL: `CategoryForm` sugere slug a partir do nome digitado e permite edição manual antes de salvar, em `src/features/admin/categories/components/CategoryForm.test.tsx`
 
 ### Implementation for User Story 1
 
-- [ ] T007 [US1] Implementar `createCategory(input)` em `src/features/admin/categorias/actions.ts` (depende de T001)
-- [ ] T008 [US1] Implementar `CategoryForm.tsx` (Client) em `src/features/admin/categorias/components/CategoryForm.tsx` — modo criação, sugestão de slug via `slugify()` (`shared/utils.ts`), edição manual, chama `createCategory()`
+- [ ] T007 [US1] Implementar `createCategory(input)` em `src/features/admin/categories/actions.ts` (depende de T001)
+- [ ] T008 [US1] Implementar `CategoryForm.tsx` (Client) em `src/features/admin/categories/components/CategoryForm.tsx` — modo criação, sugestão de slug via `slugify()` (`shared/utils.ts`), edição manual, chama `createCategory()`
 - [ ] T009 [US1] Integrar `CategoryForm` em `src/app/(admin)/categorias/page.tsx` como entrada para nova categoria (depende de T003, T008)
 - [ ] T010 [US1] Tratar Edge Case: nome que gera slug vazio/inválido — impedir submissão até um slug válido ser informado
-- [ ] T011 [US1] Exportar `createCategory`, `CategoryForm` em `src/features/admin/categorias/index.ts`
+- [ ] T011 [US1] Exportar `createCategory`, `CategoryForm` em `src/features/admin/categories/index.ts`
 
 **Checkpoint**: User Story 1 funcional e testável de forma independente.
 
@@ -57,15 +57,15 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 4 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T012 [P] [US4] Vitest: `deleteCategory` bloqueia a exclusão e retorna mensagem explicativa quando há produtos vinculados; permite a exclusão quando os produtos foram reclassificados (nenhum vínculo restante), em `src/features/admin/categorias/actions.test.ts`
-- [ ] T013 [P] [US4] RTL: `DeleteCategoryModal` exibe a mensagem de bloqueio retornada por `deleteCategory` quando há vínculo, em `src/features/admin/categorias/components/DeleteCategoryModal.test.tsx`
+- [ ] T012 [P] [US4] Vitest: `deleteCategory` bloqueia a exclusão e retorna mensagem explicativa quando há produtos vinculados; permite a exclusão quando os produtos foram reclassificados (nenhum vínculo restante), em `src/features/admin/categories/actions.test.ts`
+- [ ] T013 [P] [US4] RTL: `DeleteCategoryModal` exibe a mensagem de bloqueio retornada por `deleteCategory` quando há vínculo, em `src/features/admin/categories/components/DeleteCategoryModal.test.tsx`
 
 ### Implementation for User Story 4
 
-- [ ] T014 [US4] Implementar `deleteCategory(id)` em `src/features/admin/categorias/actions.ts` — verifica vínculo com `products` antes do `DELETE`, retorna erro explicativo se houver produtos vinculados (depende de T001)
-- [ ] T015 [US4] Implementar `DeleteCategoryModal.tsx` (Client) em `src/features/admin/categorias/components/DeleteCategoryModal.tsx` — confirmação com scrim escuro (FR-006), exibe a mensagem de bloqueio quando retornada
+- [ ] T014 [US4] Implementar `deleteCategory(id)` em `src/features/admin/categories/actions.ts` — verifica vínculo com `products` antes do `DELETE`, retorna erro explicativo se houver produtos vinculados (depende de T001)
+- [ ] T015 [US4] Implementar `DeleteCategoryModal.tsx` (Client) em `src/features/admin/categories/components/DeleteCategoryModal.tsx` — confirmação com scrim escuro (FR-006), exibe a mensagem de bloqueio quando retornada
 - [ ] T016 [US4] Integrar `DeleteCategoryModal` em `CategoryList.tsx` como ação de exclusão por categoria (depende de T002, T015)
-- [ ] T017 [US4] Exportar `deleteCategory`, `DeleteCategoryModal` em `src/features/admin/categorias/index.ts`
+- [ ] T017 [US4] Exportar `deleteCategory`, `DeleteCategoryModal` em `src/features/admin/categories/index.ts`
 
 **Checkpoint**: User Stories 1 e 4 funcionam juntas — regra de negócio crítica garantida desde o início.
 
@@ -79,15 +79,15 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 2 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T018 [P] [US2] Vitest: `updateCategory` atualiza nome/slug com sucesso e rejeita slug que já pertence a outra categoria, em `src/features/admin/categorias/actions.test.ts`
-- [ ] T019 [P] [US2] RTL: `CategoryForm` em modo edição pré-popula nome/slug existentes e permite alteração, em `src/features/admin/categorias/components/CategoryForm.test.tsx`
+- [ ] T018 [P] [US2] Vitest: `updateCategory` atualiza nome/slug com sucesso e rejeita slug que já pertence a outra categoria, em `src/features/admin/categories/actions.test.ts`
+- [ ] T019 [P] [US2] RTL: `CategoryForm` em modo edição pré-popula nome/slug existentes e permite alteração, em `src/features/admin/categories/components/CategoryForm.test.tsx`
 
 ### Implementation for User Story 2
 
-- [ ] T020 [US2] Implementar `updateCategory(id, input)` em `src/features/admin/categorias/actions.ts` (depende de T001)
+- [ ] T020 [US2] Implementar `updateCategory(id, input)` em `src/features/admin/categories/actions.ts` (depende de T001)
 - [ ] T021 [US2] Adaptar `CategoryForm.tsx` para suportar modo edição (recebe categoria existente via props) (depende de T008)
 - [ ] T022 [US2] Integrar modo edição em `CategoryList.tsx`/`page.tsx` como ação de editar por categoria (depende de T002, T021)
-- [ ] T023 [US2] Exportar `updateCategory` em `src/features/admin/categorias/index.ts`
+- [ ] T023 [US2] Exportar `updateCategory` em `src/features/admin/categories/index.ts`
 
 **Checkpoint**: User Stories 1, 4 e 2 funcionam juntas.
 
@@ -101,8 +101,8 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 3 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T024 [P] [US3] Vitest: `deleteCategory` exclui com sucesso quando não há produtos vinculados (cenário complementar ao bloqueio de US4), em `src/features/admin/categorias/actions.test.ts`
-- [ ] T025 [P] [US3] RTL: `DeleteCategoryModal` confirma exclusão com sucesso e a categoria deixa de aparecer na listagem, em `src/features/admin/categorias/components/DeleteCategoryModal.test.tsx`
+- [ ] T024 [P] [US3] Vitest: `deleteCategory` exclui com sucesso quando não há produtos vinculados (cenário complementar ao bloqueio de US4), em `src/features/admin/categories/actions.test.ts`
+- [ ] T025 [P] [US3] RTL: `DeleteCategoryModal` confirma exclusão com sucesso e a categoria deixa de aparecer na listagem, em `src/features/admin/categories/components/DeleteCategoryModal.test.tsx`
 
 ### Implementation for User Story 3
 
@@ -115,7 +115,7 @@ description: "Task list for feature implementation"
 ## Phase 6: Polish & Cross-Cutting Concerns
 
 - [ ] T027 [P] Validar manualmente os cenários de `specs/001-vitrine-catalogo/quickstart.md` referentes à gestão de categorias
-- [ ] T028 Rodar oxlint em `src/features/admin/categorias/` e `src/app/(admin)/categorias/` — zero violações do design system
+- [ ] T028 Rodar oxlint em `src/features/admin/categories/` e `src/app/(admin)/categorias/` — zero violações do design system
 
 ---
 

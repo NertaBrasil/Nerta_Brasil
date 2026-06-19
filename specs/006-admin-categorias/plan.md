@@ -64,7 +64,7 @@ specs/006-admin-categorias/
 src/
 ├── app/(admin)/categorias/
 │   └── page.tsx                      # RSC — compõe CategoryList + entradas para criar/editar
-└── features/admin/categorias/
+└── features/admin/categories/
     ├── components/
     │   ├── CategoryList.tsx           # RSC — listagem completa de categorias
     │   ├── CategoryForm.tsx            # Client — criação/edição, sugestão e edição manual de slug
@@ -74,7 +74,7 @@ src/
     └── index.ts                              # Barrel já previsto em 001
 ```
 
-**Structure Decision**: Nenhuma pasta nova — reaproveita `features/admin/categorias/` já planejado em 001 (linhas 100-102 do plan.md de referência). `deleteCategory` permanece a única fonte de verdade sobre o bloqueio por produtos vinculados; a UI apenas exibe a mensagem de erro retornada, sem duplicar a verificação no client.
+**Structure Decision**: Nenhuma pasta nova — reaproveita `features/admin/categories/` já planejado em 001 (linhas 100-102 do plan.md de referência). `deleteCategory` permanece a única fonte de verdade sobre o bloqueio por produtos vinculados; a UI apenas exibe a mensagem de erro retornada, sem duplicar a verificação no client.
 
 ## Complexity Tracking
 

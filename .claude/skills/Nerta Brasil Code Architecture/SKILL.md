@@ -29,10 +29,10 @@ Regra de ouro: **tudo nasce dentro de uma feature.** Só sai de lá quando uma s
 **Como escrever**: a página importa do `index.ts` (barrel) da feature e compõe. Não escreva query, validação ou regra de negócio direto num `page.tsx`.
 
 ```tsx
-// app/(site)/produtos/page.tsx
-import { getProducts, ProductGrid, ProductFilters } from "@/features/produtos";
+// app/(public)/produtos/page.tsx  ← segmento de URL em PT-BR (SEO), arquivo/código em inglês
+import { getProducts, ProductGrid, ProductFilters } from "@/features/products";
 
-export default async function ProdutosPage() {
+export default async function ProductsPage() {
   const products = await getProducts();
   return (
     <>
@@ -42,6 +42,8 @@ export default async function ProdutosPage() {
   );
 }
 ```
+
+> **Convenção de idioma (P0)**: pastas, arquivos, funções, variáveis, tipos e componentes em `src/` são sempre em inglês (`features/products`, `getProducts()`, `ProductsPage`). A única exceção são os *segmentos de URL* (`/produtos`, `/produtos/[slug]`), que continuam em português por SEO — a pasta de rota carrega o nome da URL, mas tudo o que ela importa/exporta é inglês. Route groups (`app/(grupo)/`) seguem nomes descritivos em inglês, nunca genéricos como `(site)` — use algo como `(public)`/`(admin)`.
 
 Se uma página está crescendo (mais de ~30 linhas de lógica), o código que está crescendo pertence à feature, não à página.
 
@@ -97,11 +99,11 @@ Uma função que é tecnicamente uma leitura, mas exige checagem de papel (ex: `
 Cada entidade de domínio (`Product`, `Category`, `AdminProfile`...) é declarada em **um** `types.ts` e importada de lá — nunca redeclarada em outra feature. Convenção: a feature que primeiro "possui" a entidade é a dona; as demais importam com `import type`.
 
 ```ts
-// features/admin/produtos/actions.ts
-import type { Product } from "@/features/produtos";
+// features/admin/products/actions.ts
+import type { Product } from "@/features/products";
 ```
 
-Nunca importe um caminho profundo de outra feature (`@/features/produtos/components/ProductCard/internal/...`) — só o que o `index.ts` exporta.
+Nunca importe um caminho profundo de outra feature (`@/features/products/components/ProductCard/internal/...`) — só o que o `index.ts` exporta.
 
 ### Inputs de formulário ficam com quem os consome
 

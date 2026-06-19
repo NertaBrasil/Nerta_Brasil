@@ -69,7 +69,7 @@ specs/001-vitrine-catalogo/
 ```text
 src/
 ├── app/
-│   ├── (site)/
+│   ├── (public)/
 │   │   ├── page.tsx                    # Home — RSC
 │   │   ├── produtos/
 │   │   │   ├── page.tsx               # Catálogo — RSC (filtros como Client)
@@ -95,7 +95,7 @@ src/
 │   └── globals.css                    # Tokens do design system → Tailwind
 ├── middleware.ts                       # Verifica apenas SE há sessão válida em /admin/*
 ├── features/
-│   ├── produtos/                     # Feature "dona" das entidades de catálogo
+│   ├── products/                     # Feature "dona" das entidades de catálogo
 │   │   ├── components/               # ProductCard, ProductGrid, ProductFilters
 │   │   ├── queries.ts                # getProducts, getProductBySlug, getFeaturedProducts, getCategories
 │   │   ├── types.ts                  # Product, Category, ProductImage (tipos de entidade — fonte única)
@@ -104,23 +104,23 @@ src/
 │   │   ├── auth/                     # Resolução de sessão + papel do usuário logado
 │   │   │   ├── session.ts            # getCurrentAdminProfile() — cached() por request
 │   │   │   └── index.ts
-│   │   ├── produtos/
+│   │   ├── products/
 │   │   │   ├── components/           # ProductForm, ImageCropper, ImageGallery
 │   │   │   ├── actions.ts            # createProduct, updateProduct, deleteProduct,
 │   │   │   │                         # uploadProductImage, deleteProductImage, reorderProductImages
 │   │   │   ├── schemas.ts            # Zod schemas — únicos, usados no client (form) e na action
 │   │   │   ├── types.ts              # CreateProductInput, UpdateProductInput, ReorderImagesInput
 │   │   │   └── index.ts
-│   │   ├── categorias/
+│   │   ├── categories/
 │   │   │   ├── components/           # CategoryForm, CategoryList
 │   │   │   ├── actions.ts            # createCategory, updateCategory, deleteCategory
 │   │   │   ├── schemas.ts
 │   │   │   └── index.ts
-│   │   ├── destaques/
-│   │   │   ├── components/           # DestaquesGrid
+│   │   ├── featured/
+│   │   │   ├── components/           # FeaturedGrid
 │   │   │   ├── actions.ts            # toggleFeatured
 │   │   │   └── index.ts
-│   │   └── usuarios/
+│   │   └── users/
 │   │       ├── components/           # UserForm, UserList
 │   │       ├── actions.ts            # createUser, deleteUser, getAdminUsers
 │   │       ├── schemas.ts
@@ -161,19 +161,19 @@ Misturar os dois sob `actions/` (como na primeira versão deste plano) esconde q
 
 Cada entidade (`Product`, `Category`, `ProductImage`, `AdminProfile`) é definida em **um único lugar** e importada de lá por qualquer outra feature — nunca redeclarada.
 
-- `Product`, `Category`, `ProductImage` → `features/produtos/types.ts` (a feature pública é a "dona", já que ambos os lados — vitrine e admin — leem a mesma entidade).
-- `AdminProfile`, `AdminRole` → `features/admin/usuarios/types.ts`.
-- Inputs de formulário (`CreateProductInput`, `UpdateProductInput` etc.) são admin-only e vivem junto da action que os consome (`features/admin/produtos/types.ts`).
+- `Product`, `Category`, `ProductImage` → `features/products/types.ts` (a feature pública é a "dona", já que ambos os lados — vitrine e admin — leem a mesma entidade).
+- `AdminProfile`, `AdminRole` → `features/admin/users/types.ts`.
+- Inputs de formulário (`CreateProductInput`, `UpdateProductInput` etc.) são admin-only e vivem junto da action que os consome (`features/admin/products/types.ts`).
 - Imports cruzados usam `import type`, nunca o barrel completo da feature alheia — evita arrastar componentes/queries para dentro de uma Server Action por engano.
 
 ### 3. Cada feature expõe uma única porta de entrada (`index.ts`)
 
-Tudo que não é exportado pelo `index.ts` da feature é privado a ela. Páginas em `/app` e outras features só importam do barrel — nunca de um caminho profundo como `features/admin/produtos/components/internal/X`. Isso é o que torna possível, mais adiante, mover ou reescrever uma feature inteira sem quebrar quem a consome.
+Tudo que não é exportado pelo `index.ts` da feature é privado a ela. Páginas em `/app` e outras features só importam do barrel — nunca de um caminho profundo como `features/admin/products/components/internal/X`. Isso é o que torna possível, mais adiante, mover ou reescrever uma feature inteira sem quebrar quem a consome.
 
 ### 4. Verificação de sessão e de papel são duas camadas distintas
 
 - **`middleware.ts`** (Edge): só confirma que existe uma sessão Supabase válida em qualquer rota `/admin/*`. Não consulta papel — checagem de papel em Edge exigiria round-trip de banco em toda request.
-- **`features/admin/auth/session.ts`**: expõe `getCurrentAdminProfile()`, envolvido em `cache()` do React para deduplicar a consulta dentro do mesmo request. É chamado pelo `(admin)/layout.tsx` (para montar o Sidebar com o papel correto) e, de novo, pela página `usuarios/` para redirecionar se o papel não for `admin` — o `cache()` garante que isso não dobra a consulta ao banco.
+- **`features/admin/auth/session.ts`**: expõe `getCurrentAdminProfile()`, envolvido em `cache()` do React para deduplicar a consulta dentro do mesmo request. É chamado pelo `(admin)/layout.tsx` (para montar o Sidebar com o papel correto) e, de novo, pela página `users/` para redirecionar se o papel não for `admin` — o `cache()` garante que isso não dobra a consulta ao banco.
 
 ### 5. `infrastructure/` é integração externa; `features/` é domínio
 
@@ -181,7 +181,7 @@ Tudo que não é exportado pelo `index.ts` da feature é privado a ela. Páginas
 
 ### 6. `shared/` nasce pequeno; algo só entra lá quando 2+ features já o usam
 
-Regra de promoção: todo componente, hook ou util nasce dentro da feature que o criou. Só migra para `shared/` quando uma segunda feature precisar do mesmo código — nunca antecipadamente ("primeiro usar, depois compartilhar"). `shared/components/ui/` mapeia 1:1 o design system (Button, Card, Modal...) e não sabe o que é `stock` ou `featured`. `ProductCard` (em `features/produtos/components/`) decide, por exemplo, que `stock === 0` desabilita o botão — e usa `Button`/`Badge` de `shared/components/ui/` para isso. `ActionResult<T>` mora em `shared/types.ts` por ser o único tipo genérico o bastante para ser usado por toda Server Action, independente do domínio.
+Regra de promoção: todo componente, hook ou util nasce dentro da feature que o criou. Só migra para `shared/` quando uma segunda feature precisar do mesmo código — nunca antecipadamente ("primeiro usar, depois compartilhar"). `shared/components/ui/` mapeia 1:1 o design system (Button, Card, Modal...) e não sabe o que é `stock` ou `featured`. `ProductCard` (em `features/products/components/`) decide, por exemplo, que `stock === 0` desabilita o botão — e usa `Button`/`Badge` de `shared/components/ui/` para isso. `ActionResult<T>` mora em `shared/types.ts` por ser o único tipo genérico o bastante para ser usado por toda Server Action, independente do domínio.
 
 ### 7. Validação (`schemas.ts`) é a fonte única entre client e server
 
