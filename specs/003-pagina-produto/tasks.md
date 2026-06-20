@@ -58,13 +58,13 @@ description: "Task list for feature implementation"
 ### Tests for User Story 2 (MANDATORY — write first, must fail) ⚠️
 
 - [X] T012 [P] [US2] Vitest: `trackBuyClick` dispara os parâmetros corretos para GA4 e Meta Pixel, em `src/infrastructure/analytics.test.ts`
-- [ ] T013 [P] [US2] RTL: `BuyButton` habilitado com `target="_blank"` quando `stock > 0` e `ml_url` presente; desabilitado com texto "Produto Indisponível" e sem `href` quando `stock === 0` OU `ml_url` ausente, em `src/features/products/components/BuyButton.test.tsx`
+- [X] T013 [P] [US2] RTL: `BuyButton` habilitado com `target="_blank"` quando `stock > 0` e `ml_url` presente; desabilitado com texto "Produto Indisponível" e sem `href` quando `stock === 0` OU `ml_url` ausente, em `src/features/products/components/BuyButton.test.tsx`
 
 ### Implementation for User Story 2
 
-- [ ] T014 [US2] Implementar `BuyButton.tsx` (Client, único `"use client"` da página) em `src/features/products/components/BuyButton.tsx` — `onClick` dispara `trackBuyClick` antes/durante a abertura do link (depende de T002)
-- [ ] T015 [US2] Integrar `BuyButton` em `src/app/(public)/produtos/[slug]/page.tsx` (depende de T009, T014)
-- [ ] T016 [US2] Exportar `BuyButton` em `src/features/products/index.ts`
+- [X] T014 [US2] Implementar `BuyButton.tsx` (Client, único `"use client"` da página) em `src/features/products/components/BuyButton.tsx` — `onClick` dispara `trackBuyClick` antes/durante a abertura do link (depende de T002)
+- [X] T015 [US2] Integrar `BuyButton` em `src/app/(public)/produtos/[slug]/page.tsx` (depende de T009, T014)
+- [X] T016 [US2] Exportar `BuyButton` em `src/features/products/index.ts`
 
 **Checkpoint**: User Stories 1 e 2 funcionam juntas e independentemente.
 

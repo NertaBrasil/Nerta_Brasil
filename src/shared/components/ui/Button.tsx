@@ -4,7 +4,7 @@ import { cn } from "@/shared/utils";
 type ButtonVariant = "primary" | "partner" | "secondary" | "ghost" | "danger" | "danger-ghost";
 type ButtonSize = "sm" | "md" | "lg";
 
-type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className"> & {
+type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className" | "onClick"> & {
   variant?: ButtonVariant;
   size?: ButtonSize;
   fullWidth?: boolean;
@@ -13,6 +13,11 @@ type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className"> & 
   rightIcon?: ReactNode;
   children: ReactNode;
   className?: string;
+  /** Quando presente (e não disabled), renderiza como `<a>` em vez de `<button>` — usar no CTA Mercado Livre */
+  href?: string;
+  /** Abre `href` em nova aba com `rel="noopener noreferrer"` */
+  external?: boolean;
+  onClick?: () => void;
 };
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
@@ -45,24 +50,40 @@ export function Button({
   type = "button",
   children,
   className,
+  href,
+  external = false,
+  onClick,
   ...rest
 }: ButtonProps) {
   const label = disabled && disabledLabel ? disabledLabel : children;
 
+  const classes = cn(
+    "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-display font-bold leading-none tracking-[-0.01em] transition-[background,transform,opacity] duration-fast ease-standard select-none",
+    SIZE_CLASSES[size],
+    fullWidth && "w-full",
+    disabled ? DISABLED_CLASSES : VARIANT_CLASSES[variant],
+    !disabled && "active:scale-[0.97]",
+    className
+  );
+
+  if (href && !disabled) {
+    return (
+      <a
+        href={href}
+        target={external ? "_blank" : undefined}
+        rel={external ? "noopener noreferrer" : undefined}
+        onClick={onClick}
+        className={classes}
+      >
+        {leftIcon}
+        {label}
+        {rightIcon}
+      </a>
+    );
+  }
+
   return (
-    <button
-      type={type}
-      disabled={disabled}
-      className={cn(
-        "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-display font-bold leading-none tracking-[-0.01em] transition-[background,transform,opacity] duration-fast ease-standard select-none",
-        SIZE_CLASSES[size],
-        fullWidth && "w-full",
-        disabled ? DISABLED_CLASSES : VARIANT_CLASSES[variant],
-        !disabled && "active:scale-[0.97]",
-        className
-      )}
-      {...rest}
-    >
+    <button type={type} disabled={disabled} className={classes} onClick={onClick} {...rest}>
       {leftIcon}
       {label}
       {rightIcon}

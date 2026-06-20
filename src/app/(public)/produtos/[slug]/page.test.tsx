@@ -61,6 +61,10 @@ describe("ProductPage", () => {
     expect(screen.getByText("Linha Frotas")).toBeInTheDocument();
     expect(screen.getByText("Descrição completa do produto teste")).toBeInTheDocument();
     expect(screen.getByText("Categoria A")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /comprar no mercado livre/i })).toHaveAttribute(
+      "href",
+      "https://produto.mercadolivre.com.br/1"
+    );
   });
 
   it("renderiza normalmente quando a categoria está ausente (órfã)", async () => {

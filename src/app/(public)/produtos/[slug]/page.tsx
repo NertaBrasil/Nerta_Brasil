@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getProductBySlug, ProductGallery, ProductSpecs } from "@/features/products";
+import { getProductBySlug, ProductGallery, ProductSpecs, BuyButton } from "@/features/products";
 
 type ProductPageProps = {
   params: Promise<{ slug: string }>;
@@ -30,6 +30,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
           {product.description && (
             <p className="text-base leading-body text-light-gray">{product.description}</p>
           )}
+
+          <div className="mt-2">
+            <BuyButton slug={product.slug} stock={product.stock} mlUrl={product.ml_url} />
+          </div>
         </div>
       </div>
     </main>
