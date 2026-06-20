@@ -56,11 +56,19 @@ Dois papéis: **admin** e **editor**.
 | Produtos | criar / editar / excluir | criar / editar / excluir |
 | Categorias | criar / editar / excluir | criar / editar / excluir |
 | Destaques | acesso total | acesso total |
-| Usuários | acesso total | **SEM ACESSO** (oculto na sidebar) |
+| Usuários | acesso total | **visível na sidebar com cadeado — sem acesso** |
+
+### Comportamento da sidebar para o papel Editor
+O item **Usuários** aparece na sidebar de todos os papéis, mas para `editor`:
+- Renderizado como `<span>` não clicável (não é um `<a>`)
+- Ícone `lock` em vez de `users`
+- Cor `var(--border-strong)` — visivelmente desabilitado, `cursor: not-allowed`
+
+**Decisão de produto:** visível (não oculto) para que o editor saiba que a seção existe mas não tem permissão. O bloqueio real ocorre no middleware Next.js (Supabase Auth).
 
 - **Nenhum usuário se auto-registra.** Apenas um admin cria novos usuários.
-- Um admin **não pode excluir a própria conta** (botão de excluir desabilitado na própria linha).
-- Na edição de usuário: nome e papel são editáveis; **e-mail e senha não** (senha via redefinição por e-mail).
+- Um admin **não pode excluir a própria conta** (botão de excluir desabilitado na própria linha, `user.self === true`).
+- Na edição de usuário: nome e papel são editáveis; **e-mail e senha não** (senha via redefinição por e-mail — Supabase Auth).
 
 ## Categorias
 - Slug é **gerado automaticamente** a partir do nome (editável).

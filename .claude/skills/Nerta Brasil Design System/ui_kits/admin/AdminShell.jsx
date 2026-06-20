@@ -38,7 +38,7 @@ function IconBtn({ icon, title, tone = 'default', onClick, disabled = false }) {
         width: 34, height: 34, borderRadius: 'var(--radius-sm)', cursor: disabled ? 'not-allowed' : 'pointer',
         background: h ? 'var(--surface-raised)' : 'transparent',
         border: '1px solid ' + (h ? 'var(--border-strong)' : 'var(--border-subtle)'),
-        opacity: disabled ? 0.45 : 1,
+        opacity: disabled ? 0.4 : 1,
         color, transition: 'all var(--duration-fast)',
       }}>
       <i data-lucide={icon} style={{ width: 16, height: 16 }}></i>
@@ -67,10 +67,10 @@ function AdminShell({ active, title, userName = 'Marina Albuquerque', userRole =
   const [drawer, setDrawer] = React.useState(false);
 
   const items = [
-    { id: 'produtos', label: 'Produtos', icon: 'package', href: 'Nerta-Admin-Produtos.html' },
-    { id: 'categorias', label: 'Categorias', icon: 'tags', href: 'Nerta-Admin-Categorias.html' },
-    { id: 'destaques', label: 'Destaques', icon: 'star', href: 'Nerta-Admin-Destaques.html' },
-    { id: 'usuarios', label: 'Usuários', icon: 'users', href: 'Nerta-Admin-Usuarios.html', adminOnly: true },
+    { id: 'produtos',   label: 'Produtos',   icon: 'package', href: 'produtos.html' },
+    { id: 'categorias', label: 'Categorias', icon: 'tags',    href: 'categorias.html' },
+    { id: 'destaques',  label: 'Destaques',  icon: 'star',    href: 'destaques.html' },
+    { id: 'usuarios',   label: 'Usuários',   icon: 'users',   href: 'usuarios.html', adminOnly: true },
   ].filter((i) => !(i.adminOnly && userRole !== 'admin'));
 
   React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
@@ -96,16 +96,27 @@ function AdminShell({ active, title, userName = 'Marina Albuquerque', userRole =
               color: on ? 'var(--white)' : 'var(--muted-text)',
               background: on ? 'var(--blue-soft)' : 'transparent',
               borderLeft: on ? '3px solid var(--nerta-blue)' : '3px solid transparent',
-              transition: 'all var(--duration-fast)',
+              transition: 'all var(--duration-fast)', textDecoration: 'none',
             }}>
               <i data-lucide={it.icon} style={{ width: 18, height: 18, color: on ? 'var(--sky-blue)' : 'var(--muted-text)' }}></i>
               {it.label}
             </a>
           );
         })}
+        {/* Usuários shown as locked entry for editors */}
+        {userRole !== 'admin' && (
+          <span style={{
+            display: 'flex', alignItems: 'center', gap: 12, height: 44, padding: '0 14px',
+            borderRadius: 'var(--radius-md)', fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 500,
+            color: 'var(--border-strong)', borderLeft: '3px solid transparent', cursor: 'not-allowed',
+          }}>
+            <i data-lucide="lock" style={{ width: 18, height: 18 }}></i>
+            Usuários
+          </span>
+        )}
       </nav>
       <div style={{ marginTop: 'auto', paddingTop: 18, borderTop: '1px solid var(--border-subtle)', fontSize: 10.5, color: 'var(--muted-text)', lineHeight: 1.5, padding: '18px 8px 0' }}>
-        Distribuição exclusiva<br /><span style={{ color: 'var(--provisao-gold)' }}>Provisão Comércio Internacional</span>
+        Painel administrativo Nerta Brasil
       </div>
     </aside>
   );
@@ -126,7 +137,7 @@ function AdminShell({ active, title, userName = 'Marina Albuquerque', userRole =
           position: 'sticky', top: 0, zIndex: 50,
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16,
           padding: mob ? '12px 18px' : '16px 32px',
-          background: 'rgba(13,27,46,0.85)', backdropFilter: 'blur(12px)',
+          background: 'rgba(13,27,46,0.88)', backdropFilter: 'blur(12px)',
           borderBottom: '1px solid var(--border-subtle)',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14, minWidth: 0 }}>

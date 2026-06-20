@@ -1,10 +1,27 @@
-// /admin/produtos/novo + /[id] — product form with crop + gallery.
+// /admin/produtos/novo + /[id] — product form (criar ou editar).
+// Campos: nome, linha, descrição curta, descrição completa, ficha técnica,
+//         categoria (obrigatória), estoque (int >= 0), status, link ML, slug.
+// Slug: auto-gerado do nome, editável manualmente, erro inline de duplicidade.
+// Imagens: fora desta tela — seção marcada explicitamente.
+// Estados: salvando, erro de rede.
 const NPF = window.NertaBrasilDesignSystem_82f464;
 
-function Section({ title, children }) {
+function Section({ title, children, accent }) {
   return (
-    <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-lg)', padding: 24, marginBottom: 20 }}>
-      <h3 style={{ fontSize: 16, marginBottom: 18 }}>{title}</h3>
+    <div style={{
+      background: 'var(--surface-card)', border: '1px solid var(--border-subtle)',
+      borderLeft: accent ? '4px solid ' + accent : '1px solid var(--border-subtle)',
+      borderRadius: 'var(--radius-lg)', padding: '22px 24px', marginBottom: 20,
+    }}>
+      <h3 style={{ fontSize: 15, marginBottom: 18, fontFamily: 'var(--font-display)', fontWeight: 700, letterSpacing: '-0.01em' }}>{title}</h3>
+      {children}
+    </div>
+  );
+}
+
+function FieldRow({ children, cols = 2, mob }) {
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: mob ? '1fr' : ('repeat(' + cols + ', 1fr)'), gap: 16 }}>
       {children}
     </div>
   );
@@ -12,123 +29,281 @@ function Section({ title, children }) {
 
 function ProdutoFormPage({ editing = false }) {
   const { Button, Input, Select } = NPF;
-  const Switch = window.Switch, Modal = window.Modal;
   const mob = window.useIsMobile(900);
   const seed = editing ? window.ADMIN_PRODUCTS[0] : null;
+  const existingSlugs = window.ADMIN_PRODUCTS.filter(p => !editing || p.id !== 'p1').map(p => p.slug);
 
+  // Identificação
   const [name, setName] = React.useState(seed ? seed.name : '');
-  const [slug, setSlug] = React.useState(seed ? window.slugify(seed.name) : '');
-  const [slugEdited, setSlugEdited] = React.useState(false);
-  const [tags, setTags] = React.useState(seed ? seed.attributes : ['Touchless']);
+  const [line, setLine] = React.useState(seed ? seed.line : '');
+  const [category, setCategory] = React.useState(seed ? seed.category : '');
+  const [slug, setSlug] = React.useState(seed ? seed.slug : '');
+  const [slugManual, setSlugManual] = React.useState(false);
+  const [mlUrl, setMlUrl] = React.useState(seed ? seed.mlUrl : '');
+
+  // Textos
+  const [shortDesc, setShortDesc] = React.useState(seed ? seed.shortDesc : '');
+  const [fullDesc, setFullDesc] = React.useState(seed ? seed.fullDesc : '');
+  const [techSheet, setTechSheet] = React.useState(seed ? seed.techSheet : '');
+  const [previewMode, setPreviewMode] = React.useState(false);
+
+  // Atributos
+  const [tags, setTags] = React.useState(seed ? seed.attributes : []);
+
+  const [dilution, setDilution] = React.useState(seed ? seed.dilution : '');
+
+  // Comercial
+  const [stock, setStock] = React.useState(seed ? String(seed.stock) : '');
   const [active, setActive] = React.useState(seed ? seed.active : true);
   const [featured, setFeatured] = React.useState(seed ? seed.featured : false);
-  const [preview, setPreview] = React.useState(false);
-  const [cropOpen, setCropOpen] = React.useState(false);
-  const [images, setImages] = React.useState(editing ? [{ id: 1, icon: 'sparkles' }, { id: 2, icon: 'droplet' }] : []);
-  const dragIdx = React.useRef(null);
+
+  // Estados de UI
+  const [saving, setSaving] = React.useState(false);
+  const [saved, setSaved] = React.useState(false);
+  const [networkErr, setNetworkErr] = React.useState(null);
+  const [errors, setErrors] = React.useState({});
 
   React.useEffect(() => { if (window.lucide) window.lucide.createIcons(); });
-  React.useEffect(() => { if (!slugEdited) setSlug(window.slugify(name)); }, [name]);
+
+  // Auto-gerar slug do nome
+  React.useEffect(() => {
+    if (!slugManual) setSlug(window.slugify(name));
+  }, [name, slugManual]);
+
+  const slugDuplicate = slug && existingSlugs.includes(slug);
+  const stockInt = parseInt(stock, 10);
+  const stockError = stock !== '' && (isNaN(stockInt) || stockInt < 0 || !Number.isInteger(Number(stock)));
 
   const cats = window.ADMIN_CATEGORIES.map((c) => c.name);
-  const addImage = () => { setImages((im) => [...im, { id: Date.now(), icon: 'image' }]); setCropOpen(false); };
-  const onDrop = (i) => {
-    const from = dragIdx.current;
-    if (from === null || from === i) return;
-    setImages((im) => { const a = [...im]; const [m] = a.splice(from, 1); a.splice(i, 0, m); return a; });
-    dragIdx.current = null;
+
+  const validate = () => {
+    const e = {};
+    if (!name.trim()) e.name = 'Nome obrigatório';
+    if (!category) e.category = 'Categoria obrigatória';
+    if (stock === '') e.stock = 'Estoque obrigatório';
+    else if (stockError) e.stock = 'Valor inválido — inteiro maior ou igual a 0';
+    if (slugDuplicate) e.slug = 'Slug já existe — edite manualmente';
+    return e;
   };
 
+  const handleSave = () => {
+    const e = validate();
+    setErrors(e);
+    if (Object.keys(e).length > 0) return;
+    setSaving(true);
+    setTimeout(() => {
+      setSaving(false);
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2500);
+    }, 1100);
+  };
+
+  const FieldError = ({ msg }) => msg
+    ? <div style={{ marginTop: 6, fontSize: 11.5, color: '#E5634D', display: 'flex', alignItems: 'center', gap: 5 }}>
+        <i data-lucide="alert-circle" style={{ width: 13, height: 13 }}></i>{msg}
+      </div>
+    : null;
+
   return (
-    <div style={{ maxWidth: 820 }}>
-      <a href="Nerta-Admin-Produtos.html" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, color: 'var(--muted-text)', fontSize: 13, marginBottom: 18 }}>
-        <i data-lucide="arrow-left" style={{ width: 15, height: 15 }}></i> Voltar para produtos
+    <div style={{ maxWidth: 1040 }}>
+      <a href="produtos.html" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, color: 'var(--muted-text)', fontSize: 13, marginBottom: 20, textDecoration: 'none' }}>
+        <i data-lucide="arrow-left" style={{ width: 14, height: 14 }}></i> Voltar para produtos
       </a>
 
-      <Section title="Informações básicas">
-        <div style={{ display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr', gap: 16 }}>
+      <window.NetworkError message={networkErr} onDismiss={() => setNetworkErr(null)} />
+
+      {/* ── 1. IDENTIFICAÇÃO ── */}
+      <Section title="Identificação" accent="var(--nerta-blue)">
+        <window.DemoBar actions={[
+          { label: 'Simular erro ao salvar', action: () => setNetworkErr('Erro ao salvar — verifique a conexão e tente novamente.') },
+          { label: 'Simular slug duplicado', action: () => { setName('Active Diamond Foam'); setSlugManual(false); } },
+        ]} />
+        <FieldRow cols={2} mob={mob}>
           <div>
-            <Input label="Nome do produto" value={name} onChange={(e) => setName(e.target.value)} placeholder="Active Diamond Foam" />
-            <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ fontSize: 11, color: 'var(--muted-text)' }}>/produto/</span>
-              <input value={slug} onChange={(e) => { setSlug(window.slugify(e.target.value)); setSlugEdited(true); }}
-                style={{ flex: 1, height: 30, background: 'var(--surface-sunken)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-sm)', color: 'var(--sky-blue)', fontFamily: 'var(--font-body)', fontSize: 12, padding: '0 10px', outline: 'none' }} />
+            <window.FieldLabel>Nome do produto <span style={{ color: '#E5634D' }}>*</span></window.FieldLabel>
+            <input value={name} onChange={(e) => setName(e.target.value)}
+              placeholder="Active Diamond Foam"
+              style={{ width: '100%', height: 42, padding: '0 14px', background: 'var(--surface-sunken)', border: '1px solid ' + (errors.name ? '#E5634D' : 'var(--border-subtle)'), borderRadius: 'var(--radius-md)', color: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: 14, outline: 'none', boxSizing: 'border-box' }} />
+            <FieldError msg={errors.name} />
+          </div>
+          <div>
+            <window.FieldLabel hint="auto-gerado do nome, editável">Slug / URL</window.FieldLabel>
+            <div style={{ display: 'flex', alignItems: 'center', height: 42, background: 'var(--surface-sunken)', border: '1px solid ' + (slugDuplicate ? '#E5634D' : 'var(--border-subtle)'), borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
+              <span style={{ padding: '0 10px 0 14px', fontSize: 12, color: 'var(--muted-text)', whiteSpace: 'nowrap' }}>/produto/</span>
+              <input value={slug}
+                onChange={(e) => { setSlug(window.slugify(e.target.value)); setSlugManual(true); }}
+                style={{ flex: 1, height: '100%', background: 'transparent', border: 'none', outline: 'none', color: 'var(--sky-blue)', fontFamily: 'var(--font-body)', fontSize: 13, paddingRight: 10 }} />
+              {slugManual && (
+                <button onClick={() => { setSlugManual(false); setSlug(window.slugify(name)); }} title="Resetar para auto"
+                  style={{ padding: '0 10px', background: 'none', border: 'none', color: 'var(--muted-text)', cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}>
+                  <i data-lucide="rotate-ccw" style={{ width: 13, height: 13 }}></i>
+                </button>
+              )}
             </div>
+            {slugDuplicate && <FieldError msg="Slug já existe — edite manualmente ou use outro nome" />}
           </div>
-          <Input label="Linha" defaultValue={seed ? seed.line : ''} placeholder="Linha Frotas" />
-          <Select label="Categoria" placeholder="Selecione" options={cats} defaultValue={seed ? seed.category : ''} />
-          <Input label="Diluição" defaultValue={seed ? seed.dilution : ''} placeholder="3–5%" />
+        </FieldRow>
+
+        <div style={{ marginTop: 16 }}>
+          <FieldRow cols={2} mob={mob}>
+            <div>
+              <window.FieldLabel>Linha comercial</window.FieldLabel>
+              <input value={line} onChange={(e) => setLine(e.target.value)}
+                placeholder="Linha Frotas"
+                style={{ width: '100%', height: 42, padding: '0 14px', background: 'var(--surface-sunken)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', color: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: 14, outline: 'none', boxSizing: 'border-box' }} />
+            </div>
+            <div>
+              <window.FieldLabel>Diluição recomendada</window.FieldLabel>
+              <input value={dilution} onChange={(e) => setDilution(e.target.value)}
+                placeholder="3–5%"
+                style={{ width: '100%', height: 42, padding: '0 14px', background: 'var(--surface-sunken)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', color: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: 14, outline: 'none', boxSizing: 'border-box' }} />
+            </div>
+            <div>
+              <window.FieldLabel>Categoria <span style={{ color: '#E5634D' }}>*</span></window.FieldLabel>
+              <div style={{ position: 'relative' }}>
+                <select value={category} onChange={(e) => { setCategory(e.target.value); setErrors(err => ({ ...err, category: null })); }}
+                  style={{ width: '100%', height: 42, padding: '0 34px 0 14px', appearance: 'none', WebkitAppearance: 'none', background: 'var(--surface-sunken)', border: '1px solid ' + (errors.category ? '#E5634D' : 'var(--border-subtle)'), borderRadius: 'var(--radius-md)', color: category ? 'var(--white)' : 'var(--muted-text)', fontFamily: 'var(--font-body)', fontSize: 14, cursor: 'pointer', boxSizing: 'border-box' }}>
+                  <option value="" style={{ background: '#112644' }}>Selecione a categoria</option>
+                  {cats.map(c => <option key={c} value={c} style={{ background: '#112644' }}>{c}</option>)}
+                </select>
+                <span style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'var(--muted-text)', fontSize: 10 }}>▾</span>
+              </div>
+              <FieldError msg={errors.category} />
+            </div>
+          </FieldRow>
         </div>
       </Section>
 
-      <Section title="Descrição">
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 8 }}>
-          <button onClick={() => setPreview(!preview)} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'none', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-pill)', color: preview ? 'var(--sky-blue)' : 'var(--muted-text)', cursor: 'pointer', fontSize: 11.5, height: 30, padding: '0 12px' }}>
-            <i data-lucide={preview ? 'pencil' : 'eye'} style={{ width: 13, height: 13 }}></i>{preview ? 'Editar' : 'Preview'}
-          </button>
+      {/* ── 2. TEXTOS ── */}
+      <Section title="Textos do produto">
+        <div style={{ marginBottom: 16 }}>
+          <window.FieldLabel hint="exibida no card do catálogo (máx. 120 car.)">Descrição curta</window.FieldLabel>
+          <input value={shortDesc} onChange={(e) => setShortDesc(e.target.value.slice(0, 120))}
+            placeholder="Formulação alcalina superconcentrada para lavagem touchless..."
+            style={{ width: '100%', height: 42, padding: '0 14px', background: 'var(--surface-sunken)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', color: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: 14, outline: 'none', boxSizing: 'border-box' }} />
+          <div style={{ textAlign: 'right', fontSize: 11, color: shortDesc.length >= 100 ? '#E5A03D' : 'var(--muted-text)', marginTop: 4 }}>{shortDesc.length}/120</div>
         </div>
-        {preview ? (
-          <div style={{ minHeight: 120, padding: 14, background: 'var(--surface-sunken)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', color: 'var(--light-gray)', fontSize: 14, lineHeight: 1.6 }}>
-            <strong style={{ color: 'var(--white)' }}>Formulação alcalina superconcentrada</strong> que dissolve sujeiras severas <em>sem necessidade de esfregação</em>.
+
+        <div style={{ marginBottom: 16 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+            <window.FieldLabel>Descrição completa</window.FieldLabel>
+            <button onClick={() => setPreviewMode(!previewMode)}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'none', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-pill)', color: previewMode ? 'var(--sky-blue)' : 'var(--muted-text)', cursor: 'pointer', fontSize: 11, height: 28, padding: '0 10px' }}>
+              <i data-lucide={previewMode ? 'pencil' : 'eye'} style={{ width: 12, height: 12 }}></i>
+              {previewMode ? 'Editar' : 'Preview'}
+            </button>
           </div>
-        ) : (
-          <textarea defaultValue={"**Formulação alcalina superconcentrada** que dissolve sujeiras severas *sem necessidade de esfregação*."}
-            style={{ width: '100%', minHeight: 120, padding: 14, background: 'var(--surface-sunken)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', color: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.6, resize: 'vertical', outline: 'none', boxSizing: 'border-box' }} />
-        )}
-        <div style={{ fontSize: 11, color: 'var(--muted-text)', marginTop: 7 }}>Markdown suportado · **negrito**, *itálico*, listas</div>
+          {previewMode ? (
+            <div style={{ minHeight: 110, padding: 14, background: 'var(--surface-sunken)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', color: 'var(--light-gray)', fontSize: 13.5, lineHeight: 1.7 }}>
+              {fullDesc || <span style={{ color: 'var(--muted-text)', fontStyle: 'italic' }}>Sem conteúdo.</span>}
+            </div>
+          ) : (
+            <textarea value={fullDesc} onChange={(e) => setFullDesc(e.target.value)}
+              placeholder={"**Formulação alcalina superconcentrada** que dissolve sujeiras severas *sem necessidade de esfregação*.\n\nDesenvolvida para sistemas de lavagem touchless..."}
+              style={{ width: '100%', minHeight: 110, padding: 14, background: 'var(--surface-sunken)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', color: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: 13.5, lineHeight: 1.7, resize: 'vertical', outline: 'none', boxSizing: 'border-box' }} />
+          )}
+          <div style={{ fontSize: 11, color: 'var(--muted-text)', marginTop: 5 }}>Markdown: **negrito**, *itálico*, listas com -</div>
+        </div>
+
+        <div>
+          <window.FieldLabel hint="dados técnicos do produto, ex: pH, diluição, embalagem">Ficha técnica</window.FieldLabel>
+          <textarea value={techSheet} onChange={(e) => setTechSheet(e.target.value)}
+            placeholder={"pH (concentrado): 13,2\nDiluição recomendada: 3–5%\nAspecto: líquido viscoso azul\nDensidade: 1,05 g/cm³\nValidade: 24 meses\nEmbalagem: bombona 25 L"}
+            style={{ width: '100%', minHeight: 120, padding: 14, background: 'var(--surface-sunken)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', color: 'var(--white)', fontFamily: '"Courier New", monospace', fontSize: 12.5, lineHeight: 1.8, resize: 'vertical', outline: 'none', boxSizing: 'border-box' }} />
+          <div style={{ fontSize: 11, color: 'var(--muted-text)', marginTop: 5 }}>Uma propriedade por linha, formato livre.</div>
+        </div>
       </Section>
 
-      <Section title="Atributos & badges">
+      {/* ── 3. ATRIBUTOS ── */}
+      <Section title="Atributos e badges">
         <window.FieldLabel hint="aparecem como pills no card do produto">Atributos</window.FieldLabel>
-        <window.TagInput tags={tags} onChange={setTags} />
+        <window.TagInput tags={tags} onChange={setTags} placeholder="Digite e pressione Enter..." />
       </Section>
 
-      <Section title="Comercial & estoque">
-        <div style={{ display: 'grid', gridTemplateColumns: mob ? '1fr' : '1fr 1fr 1fr', gap: 16 }}>
-          <Input label="Preço (R$)" type="number" defaultValue={seed ? seed.price : ''} placeholder="489.90" />
-          <Input label="Estoque" type="number" defaultValue={seed ? seed.stock : ''} hint="0 desabilita o botão de compra" placeholder="24" />
-          <Input label="URL do Mercado Livre" defaultValue={editing ? 'https://mercadolivre.com.br/...' : ''} placeholder="https://..." />
-        </div>
-        <div style={{ display: 'flex', gap: 32, marginTop: 20, flexWrap: 'wrap' }}>
-          <Switch checked={active} onChange={setActive} label="Ativo no catálogo" />
-          <Switch checked={featured} onChange={setFeatured} label="Destaque na home" />
-        </div>
-      </Section>
+      {/* ── 4. COMERCIAL & ESTOQUE ── */}
+      <Section title="Comercial e estoque">
+        <FieldRow cols={2} mob={mob}>
+          <div>
+            <window.FieldLabel>Estoque (unidades) <span style={{ color: '#E5634D' }}>*</span></window.FieldLabel>
+            <input type="number" min="0" step="1" value={stock} onChange={(e) => { setStock(e.target.value); setErrors(err => ({ ...err, stock: null })); }}
+              placeholder="24"
+              style={{ width: '100%', height: 42, padding: '0 14px', background: 'var(--surface-sunken)', border: '1px solid ' + (errors.stock || stockError ? '#E5634D' : 'var(--border-subtle)'), borderRadius: 'var(--radius-md)', color: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: 14, outline: 'none', boxSizing: 'border-box' }} />
+            {(errors.stock || stockError) && <FieldError msg={errors.stock || 'Deve ser um inteiro maior ou igual a 0'} />}
+            {stock !== '' && !stockError && stockInt === 0 && (
+              <div style={{ marginTop: 6, fontSize: 11.5, color: '#E5A03D', display: 'flex', alignItems: 'center', gap: 5 }}>
+                <i data-lucide="info" style={{ width: 13, height: 13 }}></i>
+                Estoque 0 — botão "Comprar" desabilitado no site público.
+              </div>
+            )}
+          </div>
+          <div>
+            <window.FieldLabel hint="abre em nova aba">Link Mercado Livre</window.FieldLabel>
+            <input value={mlUrl} onChange={(e) => setMlUrl(e.target.value)}
+              placeholder="https://www.mercadolivre.com.br/..."
+              type="url"
+              style={{ width: '100%', height: 42, padding: '0 14px', background: 'var(--surface-sunken)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', color: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: 13, outline: 'none', boxSizing: 'border-box' }} />
+          </div>
+        </FieldRow>
 
-      <Section title="Imagens do produto">
-        <div style={{ fontSize: 12.5, color: 'var(--muted-text)', marginBottom: 16 }}>
-          Sem limite de imagens. Cada uma passa por recorte 1:1 antes de salvar. Arraste para reordenar — a primeira é a <strong style={{ color: 'var(--light-gray)' }}>Principal</strong> (capa do card).
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: mob ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: 12 }}>
-          {images.map((img, i) => (
-            <div key={img.id} draggable
-              onDragStart={() => { dragIdx.current = i; }}
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={() => onDrop(i)}
-              style={{ position: 'relative', aspectRatio: '1 / 1', borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid ' + (i === 0 ? 'var(--nerta-blue)' : 'var(--border-subtle)'), background: 'radial-gradient(120% 100% at 50% 25%, #163258, #0D1B2E)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--navy-border)', cursor: 'grab' }}>
-              <i data-lucide={img.icon} style={{ width: 34, height: 34 }}></i>
-              {i === 0 && <span style={{ position: 'absolute', top: 8, left: 8, fontSize: 9, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#fff', background: 'var(--nerta-blue)', borderRadius: 999, padding: '3px 8px' }}>Principal</span>}
-              <button onClick={() => setImages((im) => im.filter((x) => x.id !== img.id))} style={{ position: 'absolute', top: 6, right: 6, width: 26, height: 26, borderRadius: 999, background: 'var(--scrim)', border: '1px solid var(--border-subtle)', color: '#E5634D', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-                <i data-lucide="trash-2" style={{ width: 13, height: 13 }}></i>
-              </button>
+        <div style={{ display: 'flex', gap: 32, marginTop: 22, flexWrap: 'wrap', padding: '18px 20px', background: 'var(--surface-sunken)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+          <div>
+            <window.Switch checked={active} onChange={setActive} label="Ativo no catálogo" />
+            <div style={{ fontSize: 11, color: 'var(--muted-text)', marginTop: 5, marginLeft: 54 }}>Independente do estoque</div>
+          </div>
+          <div>
+            <window.Switch checked={featured} onChange={setFeatured} label="Destaque na home" />
+            <div style={{ fontSize: 11, color: 'var(--muted-text)', marginTop: 5, marginLeft: 54 }}>
+              {featured && !active
+                ? <span style={{ color: '#E5A03D', display: 'flex', alignItems: 'center', gap: 4 }}>
+                    <i data-lucide="alert-triangle" style={{ width: 12, height: 12 }}></i>
+                    Produto inativo não aparece na home
+                  </span>
+                : 'Só aparece na home se também ativo'}
             </div>
-          ))}
-          <button onClick={() => setCropOpen(true)} style={{ aspectRatio: '1 / 1', borderRadius: 'var(--radius-md)', border: '1px dashed var(--border-strong)', background: 'transparent', color: 'var(--muted-text)', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
-            <i data-lucide="upload" style={{ width: 24, height: 24 }}></i>
-            <span style={{ fontSize: 11.5 }}>Adicionar</span>
-          </button>
+          </div>
         </div>
       </Section>
 
-      {/* sticky save bar */}
-      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, position: 'sticky', bottom: 0, padding: '16px 0', background: 'linear-gradient(transparent, var(--navy-deep) 30%)' }}>
-        <Button variant="secondary" href="Nerta-Admin-Produtos.html">Cancelar</Button>
-        <Button variant="primary" leftIcon={<i data-lucide="check" style={{ width: 16, height: 16 }}></i>}>{editing ? 'Salvar alterações' : 'Criar produto'}</Button>
+      {/* ── 5. IMAGENS — FORA DESTA TELA ── */}
+      <div style={{
+        padding: '18px 22px', marginBottom: 20,
+        background: 'rgba(30,62,90,0.3)', border: '1px dashed var(--border-strong)',
+        borderRadius: 'var(--radius-lg)', display: 'flex', alignItems: 'flex-start', gap: 14,
+      }}>
+        <div style={{ width: 36, height: 36, flex: 'none', borderRadius: 'var(--radius-sm)', background: 'var(--surface-sunken)', border: '1px solid var(--border-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--muted-text)' }}>
+          <i data-lucide="image" style={{ width: 18, height: 18 }}></i>
+        </div>
+        <div>
+          <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--light-gray)', marginBottom: 4 }}>Galeria de imagens — fora desta tela</div>
+          <div style={{ fontSize: 12.5, color: 'var(--muted-text)', lineHeight: 1.6 }}>
+            Upload e gestão da galeria de produto (recorte 1:1, reordenação, imagem principal) serão gerenciados em tela dedicada, acessível pelo botão "Imagens" na listagem de produtos.
+          </div>
+        </div>
       </div>
 
-      <Modal open={cropOpen} hideFooter width={400} onClose={() => setCropOpen(false)}>
-        <window.ImageCropper onConfirm={addImage} onCancel={() => setCropOpen(false)} />
-      </Modal>
+      {/* ── Barra de ação fixa ── */}
+      <div style={{
+        position: 'sticky', bottom: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        gap: 12, padding: '14px 0 2px',
+        background: 'linear-gradient(transparent, var(--navy-deep) 32%)',
+      }}>
+        <div>
+          {saved && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'var(--teal)' }}>
+              <i data-lucide="check-circle" style={{ width: 16, height: 16 }}></i>
+              {editing ? 'Alterações salvas' : 'Produto criado'}
+            </div>
+          )}
+          {networkErr && <div style={{ fontSize: 12, color: '#E5634D' }}>{networkErr}</div>}
+        </div>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <Button variant="secondary" href="produtos.html">Cancelar</Button>
+          <Button variant="primary" onClick={handleSave}
+            leftIcon={saving ? <window.Spinner size={15} color="#fff" /> : <i data-lucide="check" style={{ width: 15, height: 15 }}></i>}>
+            {saving ? 'Salvando…' : (editing ? 'Salvar alterações' : 'Criar produto')}
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
