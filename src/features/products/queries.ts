@@ -1,5 +1,5 @@
 import { createClient } from "@/infrastructure/supabase/server";
-import type { Category, ProductSummary, ProductImage } from "./types";
+import type { Category, Product, ProductSummary, ProductImage } from "./types";
 
 type GetProductsFilters = {
   category_slug?: string;
@@ -64,6 +64,35 @@ export async function getProducts(filters: GetProductsFilters = {}): Promise<Pro
   if (error) throw error;
 
   return ((data ?? []) as unknown as ProductRow[]).map(toProductSummary);
+}
+
+const PRODUCT_DETAIL_SELECT =
+  "id, slug, name, line, category_id, category:categories(id, name, slug, created_at), dilution, attributes, short_description, description, stock, featured, active, ml_url, images:product_images(id, product_id, storage_path, url, position, created_at), created_at, updated_at";
+
+type ProductDetailRow = Omit<Product, "images" | "cover_image">  & {
+  images: ProductImage[];
+};
+
+function toProduct(row: ProductDetailRow): Product {
+  const images = [...row.images].sort((a, b) => a.position - b.position);
+  const cover_image = images.find((image) => image.position === 1) ?? null;
+
+  return { ...row, images, cover_image };
+}
+
+export async function getProductBySlug(slug: string): Promise<Product | null> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("products")
+    .select(PRODUCT_DETAIL_SELECT)
+    .eq("slug", slug)
+    .eq("active", true)
+    .single();
+
+  if (error || !data) return null;
+
+  return toProduct(data as unknown as ProductDetailRow);
 }
 
 export async function getCategories(): Promise<Category[]> {
