@@ -34,16 +34,16 @@ description: "Task list for feature implementation"
 ### Tests for User Story 1 (MANDATORY — write first, must fail) ⚠️
 
 - [X] T004 [P] [US1] Vitest: `getProductBySlug` retorna produto completo com galeria ordenada por `position`, em `src/features/products/queries.test.ts`
-- [ ] T005 [P] [US1] RTL: `ProductGallery` exibe placeholder quando o produto não tem imagens, em `src/features/products/components/ProductGallery.test.tsx`
-- [ ] T006 [P] [US1] RTL: `ProductSpecs` omite a seção sem quebrar o layout quando não há ficha técnica cadastrada (Edge Case), em `src/features/products/components/ProductSpecs.test.tsx`
+- [X] T005 [P] [US1] RTL: `ProductGallery` exibe placeholder quando o produto não tem imagens, em `src/features/products/components/ProductGallery.test.tsx`
+- [X] T006 [P] [US1] RTL: `ProductSpecs` omite a seção sem quebrar o layout quando não há ficha técnica cadastrada (Edge Case), em `src/features/products/components/ProductSpecs.test.tsx`
 
 ### Implementation for User Story 1
 
-- [ ] T007 [P] [US1] Implementar `ProductGallery.tsx` (RSC) em `src/features/products/components/ProductGallery.tsx` (depende de T003)
-- [ ] T008 [P] [US1] Implementar `ProductSpecs.tsx` (RSC) em `src/features/products/components/ProductSpecs.tsx`
-- [ ] T009 [US1] Implementar `src/app/(public)/produtos/[slug]/page.tsx` (RSC) — chama `getProductBySlug(slug)`, compõe galeria/specs/nome/linha/categoria (depende de T001, T007, T008)
+- [X] T007 [P] [US1] Implementar `ProductGallery.tsx` (RSC) em `src/features/products/components/ProductGallery.tsx` (depende de T003)
+- [X] T008 [P] [US1] Implementar `ProductSpecs.tsx` (RSC) em `src/features/products/components/ProductSpecs.tsx`
+- [X] T009 [US1] Implementar `src/app/(public)/produtos/[slug]/page.tsx` (RSC) — chama `getProductBySlug(slug)`, compõe galeria/specs/nome/linha/categoria (depende de T001, T007, T008)
 - [X] T010 [US1] Tratar categoria órfã (categoria excluída): exibir demais informações do produto normalmente, sem categoria inválida (Edge Case)
-- [ ] T011 [US1] Exportar `ProductGallery`, `ProductSpecs` em `src/features/products/index.ts`
+- [X] T011 [US1] Exportar `ProductGallery`, `ProductSpecs` em `src/features/products/index.ts`
 
 **Checkpoint**: User Story 1 funcional e testável de forma independente.
 
@@ -79,11 +79,11 @@ description: "Task list for feature implementation"
 ### Tests for User Story 3 (MANDATORY — write first, must fail) ⚠️
 
 - [X] T017 [P] [US3] Vitest: `getProductBySlug` retorna `null` tanto para slug inexistente quanto para produto com `active = false` (mesmo retorno, sem diferenciação), em `src/features/products/queries.test.ts`
-- [ ] T018 [P] [US3] Teste de integração: `app/(public)/produtos/[slug]/page.tsx` chama `notFound()` do Next.js quando `getProductBySlug` retorna `null`
+- [X] T018 [P] [US3] Teste de integração: `app/(public)/produtos/[slug]/page.tsx` chama `notFound()` do Next.js quando `getProductBySlug` retorna `null`
 
 ### Implementation for User Story 3
 
-- [ ] T019 [US3] Confirmar que `src/app/(public)/produtos/[slug]/page.tsx` chama `notFound()` para ambos os casos de `null` (já implementado em T009 — esta task valida que não há branch alternativa que distinga os dois casos)
+- [X] T019 [US3] Confirmar que `src/app/(public)/produtos/[slug]/page.tsx` chama `notFound()` para ambos os casos de `null` (já implementado em T009 — esta task valida que não há branch alternativa que distinga os dois casos)
 
 **Checkpoint**: Todas as user stories funcionais independentemente.
 
