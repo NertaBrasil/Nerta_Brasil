@@ -91,8 +91,8 @@ description: "Task list for feature implementation"
 
 ## Phase 5: Polish & Cross-Cutting Concerns
 
-- [ ] T020 [P] Validar manualmente os cenários de `specs/001-vitrine-catalogo/quickstart.md` §2.3/§2.4 referentes à página de produto
-- [ ] T021 Rodar oxlint em `src/features/products/components/` (`ProductGallery`, `ProductSpecs`, `BuyButton`) e em `src/app/(public)/produtos/[slug]/` — zero violações do design system
+- [X] T020 [P] Validar manualmente os cenários de `specs/001-vitrine-catalogo/quickstart.md` §2.3/§2.4 referentes à página de produto
+- [X] T021 Rodar oxlint em `src/features/products/components/` (`ProductGallery`, `ProductSpecs`, `BuyButton`) e em `src/app/(public)/produtos/[slug]/` — zero violações do design system
 
 ---
 
