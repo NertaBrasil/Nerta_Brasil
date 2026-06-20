@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Nerta Brasil",
-  description: "Química automotiva premium belga, distribuída pela Provisão.",
+  description: "Química automotiva premium belga.",
 };
 
 export default function RootLayout({

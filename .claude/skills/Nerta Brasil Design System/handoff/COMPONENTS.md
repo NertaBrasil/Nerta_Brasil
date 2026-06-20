@@ -69,13 +69,13 @@ Campos escuros para `/admin`. Fundo navy-sunken, borda fina, **foco azul com rin
 Ações destrutivas usam **vermelho `#D64C39`** (hover `#E0573F`), nunca o azul da marca. Há também `danger-ghost` (outline vermelho) para remoções mais leves. Demais variantes inalteradas.
 
 ## Switch (`core/Switch`)
-Toggle de boolean (ativo/destaque). Trilho navy, preenche azul Nerta quando ligado. `checked`, `onChange(next)`, `size` (sm|md), `label`, `disabled`.
+Toggle de boolean (ativo/destaque). Trilho navy, preenche azul Nerta quando ligado. `checked`, `onChange(next)`, `size` (sm|md), `label`, `disabled`. **Suporte a teclado:** `tabIndex={0}`, Enter/Espaço alternam o estado. Acessibilidade: `role="switch"` + `aria-checked`.
 
 ## Modal (`core/Modal`)
-Diálogo centralizado sobre scrim escuro (`var(--scrim)` + blur). `open`, `title`, `onClose`, `onConfirm`, `confirmLabel`, `cancelLabel`, `destructive` (botão vermelho), `hideFooter` (corpo custom — usado para forms de categoria/usuário e para o cropper). Clique no scrim fecha.
+Diálogo centralizado sobre scrim escuro (`var(--scrim)` + blur). `open`, `title`, `onClose`, `onConfirm`, `confirmLabel`, `cancelLabel`, `destructive` (botão vermelho), `hideFooter` (corpo custom — usado para forms de categoria/usuário e para o cropper). Clique no scrim fecha. **Focus trap:** ao abrir, foco vai para o 1º elemento focável; Tab/Shift+Tab circulam só dentro do modal. **ESC fecha** (dispara `onClose`). `role="dialog"` + `aria-modal="true"`.
 
 ## Sidebar shell (`ui_kits/admin/AdminShell`)
-Casca compartilhada de todas as rotas admin. Sidebar fixa no desktop (item ativo com barra lateral azul + fundo `blue-soft`), **drawer com hambúrguer no mobile** (`<900px`). Top bar sticky com título, nome do usuário, **RoleBadge** e botão Sair. Itens: Produtos, Categorias, Destaques, Usuários — **Usuários é ocultado para `editor`** (prop `userRole`).
+Casca compartilhada de todas as rotas admin. Sidebar fixa no desktop (item ativo com barra lateral azul + fundo `blue-soft`), **drawer com hambúrguer no mobile** (`<900px`). Top bar sticky com título, nome do usuário, **RoleBadge** e botão Sair. Itens: Produtos, Categorias, Destaques, Usuários — para `editor`, Usuários aparece **visível com ícone de cadeado** (`<span>` não clicável, `cursor: not-allowed`) em vez de oculto; o bloqueio real é feito no middleware Next.js (prop `userRole`).
 
 ## Helpers de tabela (`AdminShell` + `widgets`)
 - **RoleBadge** — admin=dourado, editor=sky blue.
@@ -86,10 +86,31 @@ Casca compartilhada de todas as rotas admin. Sidebar fixa no desktop (item ativo
 - Tabelas alternam cor de linha (navy-light / navy-mid), header em `surface-raised`.
 
 ## TagInput (`widgets`)
-Campo de atributos/badges: digite + **Enter** adiciona pill (teal, removível com ×); Backspace remove a última. `tags[]`, `onChange(next[])`.
+Campo de atributos/badges: digite + **Enter** adiciona pill (teal, removível com ×); Backspace remove a última. `tags[]`, `onChange(next[])`, `placeholder`.
 
 ## ImageCropper (`widgets`)
 Interface de **recorte 1:1**: moldura quadrada com overlay azul, arraste para posicionar, slider de zoom, Confirmar/Cancelar. Renderizado dentro de um `Modal hideFooter`. Após confirmar, a imagem entra na galeria.
 
 ## Galeria de imagens (form de produto)
 Grid de imagens **reordenável por drag-and-drop**; a primeira recebe o selo azul **"Principal"** (capa do card); cada uma tem botão de excluir; tile "Adicionar" abre o cropper. Sem limite de imagens.
+
+## Spinner
+Indicador de carregamento inline, não bloqueia layout. `size` (px, padrão 20), `color` (padrão `var(--sky-blue)`). Animação `nerta-spin` injetada uma vez no `<head>` via JS, sem dependência externa.
+
+```tsx
+{loading && <Spinner size={24} />}
+```
+
+## NetworkError
+Banner de erro de rede, dismissable. `message` (string | null — falsy não renderiza nada), `onDismiss` (opcional, exibe botão ×). Fundo `rgba(229,99,77,0.1)`, borda `rgba(229,99,77,0.4)`, ícone `alert-circle` (Lucide).
+
+```tsx
+<NetworkError message={error} onDismiss={() => setError(null)} />
+```
+
+## LoadingSkeleton
+Esqueleto animado para estado de carregamento inicial (keyframe `skeleton-pulse`). `rows` (padrão 5), `type`: `'table'` (linhas com thumb + ações) | `'cards'` (grid estilo Destaques).
+
+```tsx
+{loading ? <LoadingSkeleton rows={6} type="table" /> : <TabelaProdutos />}
+```
