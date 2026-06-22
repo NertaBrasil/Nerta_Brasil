@@ -15,8 +15,8 @@ const FIXTURE_PRODUCT = {
   stock: 10,
   featured: false,
   active: true,
-  ml_url: "https://produto.mercadolivre.com.br/1",
-  purchase_mode: "mercado_livre" as const,
+  ml_url: null,
+  purchase_mode: "formulario_parceria" as const,
   images: [],
   cover_image: null,
   created_at: "2026-01-01T00:00:00Z",
@@ -34,47 +34,46 @@ vi.mock("@/features/products", async (importOriginal) => {
   return { ...actual, getProductBySlug: getProductBySlugMock };
 });
 
-const { default: ProductPage } = await import("./page");
+vi.mock("@/features/partner-applications", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@/features/partner-applications")>();
+  return {
+    ...actual,
+    PartnerApplicationForm: ({ productId, productName }: { productId: string; productName: string }) => (
+      <div data-testid="partner-application-form">
+        {productId} - {productName}
+      </div>
+    ),
+  };
+});
 
-describe("ProductPage", () => {
+const { default: PartnerApplicationPage } = await import("./page");
+
+describe("PartnerApplicationPage", () => {
   beforeEach(() => {
     notFoundMock.mockClear();
     getProductBySlugMock.mockReset();
   });
 
-  it("chama notFound() quando getProductBySlug retorna null", async () => {
+  it("chama notFound() quando o produto não existe ou está inativo", async () => {
     getProductBySlugMock.mockResolvedValue(null);
 
     await expect(
-      ProductPage({ params: Promise.resolve({ slug: "slug-inexistente" }) })
+      PartnerApplicationPage({ params: Promise.resolve({ slug: "slug-inexistente" }) })
     ).rejects.toThrow("NEXT_NOT_FOUND");
 
     expect(notFoundMock).toHaveBeenCalledOnce();
   });
 
-  it("renderiza nome, linha comercial, descrição e categoria do produto encontrado", async () => {
+  it("renderiza o formulário de parceria com o produto encontrado", async () => {
     getProductBySlugMock.mockResolvedValue(FIXTURE_PRODUCT);
 
-    const element = await ProductPage({ params: Promise.resolve({ slug: "produto-teste" }) });
+    const element = await PartnerApplicationPage({
+      params: Promise.resolve({ slug: "produto-teste" }),
+    });
     render(element);
 
-    expect(screen.getByText("Produto Teste")).toBeInTheDocument();
-    expect(screen.getByText("Linha Frotas")).toBeInTheDocument();
-    expect(screen.getByText("Descrição completa do produto teste")).toBeInTheDocument();
-    expect(screen.getByText("Categoria A")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /comprar no mercado livre/i })).toHaveAttribute(
-      "href",
-      "https://produto.mercadolivre.com.br/1"
+    expect(screen.getByTestId("partner-application-form")).toHaveTextContent(
+      "1 - Produto Teste"
     );
-  });
-
-  it("renderiza normalmente quando a categoria está ausente (órfã)", async () => {
-    getProductBySlugMock.mockResolvedValue({ ...FIXTURE_PRODUCT, category: null });
-
-    const element = await ProductPage({ params: Promise.resolve({ slug: "produto-teste" }) });
-    render(element);
-
-    expect(screen.getByText("Produto Teste")).toBeInTheDocument();
-    expect(screen.queryByText("Categoria A")).not.toBeInTheDocument();
   });
 });

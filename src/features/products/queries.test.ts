@@ -68,6 +68,7 @@ const FIXTURE_PRODUCT_DETAIL = {
   featured: false,
   active: true,
   ml_url: "https://produto.mercadolivre.com.br/1",
+  purchase_mode: "mercado_livre",
   images: [
     {
       id: "img-2",
@@ -262,6 +263,15 @@ describe("getProductBySlug", () => {
     expect(product?.cover_image?.position).toBe(1);
     expect(product?.dilution).toBe("3–5%");
     expect(product?.attributes).toEqual(["Touchless", "Agro"]);
+  });
+
+  it("retorna purchase_mode do produto (default 'mercado_livre' garantido pela coluna no banco, FR-002)", async () => {
+    const builder = createSingleQueryBuilder(FIXTURE_PRODUCT_DETAIL);
+    fromMock.mockReturnValue(builder);
+
+    const product = await getProductBySlug("produto-detalhe");
+
+    expect(product?.purchase_mode).toBe("mercado_livre");
   });
 
   it("retorna null quando o slug não corresponde a nenhum produto", async () => {
