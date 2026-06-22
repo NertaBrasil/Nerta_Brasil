@@ -9,6 +9,11 @@ vi.mock("../actions", () => ({
   deleteProduct: deleteProductMock,
 }));
 
+const toggleFeaturedMock = vi.fn();
+vi.mock("@/features/admin/featured/actions", () => ({
+  toggleFeatured: toggleFeaturedMock,
+}));
+
 const refreshMock = vi.fn();
 vi.mock("next/navigation", () => ({
   useRouter: () => ({ refresh: refreshMock }),
@@ -34,6 +39,7 @@ describe("ProductRow", () => {
   beforeEach(() => {
     toggleProductActiveMock.mockReset();
     deleteProductMock.mockReset();
+    toggleFeaturedMock.mockReset();
     refreshMock.mockReset();
   });
 
@@ -59,5 +65,38 @@ describe("ProductRow", () => {
       "href",
       "/admin/produtos/prod-1"
     );
+  });
+
+  it("marca o produto como destaque em uma única interação", async () => {
+    toggleFeaturedMock.mockResolvedValue({ success: true, data: undefined });
+
+    render(
+      <table>
+        <tbody>
+          <ProductRow product={PRODUCT} />
+        </tbody>
+      </table>
+    );
+
+    await userEvent.click(screen.getByRole("button", { name: /destacar/i }));
+
+    expect(toggleFeaturedMock).toHaveBeenCalledWith("prod-1", true);
+    expect(refreshMock).toHaveBeenCalled();
+  });
+
+  it("remove o destaque quando o produto já está destacado", async () => {
+    toggleFeaturedMock.mockResolvedValue({ success: true, data: undefined });
+
+    render(
+      <table>
+        <tbody>
+          <ProductRow product={{ ...PRODUCT, featured: true }} />
+        </tbody>
+      </table>
+    );
+
+    await userEvent.click(screen.getByRole("button", { name: /remover destaque/i }));
+
+    expect(toggleFeaturedMock).toHaveBeenCalledWith("prod-1", false);
   });
 });

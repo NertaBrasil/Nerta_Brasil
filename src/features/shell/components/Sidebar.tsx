@@ -14,6 +14,7 @@ const NAV_LINKS = [
   { href: "/admin", label: "Início" },
   { href: "/admin/produtos", label: "Produtos" },
   { href: "/admin/categorias", label: "Categorias" },
+  { href: "/admin/destaques", label: "Destaques" },
 ];
 
 export function Sidebar({ profile }: SidebarProps) {

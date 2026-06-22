@@ -14,3 +14,5 @@ Controle manual de execução por ambiente. Ver [PROCEDURE.md](./PROCEDURE.md) p
 | 0004 | DOWN | grant_service_role_products | local | rollback validado via psql (UP→DOWN→UP) | 2026-06-22 | Matheus Dias Campos | rollback validado ✅ |
 | 0005 | UP | grant_service_role_product_images | local | supabase/migrations/20260622203538_grant_service_role_product_images.sql | 2026-06-22 | Matheus Dias Campos | executado ✅ |
 | 0005 | DOWN | grant_service_role_product_images | local | rollback validado via psql (UP→DOWN→UP) | 2026-06-22 | Matheus Dias Campos | rollback validado ✅ |
+| 0006 | UP | products_featured_position | local | supabase/migrations/20260622183450_products_featured_position.sql | 2026-06-22 | Matheus Dias Campos | validado ✅ |
+| 0006 | DOWN | products_featured_position | local | — | 2026-06-22 | Matheus Dias Campos | rollback validado ✅ |

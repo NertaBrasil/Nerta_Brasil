@@ -97,6 +97,21 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   return toProduct(data as unknown as ProductDetailRow);
 }
 
+export async function getFeaturedProducts(): Promise<ProductSummary[]> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("products")
+    .select(PRODUCT_CARD_SELECT)
+    .eq("active", true)
+    .eq("featured", true)
+    .order("featured_position", { ascending: true });
+
+  if (error) throw error;
+
+  return ((data ?? []) as unknown as ProductRow[]).map(toProductSummary);
+}
+
 export async function getCategories(): Promise<Category[]> {
   const supabase = await createClient();
 
