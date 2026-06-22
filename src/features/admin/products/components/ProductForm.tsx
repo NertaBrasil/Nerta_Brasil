@@ -71,7 +71,6 @@ export function ProductForm({ categories, product }: ProductFormProps) {
     }
 
     router.push("/admin/produtos");
-    router.refresh();
   }
 
   return (
