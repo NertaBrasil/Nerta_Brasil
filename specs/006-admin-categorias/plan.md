@@ -62,7 +62,7 @@ specs/006-admin-categorias/
 
 ```text
 src/
-├── app/(admin)/categorias/
+├── app/admin/(protected)/categorias/
 │   └── page.tsx                      # RSC — compõe CategoryList + entradas para criar/editar
 └── features/admin/categories/
     ├── components/

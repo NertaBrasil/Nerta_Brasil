@@ -76,50 +76,59 @@
 
 /* ============================================================
    Base / reset — canvas navy, tipografia padrão
+   Estes resets vivem em @layer base para que utilities do Tailwind
+   (ex: text-white em um <a>) sempre vençam na cascata — CSS layers
+   decidem por ordem de camada antes de especificidade, então uma
+   regra fora de qualquer @layer venceria utilities mesmo com menor
+   especificidade.
    ============================================================ */
-body {
-  margin: 0;
-  background: var(--color-navy-deep);
-  color: var(--color-muted-text);
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  line-height: var(--leading-body);
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+@layer base {
+  body {
+    margin: 0;
+    background: var(--color-navy-deep);
+    color: var(--color-muted-text);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--leading-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+    font-family: var(--font-display);
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: var(--tracking-headline);
+    line-height: var(--leading-tight);
+  }
+
+  a {
+    color: var(--color-nerta-blue);
+    text-decoration: none;
+  }
+
+  ::selection {
+    background: rgba(30, 127, 200, 0.35);
+    color: #fff;
+  }
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0;
-  font-family: var(--font-display);
-  color: #fff;
-  font-weight: 700;
-  letter-spacing: var(--tracking-headline);
-  line-height: var(--leading-tight);
-}
-
-a {
-  color: var(--color-nerta-blue);
-  text-decoration: none;
-}
-
-::selection {
-  background: rgba(30, 127, 200, 0.35);
-  color: #fff;
-}
-
-/* Motivo assinatura: left-border accent block */
-.nerta-accent-block {
-  border-left: 3px solid var(--color-nerta-blue);
-  padding-left: var(--spacing-4);
-}
-.nerta-accent-block--gold {
-  border-left-color: var(--color-provisao-gold);
-}
-.nerta-accent-block--teal {
-  border-left-color: var(--color-teal);
+@layer components {
+  /* Motivo assinatura: left-border accent block */
+  .nerta-accent-block {
+    border-left: 3px solid var(--color-nerta-blue);
+    padding-left: var(--spacing-4);
+  }
+  .nerta-accent-block--gold {
+    border-left-color: var(--color-provisao-gold);
+  }
+  .nerta-accent-block--teal {
+    border-left-color: var(--color-teal);
+  }
 }

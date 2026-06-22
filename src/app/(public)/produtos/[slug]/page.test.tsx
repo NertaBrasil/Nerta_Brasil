@@ -16,6 +16,7 @@ const FIXTURE_PRODUCT = {
   featured: false,
   active: true,
   ml_url: "https://produto.mercadolivre.com.br/1",
+  purchase_mode: "mercado_livre" as const,
   images: [],
   cover_image: null,
   created_at: "2026-01-01T00:00:00Z",

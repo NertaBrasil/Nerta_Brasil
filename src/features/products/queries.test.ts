@@ -68,6 +68,7 @@ const FIXTURE_PRODUCT_DETAIL = {
   featured: false,
   active: true,
   ml_url: "https://produto.mercadolivre.com.br/1",
+  purchase_mode: "mercado_livre",
   images: [
     {
       id: "img-2",
@@ -125,7 +126,9 @@ vi.mock("@/infrastructure/supabase/server", () => ({
   createClient: vi.fn(async () => ({ from: fromMock })),
 }));
 
-const { getProducts, getCategories, getProductBySlug } = await import("./queries");
+const { getProducts, getCategories, getProductBySlug, getFeaturedProducts } = await import(
+  "./queries"
+);
 
 describe("getProducts", () => {
   beforeEach(() => {
@@ -177,6 +180,43 @@ describe("getProducts", () => {
     expect(products).toHaveLength(1);
     expect(products[0].category?.slug).toBe("categoria-a");
   });
+
+  it("não filtra por active quando includeInactive=true (uso administrativo)", async () => {
+    const builder = createQueryBuilder(FIXTURE_PRODUCTS);
+    fromMock.mockReturnValue(builder);
+
+    await getProducts({ includeInactive: true });
+
+    expect(builder.eq).not.toHaveBeenCalledWith("active", true);
+  });
+});
+
+describe("getFeaturedProducts", () => {
+  beforeEach(() => {
+    fromMock.mockReset();
+  });
+
+  it("consulta products filtrando active = true e featured = true, ordenado por featured_position ASC", async () => {
+    const builder = createQueryBuilder(FIXTURE_PRODUCTS);
+    fromMock.mockReturnValue(builder);
+
+    await getFeaturedProducts();
+
+    expect(fromMock).toHaveBeenCalledWith("products");
+    expect(builder.eq).toHaveBeenCalledWith("active", true);
+    expect(builder.eq).toHaveBeenCalledWith("featured", true);
+    expect(builder.order).toHaveBeenCalledWith("featured_position", { ascending: true });
+  });
+
+  it("retorna a lista mapeada como ProductSummary", async () => {
+    const builder = createQueryBuilder(FIXTURE_PRODUCTS);
+    fromMock.mockReturnValue(builder);
+
+    const products = await getFeaturedProducts();
+
+    expect(products).toHaveLength(2);
+    expect(products[0].slug).toBe("produto-disponivel");
+  });
 });
 
 describe("getCategories", () => {
@@ -223,6 +263,15 @@ describe("getProductBySlug", () => {
     expect(product?.cover_image?.position).toBe(1);
     expect(product?.dilution).toBe("3–5%");
     expect(product?.attributes).toEqual(["Touchless", "Agro"]);
+  });
+
+  it("retorna purchase_mode do produto (default 'mercado_livre' garantido pela coluna no banco, FR-002)", async () => {
+    const builder = createSingleQueryBuilder(FIXTURE_PRODUCT_DETAIL);
+    fromMock.mockReturnValue(builder);
+
+    const product = await getProductBySlug("produto-detalhe");
+
+    expect(product?.purchase_mode).toBe("mercado_livre");
   });
 
   it("retorna null quando o slug não corresponde a nenhum produto", async () => {

@@ -41,4 +41,42 @@ describe("BuyButton", () => {
     expect(screen.getByText("Produto Indisponível")).toBeInTheDocument();
     expect(screen.queryByRole("link")).not.toBeInTheDocument();
   });
+
+  it("usa o comportamento padrão (link ML) quando purchaseMode não é informado", () => {
+    render(<BuyButton slug="produto-x" stock={10} mlUrl="https://produto.mercadolivre.com.br/1" />);
+
+    expect(screen.getByRole("link", { name: /comprar no mercado livre/i })).toBeInTheDocument();
+  });
+
+  it("navega internamente para o Formulário de Parceria quando purchaseMode = 'formulario_parceria', mesmo sem estoque", async () => {
+    render(
+      <BuyButton
+        slug="produto-x"
+        stock={0}
+        mlUrl={null}
+        purchaseMode="formulario_parceria"
+      />
+    );
+
+    const link = screen.getByRole("link");
+    expect(link).toHaveAttribute("href", "/produtos/produto-x/parceria");
+    expect(link).not.toHaveAttribute("target");
+
+    await userEvent.click(link);
+    expect(trackBuyClickMock).not.toHaveBeenCalled();
+  });
+
+  it("preserva o comportamento de link ML quando purchaseMode = 'mercado_livre' explicitamente", () => {
+    render(
+      <BuyButton
+        slug="produto-x"
+        stock={10}
+        mlUrl="https://produto.mercadolivre.com.br/1"
+        purchaseMode="mercado_livre"
+      />
+    );
+
+    const link = screen.getByRole("link", { name: /comprar no mercado livre/i });
+    expect(link).toHaveAttribute("target", "_blank");
+  });
 });

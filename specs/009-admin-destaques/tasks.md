@@ -17,11 +17,11 @@ description: "Task list for feature implementation"
 
 **⚠️ CRITICAL**: Nenhuma user story pode começar antes desta fase.
 
-- [ ] T001 Criar migração de schema adicionando `products.featured_position int NULL` e o índice único parcial `products_featured_position_unique ON products (featured_position) WHERE featured_position IS NOT NULL` (ver `data-model.md`)
-- [ ] T002 [P] Criar `types.ts` em `src/features/admin/featured/types.ts` com `ReorderFeaturedInput = { productIds: string[] }`
-- [ ] T003 [P] Implementar `FeaturedGrid.tsx` (Client, shell inicial) em `src/features/admin/featured/components/FeaturedGrid.tsx` — renderiza os produtos com `featured = true` ordenados por `featured_position ASC`, reaproveitando `ProductCard`; exibe estado vazio claro quando não há nenhum (FR-003, FR-008)
-- [ ] T004 Criar `app/(admin)/destaques/page.tsx` (RSC) compondo `FeaturedGrid` (depende de T003)
-- [ ] T005 Exportar `FeaturedGrid` em `src/features/admin/featured/index.ts`
+- [X] T001 Criar migração de schema adicionando `products.featured_position int NULL` e o índice único parcial `products_featured_position_unique ON products (featured_position) WHERE featured_position IS NOT NULL` (ver `data-model.md`) — `db/migrations/0003_products_featured_position.{up,down}.sql`, validado localmente (UP/DOWN/UP) contra `supabase_db_Nerta_Brasil`; equivalente CLI em `supabase/migrations/20260622183450_products_featured_position.sql`, confirmado via `supabase db reset`; registrado em `db/controle/MIGRATIONS.md`.
+- [X] T002 [P] Criar `types.ts` em `src/features/admin/featured/types.ts` com `ReorderFeaturedInput = { productIds: string[] }`
+- [X] T003 [P] Implementar `FeaturedGrid.tsx` (Client, shell inicial) em `src/features/admin/featured/components/FeaturedGrid.tsx` — renderiza os produtos com `featured = true` ordenados por `featured_position ASC`; exibe estado vazio claro quando não há nenhum (FR-003, FR-008). **Desvio documentado**: não reaproveita `ProductCard` literalmente — esse componente envolve o card inteiro num `<Link>` para a página pública do produto, o que conflita com os controles administrativos (drag handle, botão "Remover destaque") que precisam ser interativos por si mesmos. Implementado com `Card` (mesmo primitivo de design system usado por `ProductCard`) diretamente, mantendo a mesma linguagem visual sem aninhar `<button>` dentro de `<a>`.
+- [X] T004 Criar `app/admin/(protected)/destaques/page.tsx` (RSC) compondo `FeaturedGrid` (depende de T003) — caminho corrigido: `(admin)` não existe neste projeto (ver CLAUDE.md, route groups). Adicionado também o link "Destaques" em `Sidebar.tsx` (`NAV_LINKS`), não listado explicitamente nas tasks mas necessário para a tela ser navegável.
+- [X] T005 Exportar `FeaturedGrid` em `src/features/admin/featured/index.ts` (junto com `getFeaturedProductsForAdmin`, `toggleFeatured`, `reorderFeatured` e os tipos — ver Notes sobre `queries.ts` não previsto explicitamente nas tasks)
 
 **Checkpoint**: Fundação pronta — user stories podem começar.
 
@@ -35,17 +35,17 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 1 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T006 [P] [US1] Vitest: `toggleFeatured(id, true)` atribui `featured_position = MAX(featured_position) + 1` entre os produtos atualmente destacados, ou `1` se nenhum estiver destacado, em `src/features/admin/featured/actions.test.ts`
-- [ ] T007 [P] [US1] Vitest: `toggleFeatured(id, true)` é idempotente — marcar um produto já destacado não altera sua `featured_position` (Edge Case de idempotência)
-- [ ] T008 [P] [US1] Vitest: `toggleFeatured(id, true)` permite marcar um produto inativo como destaque (Acceptance Scenario 2), em `src/features/admin/featured/actions.test.ts`
-- [ ] T009 [P] [US1] RTL: toggle de destaque em `FeaturedGrid`/lista de produtos é acionado em 1 interação (SC-001), em `src/features/admin/featured/components/FeaturedGrid.test.tsx`
+- [X] T006 [P] [US1] Vitest: `toggleFeatured(id, true)` atribui `featured_position = MAX(featured_position) + 1` entre os produtos atualmente destacados, ou `1` se nenhum estiver destacado, em `src/features/admin/featured/actions.test.ts`
+- [X] T007 [P] [US1] Vitest: `toggleFeatured(id, true)` é idempotente — marcar um produto já destacado não altera sua `featured_position` (Edge Case de idempotência)
+- [X] T008 [P] [US1] Vitest: `toggleFeatured(id, true)` permite marcar um produto inativo como destaque (Acceptance Scenario 2), em `src/features/admin/featured/actions.test.ts`
+- [X] T009 [P] [US1] RTL: toggle de destaque em `FeaturedGrid`/lista de produtos é acionado em 1 interação (SC-001), em `src/features/admin/featured/components/FeaturedGrid.test.tsx` (cobertura complementar em `ProductRow.test.tsx`, ver T012)
 
 ### Implementation for User Story 1
 
-- [ ] T010 [US1] Implementar `toggleFeatured(product_id, featured)` (caminho de marcação) em `src/features/admin/featured/actions.ts` — calcula `next_position` e faz `UPDATE` dentro de uma transação (depende de T001); exige `role IN ('admin', 'editor')` via `getCurrentAdminProfile()`
-- [ ] T011 [US1] Atualizar `getFeaturedProducts()` (já contratada em 001, reaproveitada por 004) para incluir `ORDER BY featured_position ASC`
-- [ ] T012 [US1] Adicionar controle de toggle (marcar) na listagem de produtos (`ProductList.tsx`, spec 007) chamando `toggleFeatured()` (depende de T010)
-- [ ] T013 [US1] Exportar `toggleFeatured` em `src/features/admin/featured/index.ts`
+- [X] T010 [US1] Implementar `toggleFeatured(product_id, featured)` (caminho de marcação) em `src/features/admin/featured/actions.ts` — calcula `next_position` e faz `UPDATE` (depende de T001); exige sessão válida via `getCurrentAdminProfile()`. **Desvio documentado**: sem transação real (supabase-js não suporta multi-statement sem função Postgres dedicada) — mesmo padrão já adotado em `reorderProductImages`/`deleteProductImage` (spec 008); idempotência e atomicidade lógica garantidas no nível da aplicação (verifica `featured` atual antes de calcular a nova posição).
+- [X] T011 [US1] Implementar `getFeaturedProducts()` em `src/features/products/queries.ts` com `ORDER BY featured_position ASC` — **Nota importante**: esta função ainda não existia em `develop` (só existe na branch não mergeada `feature/004-home-landing`, PR #15, que a implementou sem ordenação). Implementada aqui já com `.order("featured_position", { ascending: true })`. **Risco de merge documentado**: quando PR #15 for mergeado, haverá conflito textual trivial em `queries.ts` (duas versões de `getFeaturedProducts`, quase idênticas) — resolver mantendo esta versão (com `ORDER BY`).
+- [X] T012 [US1] Adicionar controle de toggle (marcar) na listagem de produtos (`ProductRow.tsx`, spec 007) chamando `toggleFeatured()` (depende de T010)
+- [X] T013 [US1] Exportar `toggleFeatured` em `src/features/admin/featured/index.ts`
 
 **Checkpoint**: User Story 1 funcional e testável de forma independente — MVP da feature.
 
@@ -59,12 +59,12 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 2 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T014 [P] [US2] Vitest: `toggleFeatured(id, false)` define `featured_position = NULL` e não renumera os demais produtos destacados, em `src/features/admin/featured/actions.test.ts`
+- [X] T014 [P] [US2] Vitest: `toggleFeatured(id, false)` define `featured_position = NULL` e não renumera os demais produtos destacados, em `src/features/admin/featured/actions.test.ts`
 
 ### Implementation for User Story 2
 
-- [ ] T015 [US2] Implementar o caminho de desmarcação em `toggleFeatured()` (mesma função de T010, ramo `featured === false`) em `src/features/admin/featured/actions.ts`
-- [ ] T016 [US2] Adicionar controle de toggle (desmarcar) em `FeaturedGrid.tsx`, chamando `toggleFeatured(id, false)` (depende de T003, T015)
+- [X] T015 [US2] Implementar o caminho de desmarcação em `toggleFeatured()` (mesma função de T010, ramo `featured === false`) em `src/features/admin/featured/actions.ts`
+- [X] T016 [US2] Adicionar controle de toggle (desmarcar) em `FeaturedGrid.tsx`, chamando `toggleFeatured(id, false)` (depende de T003, T015) — também disponível em `ProductRow.tsx` (mesmo botão alterna marcar/desmarcar, ver T012)
 
 **Checkpoint**: User Stories 1 e 2 funcionam juntas — curadoria completa de marcar/desmarcar.
 
@@ -78,15 +78,15 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 3 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T017 [P] [US3] Vitest: `reorderFeatured(productIds)` rejeita quando `productIds` não corresponde exatamente ao conjunto atual de produtos destacados (tamanho, IDs ou duplicados divergentes), retornando `{ success: false, error: ... }` sem aplicar alteração, em `src/features/admin/featured/actions.test.ts`
-- [ ] T018 [P] [US3] Vitest: `reorderFeatured(productIds)` atualiza `featured_position` de todos os produtos destacados para `índice + 1`, em uma única transação atômica
-- [ ] T019 [P] [US3] RTL: drag-and-drop em `FeaturedGrid` persiste a nova ordem chamando `reorderFeatured()`, em `src/features/admin/featured/components/FeaturedGrid.test.tsx`
+- [X] T017 [P] [US3] Vitest: `reorderFeatured(productIds)` rejeita quando `productIds` não corresponde exatamente ao conjunto atual de produtos destacados (tamanho, IDs ou duplicados divergentes), retornando `{ success: false, error: ... }` sem aplicar alteração, em `src/features/admin/featured/actions.test.ts`
+- [X] T018 [P] [US3] Vitest: `reorderFeatured(productIds)` atualiza `featured_position` de todos os produtos destacados para `índice + 1` — **Desvio documentado**: updates sequenciais por linha, não uma transação real (mesmo motivo de T010/`reorderProductImages`, spec 008)
+- [X] T019 [P] [US3] RTL: drag-and-drop em `FeaturedGrid` persiste a nova ordem chamando `reorderFeatured()`, em `src/features/admin/featured/components/FeaturedGrid.test.tsx`
 
 ### Implementation for User Story 3
 
-- [ ] T020 [US3] Implementar `reorderFeatured(input: ReorderFeaturedInput)` em `src/features/admin/featured/actions.ts` — valida correspondência exata com o conjunto atual de destacados, depois reescreve `featured_position` de todos atomicamente (depende de T002)
-- [ ] T021 [US3] Adicionar drag-and-drop em `FeaturedGrid.tsx`, chamando `reorderFeatured()` ao soltar um produto em nova posição (depende de T003, T020)
-- [ ] T022 [US3] Exportar `reorderFeatured` em `src/features/admin/featured/index.ts`
+- [X] T020 [US3] Implementar `reorderFeatured(input: ReorderFeaturedInput)` em `src/features/admin/featured/actions.ts` — valida correspondência exata com o conjunto atual de destacados, depois reescreve `featured_position` de todos (depende de T002)
+- [X] T021 [US3] Adicionar drag-and-drop em `FeaturedGrid.tsx`, chamando `reorderFeatured()` ao soltar um produto em nova posição (depende de T003, T020) — implementado com eventos HTML5 nativos (`draggable`/`onDragStart`/`onDragOver`/`onDrop`), mesmo padrão de `ImageGallery.tsx` (spec 008), sem biblioteca adicional
+- [X] T022 [US3] Exportar `reorderFeatured` em `src/features/admin/featured/index.ts`
 
 **Checkpoint**: Todas as user stories funcionais independentemente.
 
@@ -94,9 +94,9 @@ description: "Task list for feature implementation"
 
 ## Phase 5: Polish & Cross-Cutting Concerns
 
-- [ ] T023 [P] Validar manualmente os cenários de `quickstart.md` desta spec
-- [ ] T024 Rodar oxlint em `src/features/admin/featured/components/FeaturedGrid.tsx` — zero violações do design system
-- [ ] T025 Confirmar que a exclusão permanente de um produto destacado (via `deleteProduct`, 007) remove automaticamente sua linha de `products` e, portanto, sua presença na grade de destaques, sem lógica adicional (FR-006, SC-004, ver `data-model.md`)
+- [ ] T023 [P] Validar manualmente os cenários de `quickstart.md` desta spec — **Pendente**: requer sessão autenticada real no admin (sem credenciais disponíveis nesta sessão); recomendado teste manual rápido ao revisar o PR (marcar 2-3 produtos como destaque, reordenar via drag-and-drop, desmarcar um, confirmar reflexo na home pública após o merge de PR #15/#19).
+- [X] T024 Rodar oxlint em `src/features/admin/featured/components/FeaturedGrid.tsx` — zero violações do design system (confirmado: `oxlint src` → 0 warnings, 0 errors, repositório completo)
+- [X] T025 Confirmar que a exclusão permanente de um produto destacado (via `deleteProduct`, 007) remove automaticamente sua linha de `products` e, portanto, sua presença na grade de destaques, sem lógica adicional (FR-006, SC-004, ver `data-model.md`) — confirmado por inspeção: `deleteProduct` faz `DELETE FROM products WHERE id = ...`; `featured_position` é coluna da própria linha excluída, não há FK/tabela separada a limpar.
 
 ---
 
@@ -137,3 +137,4 @@ description: "Task list for feature implementation"
 - Testes MUST falhar antes da implementação correspondente (Princípio VI).
 - Commit após cada task ou grupo lógico, na branch desta spec (ver guidance de branch/PR por spec).
 - `toggleFeatured` é uma única função com dois ramos (marcar/desmarcar) — T010 (US1) e T015 (US2) implementam ramos da mesma função, não funções separadas.
+- **Adição não prevista nas tasks**: criado `src/features/admin/featured/queries.ts` com `getFeaturedProductsForAdmin()` — necessário porque a grade do admin precisa listar produtos destacados **independentemente** de `active` (Edge Case da spec: produto destacado desativado permanece na grade do admin, só desaparece da home pública). `getFeaturedProducts()` (T011, em `features/products`) filtra `active = true` e por isso não serve para alimentar `FeaturedGrid` no admin. Usa `createClient()` (sessão do usuário) e não `createAdminClient()`, apoiado na policy RLS `products_select_authenticated_all` já existente — mesmo padrão de `getAllProducts()` (spec 007). Sem teste dedicado, seguindo o mesmo precedente de `getProductById`/`getAllProducts()` (leituras simples sem regra de negócio adicional).
