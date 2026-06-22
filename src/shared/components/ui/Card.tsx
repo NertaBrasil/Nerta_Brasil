@@ -50,3 +50,18 @@ export function Card({
     </div>
   );
 }
+
+type AccentBlockProps = {
+  accent: CardAccent;
+  title: string;
+  children: ReactNode;
+};
+
+export function AccentBlock({ accent, title, children }: AccentBlockProps) {
+  return (
+    <div className={cn("border-l-4 pl-4", ACCENT_CLASSES[accent])}>
+      <div className="font-display text-base font-bold text-white">{title}</div>
+      <div className="mt-1 text-sm leading-body text-muted-text">{children}</div>
+    </div>
+  );
+}
