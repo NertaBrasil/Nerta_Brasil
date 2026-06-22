@@ -7,7 +7,7 @@ export async function getAllProducts(): Promise<ProductSummary[]> {
 }
 
 const PRODUCT_DETAIL_SELECT =
-  "id, slug, name, line, category_id, category:categories(id, name, slug, created_at), dilution, attributes, short_description, description, stock, featured, active, ml_url, images:product_images(id, product_id, storage_path, url, position, created_at), created_at, updated_at";
+  "id, slug, name, line, category_id, category:categories(id, name, slug, created_at), dilution, attributes, short_description, description, stock, featured, active, ml_url, purchase_mode, images:product_images(id, product_id, storage_path, url, position, created_at), created_at, updated_at";
 
 type ProductDetailRow = Omit<Product, "images" | "cover_image"> & { images: ProductImage[] };
 

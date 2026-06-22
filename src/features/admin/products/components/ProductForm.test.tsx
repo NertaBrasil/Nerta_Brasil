@@ -106,6 +106,7 @@ describe("ProductForm", () => {
       featured: false,
       active: true,
       ml_url: "https://produto.mercadolivre.com.br/1",
+      purchase_mode: "mercado_livre" as const,
       images: [],
       cover_image: null,
       created_at: "2026-01-01",
@@ -124,5 +125,24 @@ describe("ProductForm", () => {
 
     expect(updateProductMock).toHaveBeenCalledWith(expect.objectContaining({ id: "prod-1", stock: 20 }));
     expect(createProductMock).not.toHaveBeenCalled();
+  });
+
+  it("ao escolher modo de compra 'Formulário de Parceria', oculta o campo Link Mercado Livre e não o exige", async () => {
+    createProductMock.mockResolvedValue({ success: true, data: { id: "prod-1" } });
+
+    render(<ProductForm categories={CATEGORIES} />);
+
+    await userEvent.selectOptions(screen.getByLabelText(/modo de compra/i), "formulario_parceria");
+    expect(screen.queryByLabelText(/link mercado livre/i)).not.toBeInTheDocument();
+
+    await userEvent.type(screen.getByLabelText(/^nome$/i), "Truck Clean");
+    await userEvent.type(screen.getByLabelText(/linha comercial/i), "Linha Frotas");
+    await userEvent.selectOptions(screen.getByLabelText(/categoria/i), "cat-1");
+    await userEvent.type(screen.getByLabelText(/estoque/i), "10");
+    await userEvent.click(screen.getByRole("button", { name: /salvar/i }));
+
+    expect(createProductMock).toHaveBeenCalledWith(
+      expect.objectContaining({ purchase_mode: "formulario_parceria", ml_url: null })
+    );
   });
 });

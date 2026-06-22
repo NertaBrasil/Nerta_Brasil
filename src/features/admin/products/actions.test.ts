@@ -23,6 +23,7 @@ const FIXTURE_PRODUCT_ROW = {
   featured: false,
   active: true,
   ml_url: "https://produto.mercadolivre.com.br/1",
+  purchase_mode: "mercado_livre",
   images: [],
   created_at: "2026-01-01T00:00:00Z",
   updated_at: "2026-01-01T00:00:00Z",
@@ -40,6 +41,7 @@ const VALID_INPUT = {
   stock: 10,
   active: true,
   ml_url: "https://produto.mercadolivre.com.br/1",
+  purchase_mode: "mercado_livre" as const,
 };
 
 function createSingleQueryBuilder(data: unknown, error: unknown = null) {
@@ -165,6 +167,27 @@ describe("createProduct", () => {
       expect(result.data.slug).toBe("linha-frotas-truck-clean");
       expect(result.data.category?.name).toBe("Frotas");
     }
+  });
+
+  it("persiste purchase_mode = 'formulario_parceria' quando informado, sem exigir ml_url", async () => {
+    const builder = createSingleQueryBuilder({
+      ...FIXTURE_PRODUCT_ROW,
+      ml_url: null,
+      purchase_mode: "formulario_parceria",
+    });
+    fromMock.mockReturnValue(builder);
+
+    const result = await createProduct({
+      ...VALID_INPUT,
+      ml_url: null,
+      purchase_mode: "formulario_parceria",
+    });
+
+    expect(builder.insert).toHaveBeenCalledWith(
+      expect.objectContaining({ purchase_mode: "formulario_parceria" })
+    );
+    expect(result.success).toBe(true);
+    if (result.success) expect(result.data.purchase_mode).toBe("formulario_parceria");
   });
 
   it("rejeita slug já usado por outro produto com erro de duplicidade", async () => {

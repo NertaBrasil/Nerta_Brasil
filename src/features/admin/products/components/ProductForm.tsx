@@ -7,8 +7,13 @@ import { Select } from "@/shared/components/ui/Select";
 import { Textarea } from "@/shared/components/ui/Textarea";
 import { Button } from "@/shared/components/ui/Button";
 import { slugify } from "@/shared/utils";
-import type { Category, Product } from "@/features/products";
+import type { Category, Product, PurchaseMode } from "@/features/products";
 import { createProduct, updateProduct } from "../actions";
+
+const PURCHASE_MODE_OPTIONS = [
+  { value: "mercado_livre", label: "Link Mercado Livre" },
+  { value: "formulario_parceria", label: "Formulário de Parceria" },
+];
 
 type ProductFormProps = {
   categories: Category[];
@@ -28,6 +33,9 @@ export function ProductForm({ categories, product }: ProductFormProps) {
   const [description, setDescription] = useState(product?.description ?? "");
   const [stock, setStock] = useState(product ? String(product.stock) : "");
   const [active, setActive] = useState(product?.active ?? true);
+  const [purchaseMode, setPurchaseMode] = useState<PurchaseMode>(
+    product?.purchase_mode ?? "mercado_livre"
+  );
   const [mlUrl, setMlUrl] = useState(product?.ml_url ?? "");
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
@@ -56,7 +64,8 @@ export function ProductForm({ categories, product }: ProductFormProps) {
       description: description || null,
       stock: Number(stock),
       active,
-      ml_url: mlUrl || null,
+      purchase_mode: purchaseMode,
+      ml_url: purchaseMode === "mercado_livre" ? mlUrl || null : null,
     };
 
     const result = product
@@ -129,11 +138,19 @@ export function ProductForm({ categories, product }: ProductFormProps) {
         <input type="checkbox" checked={active} onChange={(e) => setActive(e.target.checked)} />
         Produto ativo (visível na vitrine pública)
       </label>
-      <Input
-        label="Link Mercado Livre"
-        value={mlUrl ?? ""}
-        onChange={(e) => setMlUrl(e.target.value)}
+      <Select
+        label="Modo de compra"
+        value={purchaseMode}
+        onChange={(e) => setPurchaseMode(e.target.value as PurchaseMode)}
+        options={PURCHASE_MODE_OPTIONS}
       />
+      {purchaseMode === "mercado_livre" && (
+        <Input
+          label="Link Mercado Livre"
+          value={mlUrl ?? ""}
+          onChange={(e) => setMlUrl(e.target.value)}
+        />
+      )}
       {error && (
         <p className="font-body text-sm text-[#E5634D]" role="alert">
           {error}
