@@ -6,3 +6,4 @@ export { ProductFilters } from "./components/ProductFilters";
 export { ProductGallery } from "./components/ProductGallery";
 export { ProductSpecs } from "./components/ProductSpecs";
 export { BuyButton } from "./components/BuyButton";
+export { FeaturedSection } from "./components/FeaturedSection";

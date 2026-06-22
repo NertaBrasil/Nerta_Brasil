@@ -303,3 +303,41 @@ describe("getProductBySlug", () => {
     expect(product?.name).toBe("Produto Detalhe");
   });
 });
+
+describe("getFeaturedProducts", () => {
+  beforeEach(() => {
+    fromMock.mockReset();
+  });
+
+  it("consulta a tabela products filtrando active = true e featured = true", async () => {
+    const builder = createQueryBuilder([FIXTURE_PRODUCTS[0]]);
+    fromMock.mockReturnValue(builder);
+
+    await getFeaturedProducts();
+
+    expect(fromMock).toHaveBeenCalledWith("products");
+    expect(builder.eq).toHaveBeenCalledWith("active", true);
+    expect(builder.eq).toHaveBeenCalledWith("featured", true);
+  });
+
+  it("retorna a lista de produtos em destaque mapeada para ProductSummary", async () => {
+    const featured = { ...FIXTURE_PRODUCTS[0], featured: true };
+    const builder = createQueryBuilder([featured]);
+    fromMock.mockReturnValue(builder);
+
+    const products = await getFeaturedProducts();
+
+    expect(products).toHaveLength(1);
+    expect(products[0].slug).toBe("produto-disponivel");
+    expect(products[0].featured).toBe(true);
+  });
+
+  it("retorna lista vazia quando não há produtos em destaque", async () => {
+    const builder = createQueryBuilder([]);
+    fromMock.mockReturnValue(builder);
+
+    const products = await getFeaturedProducts();
+
+    expect(products).toEqual([]);
+  });
+});
