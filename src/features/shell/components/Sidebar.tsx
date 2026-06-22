@@ -20,6 +20,10 @@ const NAV_LINKS = [
 
 export function Sidebar({ profile }: SidebarProps) {
   const pathname = usePathname();
+  const links =
+    profile.role === "admin"
+      ? [...NAV_LINKS, { href: "/admin/usuarios", label: "Usuários" }]
+      : NAV_LINKS;
 
   return (
     <aside className="flex h-screen w-64 flex-col justify-between border-r border-navy-border bg-navy-mid p-6">
@@ -28,7 +32,7 @@ export function Sidebar({ profile }: SidebarProps) {
         <p className="mt-1 font-body text-sm text-muted-text">Painel administrativo</p>
 
         <nav className="mt-6 flex flex-col gap-1">
-          {NAV_LINKS.map((link) => {
+          {links.map((link) => {
             const active =
               link.href === "/admin" ? pathname === link.href : pathname?.startsWith(link.href);
             return (

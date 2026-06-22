@@ -20,3 +20,5 @@ Controle manual de execução por ambiente. Ver [PROCEDURE.md](./PROCEDURE.md) p
 | 0007 | DOWN | products_purchase_mode | local | — | 2026-06-22 | Matheus Dias Campos | rollback validado ✅ |
 | 0008 | UP | partner_applications | local | supabase/migrations/20260622190143_partner_applications.sql | 2026-06-22 | Matheus Dias Campos | validado ✅ |
 | 0008 | DOWN | partner_applications | local | — | 2026-06-22 | Matheus Dias Campos | rollback validado ✅ |
+| 0009 | UP | grant_service_role_admin_profiles | local | supabase/migrations/20260622204526_grant_service_role_admin_profiles.sql | 2026-06-22 | Matheus Dias Campos | executado ✅ |
+| 0009 | DOWN | grant_service_role_admin_profiles | local | rollback validado via psql (UP→DOWN→UP) | 2026-06-22 | Matheus Dias Campos | rollback validado ✅ |
