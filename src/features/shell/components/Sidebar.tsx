@@ -12,6 +12,7 @@ type SidebarProps = {
 
 const NAV_LINKS = [
   { href: "/admin", label: "Início" },
+  { href: "/admin/produtos", label: "Produtos" },
   { href: "/admin/categorias", label: "Categorias" },
 ];
 
@@ -26,7 +27,8 @@ export function Sidebar({ profile }: SidebarProps) {
 
         <nav className="mt-6 flex flex-col gap-1">
           {NAV_LINKS.map((link) => {
-            const active = pathname === link.href;
+            const active =
+              link.href === "/admin" ? pathname === link.href : pathname?.startsWith(link.href);
             return (
               <Link
                 key={link.href}

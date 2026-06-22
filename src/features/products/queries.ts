@@ -3,6 +3,8 @@ import type { Category, Product, ProductSummary, ProductImage } from "./types";
 
 type GetProductsFilters = {
   category_slug?: string;
+  /** Uso administrativo — inclui produtos inativos (bypassa o filtro `active = true`). */
+  includeInactive?: boolean;
 };
 
 const PRODUCT_CARD_SELECT =
@@ -50,11 +52,11 @@ export async function getProducts(filters: GetProductsFilters = {}): Promise<Pro
     ? PRODUCT_CARD_SELECT_FILTERED_BY_CATEGORY
     : PRODUCT_CARD_SELECT;
 
-  let query = supabase
-    .from("products")
-    .select(select)
-    .eq("active", true)
-    .order("name", { ascending: true });
+  let query = supabase.from("products").select(select).order("name", { ascending: true });
+
+  if (!filters.includeInactive) {
+    query = query.eq("active", true);
+  }
 
   if (filters.category_slug) {
     query = query.eq("category.slug", filters.category_slug);
