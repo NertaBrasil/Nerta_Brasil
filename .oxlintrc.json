@@ -123,6 +123,24 @@
       }
     ]
   },
+  "overrides": [
+    {
+      "files": ["src/features/admin/**/actions.ts"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@/features/*/components/*", "@/features/*/*/components/*"],
+                "message": "Importe componentes de outra feature apenas via barrel (index.ts), nunca de components/ direto."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
   "settings": {
     "jsx-a11y": {
       "polymorphicPropName": null,
