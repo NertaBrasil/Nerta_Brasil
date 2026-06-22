@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ProductSummary } from "@/features/products";
-import { toggleFeatured } from "@/features/admin/featured";
+import { toggleFeatured } from "@/features/admin/featured/actions";
 import { Badge } from "@/shared/components/ui/Badge";
 import { Button } from "@/shared/components/ui/Button";
 import { toggleProductActive } from "../actions";

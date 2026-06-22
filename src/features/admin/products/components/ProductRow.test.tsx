@@ -10,7 +10,7 @@ vi.mock("../actions", () => ({
 }));
 
 const toggleFeaturedMock = vi.fn();
-vi.mock("@/features/admin/featured", () => ({
+vi.mock("@/features/admin/featured/actions", () => ({
   toggleFeatured: toggleFeaturedMock,
 }));
 
