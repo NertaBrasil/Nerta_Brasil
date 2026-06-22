@@ -1,4 +1,4 @@
-export type { Product, Category, ProductImage, ProductSummary } from "./types";
+export type { Product, Category, ProductImage, ProductSummary, PurchaseMode } from "./types";
 export { getProducts, getCategories, getProductBySlug, getFeaturedProducts } from "./queries";
 export { ProductCard } from "./components/ProductCard";
 export { ProductGrid } from "./components/ProductGrid";

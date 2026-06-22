@@ -66,7 +66,7 @@ specs/007-admin-produtos-crud/
 
 ```text
 src/
-├── app/(admin)/produtos/
+├── app/admin/(protected)/produtos/
 │   ├── page.tsx                       # RSC — compõe ProductList + entradas para criar/editar
 │   ├── novo/page.tsx                  # RSC — compõe ProductForm em modo criação
 │   └── [id]/page.tsx                   # RSC — compõe ProductForm em modo edição

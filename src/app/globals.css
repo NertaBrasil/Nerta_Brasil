@@ -25,6 +25,7 @@
   --color-light-gray: #d9dde3;
   --color-action-disabled-bg: #1a2a40;
   --color-action-disabled-text: #5a6b82;
+  --color-scrim: rgba(8, 19, 32, 0.66);
 
   /* ---- Fonts ---- */
   --font-display: "Plus Jakarta Sans", "Montserrat", system-ui, sans-serif;

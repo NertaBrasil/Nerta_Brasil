@@ -3,6 +3,8 @@ import type { Category, Product, ProductSummary, ProductImage } from "./types";
 
 type GetProductsFilters = {
   category_slug?: string;
+  /** Uso administrativo — inclui produtos inativos (bypassa o filtro `active = true`). */
+  includeInactive?: boolean;
 };
 
 const PRODUCT_CARD_SELECT =
@@ -50,11 +52,11 @@ export async function getProducts(filters: GetProductsFilters = {}): Promise<Pro
     ? PRODUCT_CARD_SELECT_FILTERED_BY_CATEGORY
     : PRODUCT_CARD_SELECT;
 
-  let query = supabase
-    .from("products")
-    .select(select)
-    .eq("active", true)
-    .order("name", { ascending: true });
+  let query = supabase.from("products").select(select).order("name", { ascending: true });
+
+  if (!filters.includeInactive) {
+    query = query.eq("active", true);
+  }
 
   if (filters.category_slug) {
     query = query.eq("category.slug", filters.category_slug);
@@ -67,7 +69,7 @@ export async function getProducts(filters: GetProductsFilters = {}): Promise<Pro
 }
 
 const PRODUCT_DETAIL_SELECT =
-  "id, slug, name, line, category_id, category:categories(id, name, slug, created_at), dilution, attributes, short_description, description, stock, featured, active, ml_url, images:product_images(id, product_id, storage_path, url, position, created_at), created_at, updated_at";
+  "id, slug, name, line, category_id, category:categories(id, name, slug, created_at), dilution, attributes, short_description, description, stock, featured, active, ml_url, purchase_mode, images:product_images(id, product_id, storage_path, url, position, created_at), created_at, updated_at";
 
 type ProductDetailRow = Omit<Product, "images" | "cover_image">  & {
   images: ProductImage[];
@@ -102,7 +104,8 @@ export async function getFeaturedProducts(): Promise<ProductSummary[]> {
     .from("products")
     .select(PRODUCT_CARD_SELECT)
     .eq("active", true)
-    .eq("featured", true);
+    .eq("featured", true)
+    .order("featured_position", { ascending: true });
 
   if (error) throw error;
 

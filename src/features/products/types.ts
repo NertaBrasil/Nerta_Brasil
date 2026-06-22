@@ -14,6 +14,8 @@ export type ProductImage = {
   created_at: string;
 };
 
+export type PurchaseMode = "mercado_livre" | "formulario_parceria";
+
 export type Product = {
   id: string;
   slug: string;
@@ -29,6 +31,7 @@ export type Product = {
   featured: boolean;
   active: boolean;
   ml_url: string | null;
+  purchase_mode: PurchaseMode;
   images: ProductImage[];
   cover_image: ProductImage | null;
   created_at: string;
