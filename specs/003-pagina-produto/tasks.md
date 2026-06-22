@@ -17,9 +17,9 @@ description: "Task list for feature implementation"
 
 **⚠️ CRITICAL**: Nenhuma user story pode começar antes desta fase.
 
-- [ ] T001 [P] Implementar `getProductBySlug(slug)` em `src/features/products/queries.ts` — retorna produto completo com `images` ordenadas por `position ASC`, ou `null` se inexistente ou `active = false`
-- [ ] T002 [P] Implementar `trackBuyClick(product)` em `src/infrastructure/analytics.ts` — dispara eventos GA4 + Meta Pixel
-- [ ] T003 [P] Garantir placeholder visual reaproveitável em `src/shared/components/ui/` para galeria sem imagens (reaproveitar o mesmo usado pelo `ProductCard` da spec 002, se já existir)
+- [X] T001 [P] Implementar `getProductBySlug(slug)` em `src/features/products/queries.ts` — retorna produto completo com `images` ordenadas por `position ASC`, ou `null` se inexistente ou `active = false`
+- [X] T002 [P] Implementar `trackBuyClick(product)` em `src/infrastructure/analytics.ts` — dispara eventos GA4 + Meta Pixel
+- [X] T003 [P] Garantir placeholder visual reaproveitável em `src/shared/components/ui/` para galeria sem imagens (reaproveitar o mesmo usado pelo `ProductCard` da spec 002, se já existir)
 
 **Checkpoint**: Fundação pronta — user stories podem começar.
 
@@ -33,17 +33,17 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 1 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T004 [P] [US1] Vitest: `getProductBySlug` retorna produto completo com galeria ordenada por `position`, em `src/features/products/queries.test.ts`
-- [ ] T005 [P] [US1] RTL: `ProductGallery` exibe placeholder quando o produto não tem imagens, em `src/features/products/components/ProductGallery.test.tsx`
-- [ ] T006 [P] [US1] RTL: `ProductSpecs` omite a seção sem quebrar o layout quando não há ficha técnica cadastrada (Edge Case), em `src/features/products/components/ProductSpecs.test.tsx`
+- [X] T004 [P] [US1] Vitest: `getProductBySlug` retorna produto completo com galeria ordenada por `position`, em `src/features/products/queries.test.ts`
+- [X] T005 [P] [US1] RTL: `ProductGallery` exibe placeholder quando o produto não tem imagens, em `src/features/products/components/ProductGallery.test.tsx`
+- [X] T006 [P] [US1] RTL: `ProductSpecs` omite a seção sem quebrar o layout quando não há ficha técnica cadastrada (Edge Case), em `src/features/products/components/ProductSpecs.test.tsx`
 
 ### Implementation for User Story 1
 
-- [ ] T007 [P] [US1] Implementar `ProductGallery.tsx` (RSC) em `src/features/products/components/ProductGallery.tsx` (depende de T003)
-- [ ] T008 [P] [US1] Implementar `ProductSpecs.tsx` (RSC) em `src/features/products/components/ProductSpecs.tsx`
-- [ ] T009 [US1] Implementar `src/app/(public)/produtos/[slug]/page.tsx` (RSC) — chama `getProductBySlug(slug)`, compõe galeria/specs/nome/linha/categoria (depende de T001, T007, T008)
-- [ ] T010 [US1] Tratar categoria órfã (categoria excluída): exibir demais informações do produto normalmente, sem categoria inválida (Edge Case)
-- [ ] T011 [US1] Exportar `ProductGallery`, `ProductSpecs` em `src/features/products/index.ts`
+- [X] T007 [P] [US1] Implementar `ProductGallery.tsx` (RSC) em `src/features/products/components/ProductGallery.tsx` (depende de T003)
+- [X] T008 [P] [US1] Implementar `ProductSpecs.tsx` (RSC) em `src/features/products/components/ProductSpecs.tsx`
+- [X] T009 [US1] Implementar `src/app/(public)/produtos/[slug]/page.tsx` (RSC) — chama `getProductBySlug(slug)`, compõe galeria/specs/nome/linha/categoria (depende de T001, T007, T008)
+- [X] T010 [US1] Tratar categoria órfã (categoria excluída): exibir demais informações do produto normalmente, sem categoria inválida (Edge Case)
+- [X] T011 [US1] Exportar `ProductGallery`, `ProductSpecs` em `src/features/products/index.ts`
 
 **Checkpoint**: User Story 1 funcional e testável de forma independente.
 
@@ -57,14 +57,14 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 2 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T012 [P] [US2] Vitest: `trackBuyClick` dispara os parâmetros corretos para GA4 e Meta Pixel, em `src/infrastructure/analytics.test.ts`
-- [ ] T013 [P] [US2] RTL: `BuyButton` habilitado com `target="_blank"` quando `stock > 0` e `ml_url` presente; desabilitado com texto "Produto Indisponível" e sem `href` quando `stock === 0` OU `ml_url` ausente, em `src/features/products/components/BuyButton.test.tsx`
+- [X] T012 [P] [US2] Vitest: `trackBuyClick` dispara os parâmetros corretos para GA4 e Meta Pixel, em `src/infrastructure/analytics.test.ts`
+- [X] T013 [P] [US2] RTL: `BuyButton` habilitado com `target="_blank"` quando `stock > 0` e `ml_url` presente; desabilitado com texto "Produto Indisponível" e sem `href` quando `stock === 0` OU `ml_url` ausente, em `src/features/products/components/BuyButton.test.tsx`
 
 ### Implementation for User Story 2
 
-- [ ] T014 [US2] Implementar `BuyButton.tsx` (Client, único `"use client"` da página) em `src/features/products/components/BuyButton.tsx` — `onClick` dispara `trackBuyClick` antes/durante a abertura do link (depende de T002)
-- [ ] T015 [US2] Integrar `BuyButton` em `src/app/(public)/produtos/[slug]/page.tsx` (depende de T009, T014)
-- [ ] T016 [US2] Exportar `BuyButton` em `src/features/products/index.ts`
+- [X] T014 [US2] Implementar `BuyButton.tsx` (Client, único `"use client"` da página) em `src/features/products/components/BuyButton.tsx` — `onClick` dispara `trackBuyClick` antes/durante a abertura do link (depende de T002)
+- [X] T015 [US2] Integrar `BuyButton` em `src/app/(public)/produtos/[slug]/page.tsx` (depende de T009, T014)
+- [X] T016 [US2] Exportar `BuyButton` em `src/features/products/index.ts`
 
 **Checkpoint**: User Stories 1 e 2 funcionam juntas e independentemente.
 
@@ -78,12 +78,12 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 3 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T017 [P] [US3] Vitest: `getProductBySlug` retorna `null` tanto para slug inexistente quanto para produto com `active = false` (mesmo retorno, sem diferenciação), em `src/features/products/queries.test.ts`
-- [ ] T018 [P] [US3] Teste de integração: `app/(public)/produtos/[slug]/page.tsx` chama `notFound()` do Next.js quando `getProductBySlug` retorna `null`
+- [X] T017 [P] [US3] Vitest: `getProductBySlug` retorna `null` tanto para slug inexistente quanto para produto com `active = false` (mesmo retorno, sem diferenciação), em `src/features/products/queries.test.ts`
+- [X] T018 [P] [US3] Teste de integração: `app/(public)/produtos/[slug]/page.tsx` chama `notFound()` do Next.js quando `getProductBySlug` retorna `null`
 
 ### Implementation for User Story 3
 
-- [ ] T019 [US3] Confirmar que `src/app/(public)/produtos/[slug]/page.tsx` chama `notFound()` para ambos os casos de `null` (já implementado em T009 — esta task valida que não há branch alternativa que distinga os dois casos)
+- [X] T019 [US3] Confirmar que `src/app/(public)/produtos/[slug]/page.tsx` chama `notFound()` para ambos os casos de `null` (já implementado em T009 — esta task valida que não há branch alternativa que distinga os dois casos)
 
 **Checkpoint**: Todas as user stories funcionais independentemente.
 
@@ -91,8 +91,8 @@ description: "Task list for feature implementation"
 
 ## Phase 5: Polish & Cross-Cutting Concerns
 
-- [ ] T020 [P] Validar manualmente os cenários de `specs/001-vitrine-catalogo/quickstart.md` §2.3/§2.4 referentes à página de produto
-- [ ] T021 Rodar oxlint em `src/features/products/components/` (`ProductGallery`, `ProductSpecs`, `BuyButton`) e em `src/app/(public)/produtos/[slug]/` — zero violações do design system
+- [X] T020 [P] Validar manualmente os cenários de `specs/001-vitrine-catalogo/quickstart.md` §2.3/§2.4 referentes à página de produto
+- [X] T021 Rodar oxlint em `src/features/products/components/` (`ProductGallery`, `ProductSpecs`, `BuyButton`) e em `src/app/(public)/produtos/[slug]/` — zero violações do design system
 
 ---
 

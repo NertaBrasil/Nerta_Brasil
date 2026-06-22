@@ -1,5 +1,8 @@
 export type { Product, Category, ProductImage, ProductSummary } from "./types";
-export { getProducts, getCategories } from "./queries";
+export { getProducts, getCategories, getProductBySlug } from "./queries";
 export { ProductCard } from "./components/ProductCard";
 export { ProductGrid } from "./components/ProductGrid";
 export { ProductFilters } from "./components/ProductFilters";
+export { ProductGallery } from "./components/ProductGallery";
+export { ProductSpecs } from "./components/ProductSpecs";
+export { BuyButton } from "./components/BuyButton";
