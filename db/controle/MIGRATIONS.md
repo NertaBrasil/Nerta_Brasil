@@ -8,3 +8,5 @@ Controle manual de execução por ambiente. Ver [PROCEDURE.md](./PROCEDURE.md) p
 | 0002 | UP | grant_data_api_access | local | supabase/migrations/20260617232437_grant_data_api_access.sql | 2026-06-17 | Matheus Dias Campos | executado ✅ |
 | 0001 | UP | initial_schema | produção (Supabase) | projeto `wcouxyjezwmabeapvbsq` | 2026-06-19 | Matheus Dias Campos | executado ✅ |
 | 0002 | UP | grant_data_api_access | produção (Supabase) | projeto `wcouxyjezwmabeapvbsq` | 2026-06-19 | Matheus Dias Campos | executado ✅ |
+| 0003 | UP | grant_service_role_admin_profiles | local | supabase/migrations/20260622204526_grant_service_role_admin_profiles.sql | 2026-06-22 | Matheus Dias Campos | executado ✅ |
+| 0003 | DOWN | grant_service_role_admin_profiles | local | rollback validado via psql (UP→DOWN→UP) | 2026-06-22 | Matheus Dias Campos | rollback validado ✅ |
