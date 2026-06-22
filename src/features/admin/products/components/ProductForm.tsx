@@ -1,0 +1,146 @@
+"use client";
+
+import { useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
+import { Input } from "@/shared/components/ui/Input";
+import { Select } from "@/shared/components/ui/Select";
+import { Textarea } from "@/shared/components/ui/Textarea";
+import { Button } from "@/shared/components/ui/Button";
+import { slugify } from "@/shared/utils";
+import type { Category, Product } from "@/features/products";
+import { createProduct, updateProduct } from "../actions";
+
+type ProductFormProps = {
+  categories: Category[];
+  product?: Product;
+};
+
+export function ProductForm({ categories, product }: ProductFormProps) {
+  const router = useRouter();
+  const [name, setName] = useState(product?.name ?? "");
+  const [slug, setSlug] = useState(product?.slug ?? "");
+  const [slugTouched, setSlugTouched] = useState(Boolean(product));
+  const [line, setLine] = useState(product?.line ?? "");
+  const [categoryId, setCategoryId] = useState(product?.category_id ?? "");
+  const [dilution, setDilution] = useState(product?.dilution ?? "");
+  const [attributes, setAttributes] = useState(product?.attributes.join(", ") ?? "");
+  const [shortDescription, setShortDescription] = useState(product?.short_description ?? "");
+  const [description, setDescription] = useState(product?.description ?? "");
+  const [stock, setStock] = useState(product ? String(product.stock) : "");
+  const [active, setActive] = useState(product?.active ?? true);
+  const [mlUrl, setMlUrl] = useState(product?.ml_url ?? "");
+  const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
+
+  function handleNameChange(value: string) {
+    setName(value);
+    if (!slugTouched) setSlug(slugify(value));
+  }
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError(null);
+    setPending(true);
+
+    const input = {
+      name,
+      slug,
+      line,
+      category_id: categoryId,
+      dilution: dilution || null,
+      attributes: attributes
+        .split(",")
+        .map((attribute) => attribute.trim())
+        .filter(Boolean),
+      short_description: shortDescription || null,
+      description: description || null,
+      stock: Number(stock),
+      active,
+      ml_url: mlUrl || null,
+    };
+
+    const result = product
+      ? await updateProduct({ id: product.id, ...input })
+      : await createProduct(input);
+
+    setPending(false);
+
+    if (!result.success) {
+      setError(result.error);
+      return;
+    }
+
+    router.push("/admin/produtos");
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <Input label="Nome" required value={name} onChange={(e) => handleNameChange(e.target.value)} />
+      <Input
+        label="Slug"
+        required
+        value={slug}
+        onChange={(e) => {
+          setSlugTouched(true);
+          setSlug(e.target.value);
+        }}
+      />
+      <Input
+        label="Linha comercial"
+        required
+        value={line}
+        onChange={(e) => setLine(e.target.value)}
+      />
+      <Select
+        label="Categoria"
+        placeholder="Selecione uma categoria"
+        value={categoryId}
+        onChange={(e) => setCategoryId(e.target.value)}
+        options={categories.map((category) => ({ value: category.id, label: category.name }))}
+      />
+      <Input label="Diluição" value={dilution ?? ""} onChange={(e) => setDilution(e.target.value)} />
+      <Input
+        label="Atributos (separados por vírgula)"
+        value={attributes}
+        onChange={(e) => setAttributes(e.target.value)}
+      />
+      <Textarea
+        label="Descrição curta"
+        rows={2}
+        value={shortDescription ?? ""}
+        onChange={(e) => setShortDescription(e.target.value)}
+      />
+      <Textarea
+        label="Descrição completa"
+        rows={5}
+        value={description ?? ""}
+        onChange={(e) => setDescription(e.target.value)}
+      />
+      <Input
+        label="Estoque"
+        type="number"
+        min={0}
+        required
+        value={stock}
+        onChange={(e) => setStock(e.target.value)}
+      />
+      <label className="flex items-center gap-2 font-body text-sm text-light-gray">
+        <input type="checkbox" checked={active} onChange={(e) => setActive(e.target.checked)} />
+        Produto ativo (visível na vitrine pública)
+      </label>
+      <Input
+        label="Link Mercado Livre"
+        value={mlUrl ?? ""}
+        onChange={(e) => setMlUrl(e.target.value)}
+      />
+      {error && (
+        <p className="font-body text-sm text-[#E5634D]" role="alert">
+          {error}
+        </p>
+      )}
+      <Button type="submit" disabled={pending}>
+        Salvar
+      </Button>
+    </form>
+  );
+}

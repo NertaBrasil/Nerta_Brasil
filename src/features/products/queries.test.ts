@@ -177,6 +177,15 @@ describe("getProducts", () => {
     expect(products).toHaveLength(1);
     expect(products[0].category?.slug).toBe("categoria-a");
   });
+
+  it("não filtra por active quando includeInactive=true (uso administrativo)", async () => {
+    const builder = createQueryBuilder(FIXTURE_PRODUCTS);
+    fromMock.mockReturnValue(builder);
+
+    await getProducts({ includeInactive: true });
+
+    expect(builder.eq).not.toHaveBeenCalledWith("active", true);
+  });
 });
 
 describe("getCategories", () => {
