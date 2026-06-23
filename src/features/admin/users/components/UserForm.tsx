@@ -44,7 +44,7 @@ export function UserForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-full flex-col gap-5">
+    <form onSubmit={handleSubmit} className="grid gap-4 sm:grid-cols-2">
       <Input
         label="Nome"
         required
@@ -72,11 +72,11 @@ export function UserForm() {
         onChange={(event) => setRole(event.target.value as AdminRole)}
       />
       {error && (
-        <p className="font-body text-sm text-[#E5634D]" role="alert">
+        <p className="font-body text-sm text-[#E5634D] sm:col-span-2" role="alert">
           {error}
         </p>
       )}
-      <Button type="submit" disabled={pending}>
+      <Button type="submit" disabled={pending} className="sm:col-span-2">
         {pending ? "Criando..." : "Criar usuário"}
       </Button>
     </form>

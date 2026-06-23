@@ -15,10 +15,10 @@ export default async function AdminEditProductPage({ params }: AdminEditProductP
   return (
     <div>
       <h1 className="text-h2">Editar produto</h1>
-      <div className="mt-6 max-w-xl">
+      <div className="mt-6 max-w-3xl">
         <ProductForm categories={categories} product={product} />
       </div>
-      <div className="mt-10 max-w-xl">
+      <div className="mt-10 max-w-3xl">
         <h2 className="text-h3">Imagens</h2>
         <div className="mt-4">
           <ImageGallery productId={product.id} images={product.images} />

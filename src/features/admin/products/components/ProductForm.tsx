@@ -83,7 +83,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit} className="grid gap-4 sm:grid-cols-2">
       <Input label="Nome" required value={name} onChange={(e) => handleNameChange(e.target.value)} />
       <Input
         label="Slug"
@@ -118,12 +118,14 @@ export function ProductForm({ categories, product }: ProductFormProps) {
         rows={2}
         value={shortDescription ?? ""}
         onChange={(e) => setShortDescription(e.target.value)}
+        containerClassName="sm:col-span-2"
       />
       <Textarea
         label="Descrição completa"
         rows={5}
         value={description ?? ""}
         onChange={(e) => setDescription(e.target.value)}
+        containerClassName="sm:col-span-2"
       />
       <Input
         label="Estoque"
@@ -133,10 +135,6 @@ export function ProductForm({ categories, product }: ProductFormProps) {
         value={stock}
         onChange={(e) => setStock(e.target.value)}
       />
-      <label className="flex items-center gap-2 font-body text-sm text-light-gray">
-        <input type="checkbox" checked={active} onChange={(e) => setActive(e.target.checked)} />
-        Produto ativo (visível na vitrine pública)
-      </label>
       <Select
         label="Modo de compra"
         value={purchaseMode}
@@ -148,14 +146,19 @@ export function ProductForm({ categories, product }: ProductFormProps) {
           label="Link Mercado Livre"
           value={mlUrl ?? ""}
           onChange={(e) => setMlUrl(e.target.value)}
+          containerClassName="sm:col-span-2"
         />
       )}
+      <label className="flex items-center gap-2 font-body text-sm text-light-gray sm:col-span-2">
+        <input type="checkbox" checked={active} onChange={(e) => setActive(e.target.checked)} />
+        Produto ativo (visível na vitrine pública)
+      </label>
       {error && (
-        <p className="font-body text-sm text-[#E5634D]" role="alert">
+        <p className="font-body text-sm text-[#E5634D] sm:col-span-2" role="alert">
           {error}
         </p>
       )}
-      <Button type="submit" disabled={pending}>
+      <Button type="submit" disabled={pending} className="sm:col-span-2">
         Salvar
       </Button>
     </form>
