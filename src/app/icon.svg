@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Nerta">
+  <rect width="64" height="64" rx="12" fill="#0D1B2E"></rect>
+  <g transform="translate(4,0)">
+    <path d="M28 14
+             C28 14 14 30 14 41
+             a14 14 0 0 0 28 0
+             C42 30 28 14 28 14 Z" fill="#1E7FC8"></path>
+    <path d="M24 44 a6 6 0 0 0 6 5" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" opacity="0.6"></path>
+  </g>
+</svg>
