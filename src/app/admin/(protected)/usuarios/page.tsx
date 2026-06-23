@@ -10,7 +10,7 @@ export default async function AdminUsersPage() {
     <div>
       <h1 className="text-h2">Usuários</h1>
 
-      <div className="mt-6 max-w-md">
+      <div className="mt-6 max-w-3xl">
         <UserForm />
       </div>
 

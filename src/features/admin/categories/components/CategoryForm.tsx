@@ -62,7 +62,7 @@ export function CategoryForm({ category, onSuccess }: CategoryFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit} className="grid gap-4 sm:grid-cols-2">
       <Input
         label="Nome"
         required
@@ -76,11 +76,11 @@ export function CategoryForm({ category, onSuccess }: CategoryFormProps) {
         onChange={(event) => handleSlugChange(event.target.value)}
       />
       {error && (
-        <p className="font-body text-sm text-[#E5634D]" role="alert">
+        <p className="font-body text-sm text-[#E5634D] sm:col-span-2" role="alert">
           {error}
         </p>
       )}
-      <Button type="submit" disabled={pending}>
+      <Button type="submit" disabled={pending} className="sm:col-span-2">
         Salvar
       </Button>
     </form>

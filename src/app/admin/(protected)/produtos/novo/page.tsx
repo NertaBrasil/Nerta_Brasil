@@ -7,7 +7,7 @@ export default async function AdminNewProductPage() {
   return (
     <div>
       <h1 className="text-h2">Novo produto</h1>
-      <div className="mt-6 max-w-xl">
+      <div className="mt-6 max-w-3xl">
         <ProductForm categories={categories} />
       </div>
     </div>
