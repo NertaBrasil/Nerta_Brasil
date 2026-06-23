@@ -3,6 +3,7 @@ import Link from "next/link";
 const NAV_LINKS = [
   { href: "/", label: "Início" },
   { href: "/produtos", label: "Catálogo" },
+  { href: "/sobre", label: "Sobre" },
 ];
 
 export function Header() {
