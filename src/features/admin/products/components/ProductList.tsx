@@ -24,7 +24,11 @@ export async function ProductList() {
           <th className="py-3 font-body text-xs font-medium uppercase tracking-label text-muted-text">
             Status
           </th>
-          <th className="py-3" />
+          <th className="py-3 text-right" colSpan={4}>
+            <span className="font-body text-xs font-medium uppercase tracking-label text-muted-text">
+              Ações
+            </span>
+          </th>
         </tr>
       </thead>
       <tbody>

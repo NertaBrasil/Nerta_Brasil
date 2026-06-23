@@ -44,29 +44,33 @@ export function ProductRow({ product }: ProductRowProps) {
           {product.active ? "Ativo" : "Inativo"}
         </Badge>
       </td>
-      <td className="py-3 text-right">
-        <div className="flex justify-end gap-2">
-          <Link
-            href={`/admin/produtos/${product.id}`}
-            className="font-body text-sm font-medium text-sky-blue hover:underline"
-          >
-            Editar
-          </Link>
-          <Button variant="ghost" size="sm" disabled={pending} onClick={handleToggle}>
-            {product.active ? "Desativar" : "Ativar"}
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            disabled={featuredPending}
-            onClick={handleToggleFeatured}
-          >
-            {product.featured ? "Remover destaque" : "Destacar"}
-          </Button>
-          <Button variant="danger-ghost" size="sm" onClick={() => setDeleteOpen(true)}>
-            Excluir
-          </Button>
-        </div>
+      <td className="py-3 pr-4 whitespace-nowrap">
+        <Link
+          href={`/admin/produtos/${product.id}`}
+          className="font-body text-sm font-medium text-sky-blue hover:underline"
+        >
+          Editar
+        </Link>
+      </td>
+      <td className="py-3 pr-4 whitespace-nowrap">
+        <Button variant="ghost" size="sm" disabled={pending} onClick={handleToggle}>
+          {product.active ? "Desativar" : "Ativar"}
+        </Button>
+      </td>
+      <td className="py-3 pr-4 whitespace-nowrap">
+        <Button
+          variant="ghost"
+          size="sm"
+          disabled={featuredPending}
+          onClick={handleToggleFeatured}
+        >
+          {product.featured ? "Remover destaque" : "Destacar"}
+        </Button>
+      </td>
+      <td className="py-3 text-right whitespace-nowrap">
+        <Button variant="danger-ghost" size="sm" onClick={() => setDeleteOpen(true)}>
+          Excluir
+        </Button>
         <DeleteProductModal product={product} open={deleteOpen} onClose={() => setDeleteOpen(false)} />
       </td>
     </tr>
