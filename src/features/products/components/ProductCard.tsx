@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Badge } from "@/shared/components/ui/Badge";
 import { Card } from "@/shared/components/ui/Card";
+import { ImagePlaceholder } from "@/shared/components/ui/ImagePlaceholder";
 import type { ProductSummary } from "../types";
 
 type ProductCardProps = {
@@ -21,12 +22,7 @@ export function ProductCard({ product }: ProductCardProps) {
               className="h-full w-full object-contain"
             />
           ) : (
-            <div
-              data-testid="product-card-image-placeholder"
-              className="flex h-full w-full items-center justify-center text-sm text-muted-text"
-            >
-              Sem imagem
-            </div>
+            <ImagePlaceholder data-testid="product-card-image-placeholder" />
           )}
           {isUnavailable && (
             <div className="absolute left-3 top-3">

@@ -37,3 +37,6 @@ next-env.d.ts
 
 # testing
 /coverage
+/playwright-report
+/test-results
+/.playwright-mcp

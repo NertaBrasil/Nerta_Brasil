@@ -8,3 +8,10 @@ export type AdminProfile = {
   /** Vem de auth.users, não de admin_profiles */
   email: string;
 };
+
+export type CreateUserInput = {
+  name: string;
+  email: string;
+  password: string;
+  role: AdminRole;
+};

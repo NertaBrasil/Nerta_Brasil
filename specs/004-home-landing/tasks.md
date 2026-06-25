@@ -17,7 +17,7 @@ description: "Task list for feature implementation"
 
 **⚠️ CRITICAL**: Nenhuma user story pode começar antes desta fase.
 
-- [ ] T001 Implementar `getFeaturedProducts()` em `src/features/products/queries.ts` — filtra `active = true AND featured = true`; ordena pela ordem já retornada pela query (sem lógica de ordenação própria desta feature, ver `research.md`)
+- [X] T001 Implementar `getFeaturedProducts()` em `src/features/products/queries.ts` — filtra `active = true AND featured = true`; ordena pela ordem já retornada pela query (sem lógica de ordenação própria desta feature, ver `research.md`)
 
 **Checkpoint**: Fundação pronta — user stories podem começar.
 
@@ -31,9 +31,9 @@ description: "Task list for feature implementation"
 
 ### Implementation for User Story 1
 
-- [ ] T002 [US1] Criar `InstitutionalSection` (RSC, componente local) em `src/app/(public)/page.tsx` com o texto/imagens curtos sobre a marca (conteúdo estático, FR-001)
-- [ ] T003 [US1] Adicionar CTA em `src/app/(public)/page.tsx` que direciona via `next/link` para `/produtos` (FR-002, SC-002)
-- [ ] T004 [US1] Garantir ausência de qualquer elemento de carrinho, checkout ou login de usuário final na home (FR-007)
+- [X] T002 [US1] Criar `InstitutionalSection` (RSC, componente local) em `src/app/(public)/page.tsx` com o texto/imagens curtos sobre a marca (conteúdo estático, FR-001)
+- [X] T003 [US1] Adicionar CTA em `src/app/(public)/page.tsx` que direciona via `next/link` para `/produtos` (FR-002, SC-002)
+- [X] T004 [US1] Garantir ausência de qualquer elemento de carrinho, checkout ou login de usuário final na home (FR-007)
 
 **Checkpoint**: User Story 1 funcional e testável de forma independente — home funciona como ponto de entrada autônomo mesmo sem destaques.
 
@@ -47,14 +47,14 @@ description: "Task list for feature implementation"
 
 ### Tests for User Story 2 (MANDATORY — write first, must fail) ⚠️
 
-- [ ] T005 [P] [US2] Vitest: `getFeaturedProducts()` retorna apenas produtos com `active = true AND featured = true`, excluindo destaque inativo, em `src/features/products/queries.test.ts` (depende de T001)
-- [ ] T006 [P] [US2] RTL: `FeaturedSection` renderiza grid quando há produtos e estado neutro (sem erro) quando a lista é vazia, em `src/features/products/components/FeaturedSection.test.tsx`
+- [X] T005 [P] [US2] Vitest: `getFeaturedProducts()` retorna apenas produtos com `active = true AND featured = true`, excluindo destaque inativo, em `src/features/products/queries.test.ts` (depende de T001)
+- [X] T006 [P] [US2] RTL: `FeaturedSection` renderiza grid quando há produtos e estado neutro (sem erro) quando a lista é vazia, em `src/features/products/components/FeaturedSection.test.tsx`
 
 ### Implementation for User Story 2
 
-- [ ] T007 [US2] Implementar `FeaturedSection.tsx` (RSC) em `src/features/products/components/FeaturedSection.tsx` — reaproveita `ProductCard` (já linkado para `/produtos/[slug]` desde a spec 002); omite a seção ou exibe estado neutro quando a lista é vazia (FR-005)
-- [ ] T008 [US2] Exportar `FeaturedSection` em `src/features/products/index.ts`
-- [ ] T009 [US2] Integrar `FeaturedSection` em `src/app/(public)/page.tsx`, chamando `getFeaturedProducts()` (depende de T001, T007)
+- [X] T007 [US2] Implementar `FeaturedSection.tsx` (RSC) em `src/features/products/components/FeaturedSection.tsx` — reaproveita `ProductCard` (já linkado para `/produtos/[slug]` desde a spec 002); omite a seção ou exibe estado neutro quando a lista é vazia (FR-005)
+- [X] T008 [US2] Exportar `FeaturedSection` em `src/features/products/index.ts`
+- [X] T009 [US2] Integrar `FeaturedSection` em `src/app/(public)/page.tsx`, chamando `getFeaturedProducts()` (depende de T001, T007)
 
 **Checkpoint**: Todas as user stories funcionais independentemente.
 
@@ -62,8 +62,8 @@ description: "Task list for feature implementation"
 
 ## Phase 4: Polish & Cross-Cutting Concerns
 
-- [ ] T010 [P] Validar manualmente os cenários de `specs/001-vitrine-catalogo/quickstart.md` referentes à home (seção institucional, CTA, destaques)
-- [ ] T011 Rodar oxlint em `src/app/(public)/page.tsx` e `src/features/products/components/FeaturedSection.tsx` — zero violações do design system
+- [X] T010 [P] Validar manualmente os cenários de `specs/001-vitrine-catalogo/quickstart.md` referentes à home (seção institucional, CTA, destaques)
+- [X] T011 Rodar oxlint em `src/app/(public)/page.tsx` e `src/features/products/components/FeaturedSection.tsx` — zero violações do design system
 
 ---
 
