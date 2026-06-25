@@ -1,16 +1,8 @@
 import Link from "next/link";
 import { EmptyState } from "@/shared/components/ui/EmptyState";
 import { Pagination } from "@/shared/components/ui/Pagination";
+import { RELATIONSHIP_OPTIONS, lookupLabel } from "@/features/partner-applications/labels";
 import { getPartnerApplications } from "../actions";
-
-const RELATIONSHIP_LABELS: Record<string, string> = {
-  consumidor_final: "Consumidor final",
-  revendedor_autorizado: "Revendedor autorizado",
-  distribuidor_regional: "Distribuidor regional",
-  parceiro_tecnico_aplicador: "Parceiro técnico/aplicador",
-  conhecendo_marca: "Conhecendo a marca",
-  outro: "Outro",
-};
 
 type PartnerApplicationListProps = {
   page?: number;
@@ -48,6 +40,7 @@ export async function PartnerApplicationList({
 
   return (
     <div>
+      <div className="overflow-x-auto">
       <table className="w-full text-left">
         <thead>
           <tr className="border-b border-navy-border">
@@ -80,7 +73,7 @@ export async function PartnerApplicationList({
                 {application.product_name_snapshot}
               </td>
               <td className="py-3 font-body text-sm text-muted-text">
-                {RELATIONSHIP_LABELS[application.relationship_interest] ?? application.relationship_interest}
+                {lookupLabel(RELATIONSHIP_OPTIONS, application.relationship_interest)}
               </td>
               <td className="py-3 font-body text-sm text-muted-text">
                 {new Date(application.created_at).toLocaleDateString("pt-BR")}
@@ -97,6 +90,7 @@ export async function PartnerApplicationList({
           ))}
         </tbody>
       </table>
+      </div>
 
       <Pagination page={page} totalPages={totalPages} searchParams={searchParams} />
     </div>

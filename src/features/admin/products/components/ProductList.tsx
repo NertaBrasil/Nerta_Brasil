@@ -40,6 +40,7 @@ export async function ProductList({
 
   return (
     <div>
+      <div className="overflow-x-auto">
       <table className="w-full text-left">
         <thead>
           <tr className="border-b border-navy-border">
@@ -68,6 +69,7 @@ export async function ProductList({
           ))}
         </tbody>
       </table>
+      </div>
 
       <Pagination page={page} totalPages={totalPages} searchParams={searchParams} />
     </div>
