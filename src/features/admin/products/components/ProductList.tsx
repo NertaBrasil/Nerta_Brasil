@@ -1,3 +1,4 @@
+import { EmptyState } from "@/shared/components/ui/EmptyState";
 import { getAllProducts } from "../queries";
 import { ProductRow } from "./ProductRow";
 
@@ -5,7 +6,13 @@ export async function ProductList() {
   const products = await getAllProducts();
 
   if (products.length === 0) {
-    return <p className="font-body text-sm text-muted-text">Nenhum produto cadastrado.</p>;
+    return (
+      <EmptyState
+        title="Nenhum produto cadastrado"
+        description="Comece adicionando o primeiro produto ao catálogo."
+        action={{ label: "Adicionar produto", href: "/admin/produtos/novo" }}
+      />
+    );
   }
 
   return (

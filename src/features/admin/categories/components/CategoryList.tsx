@@ -1,11 +1,17 @@
 import { getCategories } from "@/features/products";
+import { EmptyState } from "@/shared/components/ui/EmptyState";
 import { CategoryRow } from "./CategoryRow";
 
 export async function CategoryList() {
   const categories = await getCategories();
 
   if (categories.length === 0) {
-    return <p className="font-body text-sm text-muted-text">Nenhuma categoria cadastrada.</p>;
+    return (
+      <EmptyState
+        title="Nenhuma categoria cadastrada"
+        description="Use o formulário acima para criar a primeira categoria."
+      />
+    );
   }
 
   return (

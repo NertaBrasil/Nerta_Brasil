@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getCategories } from "@/features/products";
 import { ProductForm, ImageGallery, getProductById } from "@/features/admin/products";
+import { BackLink } from "@/shared/components/ui/BackLink";
 
 type AdminEditProductPageProps = {
   params: Promise<{ id: string }>;
@@ -14,11 +15,12 @@ export default async function AdminEditProductPage({ params }: AdminEditProductP
 
   return (
     <div>
-      <h1 className="text-h2">Editar produto</h1>
-      <div className="mt-6 max-w-3xl">
+      <BackLink href="/admin/produtos" label="Voltar para produtos" />
+      <h1 className="mt-3 text-h2">Editar produto</h1>
+      <div className="mt-6">
         <ProductForm categories={categories} product={product} />
       </div>
-      <div className="mt-10 max-w-3xl">
+      <div className="mt-10">
         <h2 className="text-h3">Imagens</h2>
         <div className="mt-4">
           <ImageGallery productId={product.id} images={product.images} />

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { EmptyState } from "@/shared/components/ui/EmptyState";
 import { getPartnerApplications } from "../actions";
 
 const RELATIONSHIP_LABELS: Record<string, string> = {
@@ -20,7 +21,12 @@ export async function PartnerApplicationList() {
   const applications = result.data;
 
   if (applications.length === 0) {
-    return <p className="font-body text-sm text-muted-text">Nenhuma candidatura recebida.</p>;
+    return (
+      <EmptyState
+        title="Nenhuma candidatura recebida ainda"
+        description="Candidaturas enviadas pelo formulário público de parceria aparecerão aqui."
+      />
+    );
   }
 
   return (

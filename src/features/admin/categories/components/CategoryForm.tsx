@@ -72,6 +72,7 @@ export function CategoryForm({ category, onSuccess }: CategoryFormProps) {
       <Input
         label="Slug"
         required
+        hint="Identifica a categoria na URL pública do catálogo. Gerado automaticamente a partir do nome — edite só se quiser um valor específico."
         value={slug}
         onChange={(event) => handleSlugChange(event.target.value)}
       />
