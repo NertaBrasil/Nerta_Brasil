@@ -10,7 +10,7 @@ const NOT_FOUND_ERROR = "Candidatura não encontrada.";
 
 const SUMMARY_SELECT = "id, legal_name, document_type, product_name_snapshot, relationship_interest, created_at";
 
-export const PARTNER_PAGE_SIZE = 10;
+const PARTNER_PAGE_SIZE = 10;
 
 type PartnerApplicationFilters = {
   page?: number;
