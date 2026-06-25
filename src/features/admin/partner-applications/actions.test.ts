@@ -49,16 +49,17 @@ const FIXTURE_FULL_ROW = {
   pioneer_partners_interest: "sim_tenho_interesse",
 };
 
-function createOrderQueryBuilder(data: unknown, error: unknown = null) {
-  const builder: {
-    select: ReturnType<typeof vi.fn>;
-    order: ReturnType<typeof vi.fn>;
-    then: (resolve: (value: { data: unknown; error: unknown }) => unknown) => Promise<unknown>;
+function createOrderQueryBuilder(data: unknown, count = 0, error: unknown = null) {
+  const builder: Record<string, ReturnType<typeof vi.fn>> & {
+    then: (resolve: (value: { data: unknown; count: number; error: unknown }) => unknown) => Promise<unknown>;
   } = {
     select: vi.fn(() => builder),
+    ilike: vi.fn(() => builder),
+    eq: vi.fn(() => builder),
     order: vi.fn(() => builder),
+    range: vi.fn(() => builder),
     // eslint-disable-next-line unicorn/no-thenable -- imita o builder thenable real do supabase-js
-    then: (resolve) => Promise.resolve({ data, error }).then(resolve),
+    then: (resolve) => Promise.resolve({ data, count, error }).then(resolve),
   };
   return builder;
 }
@@ -105,14 +106,18 @@ describe("getPartnerApplications", () => {
     expect(result).toEqual({ success: false, error: "Não autenticado." });
   });
 
-  it("retorna a lista ordenada por created_at DESC", async () => {
-    const builder = createOrderQueryBuilder([FIXTURE_SUMMARY_ROW]);
+  it("retorna a lista paginada ordenada por created_at DESC", async () => {
+    const builder = createOrderQueryBuilder([FIXTURE_SUMMARY_ROW], 1);
     fromMock.mockReturnValueOnce(builder);
 
     const result = await getPartnerApplications();
 
     expect(builder.order).toHaveBeenCalledWith("created_at", { ascending: false });
-    expect(result).toEqual({ success: true, data: [FIXTURE_SUMMARY_ROW] });
+    expect(builder.range).toHaveBeenCalledWith(0, 9);
+    expect(result).toEqual({
+      success: true,
+      data: { data: [FIXTURE_SUMMARY_ROW], total: 1, totalPages: 1 },
+    });
   });
 });
 

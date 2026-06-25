@@ -1,4 +1,5 @@
 export { ProductList } from "./components/ProductList";
+export { ProductFilters } from "./components/ProductFilters";
 export { ProductForm } from "./components/ProductForm";
 export { DeleteProductModal } from "./components/DeleteProductModal";
 export { ImageUploader } from "./components/ImageUploader";

@@ -10,20 +10,51 @@ const NOT_FOUND_ERROR = "Candidatura não encontrada.";
 
 const SUMMARY_SELECT = "id, legal_name, document_type, product_name_snapshot, relationship_interest, created_at";
 
-export async function getPartnerApplications(): Promise<ActionResult<PartnerApplicationSummary[]>> {
+export const PARTNER_PAGE_SIZE = 10;
+
+type PartnerApplicationFilters = {
+  page?: number;
+  search?: string;
+  documentType?: string;
+};
+
+type PartnerApplicationsResult = {
+  data: PartnerApplicationSummary[];
+  total: number;
+  totalPages: number;
+};
+
+export async function getPartnerApplications(
+  filters: PartnerApplicationFilters = {}
+): Promise<ActionResult<PartnerApplicationsResult>> {
   const profile = await getCurrentAdminProfile();
   if (!profile) return { success: false, error: NOT_AUTHENTICATED_ERROR };
 
+  const { page = 1, search = "", documentType = "" } = filters;
   const supabase = await createClient();
 
-  const { data, error } = await supabase
-    .from("partner_applications")
-    .select(SUMMARY_SELECT)
-    .order("created_at", { ascending: false });
+  let query = supabase.from("partner_applications").select(SUMMARY_SELECT, { count: "exact" });
+
+  if (search) query = query.ilike("legal_name", `%${search}%`);
+  if (documentType) query = query.eq("document_type", documentType);
+
+  const from = (page - 1) * PARTNER_PAGE_SIZE;
+  const to = from + PARTNER_PAGE_SIZE - 1;
+  const { data, count, error } = await query
+    .order("created_at", { ascending: false })
+    .range(from, to);
 
   if (error) return { success: false, error: "Erro ao buscar candidaturas." };
 
-  return { success: true, data: (data ?? []) as unknown as PartnerApplicationSummary[] };
+  const total = count ?? 0;
+  return {
+    success: true,
+    data: {
+      data: (data ?? []) as unknown as PartnerApplicationSummary[],
+      total,
+      totalPages: Math.ceil(total / PARTNER_PAGE_SIZE),
+    },
+  };
 }
 
 export async function getPartnerApplicationById(id: string): Promise<ActionResult<PartnerApplication>> {
