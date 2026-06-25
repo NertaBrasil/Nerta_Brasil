@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import { getProducts, getCategories, ProductGrid, ProductFilters } from "@/features/products";
+
+export const metadata: Metadata = {
+  title: "Catálogo de Produtos",
+  description:
+    "Explore o catálogo completo de produtos Nerta Brasil: espumas, degreasers, produtos agrícolas, animal care e detailing de alta performance.",
+};
 
 type ProductsPageProps = {
   searchParams: Promise<{ category?: string }>;

@@ -1,9 +1,30 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getProductBySlug, ProductGallery, ProductSpecs, BuyButton } from "@/features/products";
 
 type ProductPageProps = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await getProductBySlug(slug);
+  if (!product) return {};
+
+  const description =
+    product.short_description ??
+    `${product.name} — química automotiva premium Nerta Brasil.`;
+
+  return {
+    title: product.name,
+    description,
+    openGraph: {
+      title: `${product.name} | Nerta Brasil`,
+      description,
+      images: product.cover_image ? [{ url: product.cover_image.url }] : [],
+    },
+  };
+}
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;

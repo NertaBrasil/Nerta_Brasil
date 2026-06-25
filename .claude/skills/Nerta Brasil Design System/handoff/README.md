@@ -20,7 +20,7 @@ Pacote de implementação da vitrine Nerta Brasil. **Público-alvo:** desenvolve
 
 ## Ordem sugerida de implementação
 1. **Tokens** — cole `globals.css.txt` em `app/globals.css` e `tailwind.config.js` na raiz. Importe a fonte (Plus Jakarta Sans + Inter) via `next/font` ou `<link>`.
-2. **Layout base** — `body` em navy `#0D1B2E`, nunca fundo claro. Header sticky com blur, footer com logos Nerta + Provisão separados.
+2. **Layout base** — `body` em navy `#0D1B2E`, nunca fundo claro. Header sticky com blur, footer com logo Nerta.
 3. **Componentes primitivos** — Button, Badge, Card, AccentBlock, Input, Select (ver `COMPONENTS.md`). Os fontes React de referência estão em `../components/`.
 4. **Dados** — modele os produtos no Supabase com os campos de `../ui_kits/site/data.js` (slug, line, name, category, dilution, attributes, description, stock, featured, active, mlUrl).
 5. **Páginas** — Landing, Catálogo (`/catalogo`), Produto (`/produto/[slug]`), Sobre (`/sobre`), Admin (`/admin`, `/admin/produtos`, `/admin/produtos/novo`, `/admin/produtos/[id]`, `/admin/categorias`, `/admin/destaques`, `/admin/usuarios`).

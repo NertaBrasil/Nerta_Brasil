@@ -1,6 +1,6 @@
 # Nerta Brasil — Design System
 
-Sistema de design da **Nerta Brasil**, marca belga líder global em limpeza química para Car & Truckwash, distribuída com exclusividade no Brasil pela **Provisão Comércio Internacional**. Identidade visual premium B2B: fundo navy escuro, minimalismo corporativo estilo consultoria, posicionamento de tecnologia química europeia superior às soluções nacionais.
+Sistema de design da **Nerta Brasil**, marca belga líder global em limpeza química para Car & Truckwash. Identidade visual premium B2B: fundo navy escuro, minimalismo corporativo estilo consultoria, posicionamento de tecnologia química europeia superior às soluções nacionais.
 
 > *"Tecnologia química europeia de alta performance para um mercado que ainda utiliza soluções inferiores."*
 
@@ -13,7 +13,7 @@ Sistema de design da **Nerta Brasil**, marca belga líder global em limpeza quí
 ---
 
 ## O negócio em uma página
-- **Quem:** Nerta (Bélgica) × Provisão (distribuidor exclusivo Brasil). Lançamento nacional 2026.
+- **Quem:** Nerta Brasil. Lançamento nacional 2026.
 - **O quê:** detergentes concentrados em bombonas de 25L (diluição 3–20%) para **Frotas**, **Agro**, **Detailing** e **Animal**.
 - **Posicionamento:** química de laboratório premium, não produto de prateleira. Credibilidade antes de catálogo.
 - **Regras de produto (MVP):** usuário final **não** faz login; só `/admin` é protegido (Supabase Auth). Botão "Comprar no Mercado Livre" abre em nova aba e dispara GA/Pixel. `stock === 0` → botão desabilitado "Produto Indisponível", sem redirect. Flags `featured` (carrossel home) e `active` (visível no catálogo). **Sem carrinho, sem checkout próprio.**
@@ -43,7 +43,7 @@ Sistema de design da **Nerta Brasil**, marca belga líder global em limpeza quí
 
 ## VISUAL FOUNDATIONS
 
-**Cor & vibe.** O sistema **vive no escuro**. Fundo **Navy Deep `#0D1B2E` é inegociável** — nenhuma peça branca ou clara. Azul Nerta `#1E7FC8` é a cor primária (CTAs, links, highlights). Dourado Provisão `#C9951A` é **exclusivo da parceria** (badges, selos, "Distribuidor Oficial") — nunca decorativo. Teal `#1DB87E` só para ícones de benefício e checks. Sky Blue `#5BB8F5` para palavras-chave e numeração editorial. Máximo de 3 cores primárias por componente. Proibido: vermelho/laranja/roxo de destaque, neon/glow, fibra de carbono (remete a tuning).
+**Cor & vibe.** O sistema **vive no escuro**. Fundo **Navy Deep `#0D1B2E` é inegociável** — nenhuma peça branca ou clara. Azul Nerta `#1E7FC8` é a cor primária (CTAs, links, highlights). Dourado `#C9951A` para badges institucionais e selos de parceiro — nunca decorativo. Teal `#1DB87E` só para ícones de benefício e checks. Sky Blue `#5BB8F5` para palavras-chave e numeração editorial. Máximo de 3 cores primárias por componente. Proibido: vermelho/laranja/roxo de destaque, neon/glow, fibra de carbono (remete a tuning).
 
 **Atenção aos hexadecimais.** Azul é `#1E7FC8` (royal quente), **não** `#0796D1` (ciano frio). Dourado é `#C9951A` (quente, saturado), **não** `#C9A64E` (bege pastel). O tom errado destrói o peso executivo.
 
@@ -53,7 +53,7 @@ Sistema de design da **Nerta Brasil**, marca belga líder global em limpeza quí
 
 **Cards.** Fundo `#112644` (Navy Mid), borda `#1E3A5A` fina (0.5–1px), raio 8–12px. **Regra absoluta: nunca card claro.** Sombras sutis para profundidade (`0 6px 20px rgba(8,19,32,.45)`) — **nunca glow**. Fotos de produto **flutuam sem sombra**.
 
-**O motivo assinatura: left-border accent.** Barra esquerda de 3–4px (azul = performance, teal = tecnologia/benefício, dourado = Provisão) aplicada a blocos de destaque. É o elemento mais recorrente do PDF e o que mais identifica o estilo editorial. *(Nota: "card com borda esquerda colorida" costuma ser evitado como cliché — aqui é um motivo de marca documentado e intencional, então usamos.)*
+**O motivo assinatura: left-border accent.** Barra esquerda de 3–4px (azul = performance, teal = tecnologia/benefício, dourado = institucional/parceiro) aplicada a blocos de destaque. É o elemento mais recorrente do PDF e o que mais identifica o estilo editorial. *(Nota: "card com borda esquerda colorida" costuma ser evitado como cliché — aqui é um motivo de marca documentado e intencional, então usamos.)*
 
 **Numeração editorial.** "01 / 02 / 03" em Sky Blue, 40–60px, estilo consultoria premium (McKinsey/BCG/Deloitte).
 
@@ -63,7 +63,7 @@ Sistema de design da **Nerta Brasil**, marca belga líder global em limpeza quí
 
 **Estados.** Hover: clarear fundo do botão / lift do card / borda mais clara. Press: `scale(0.97)`. Foco: ring azul `0 0 0 3px rgba(91,184,245,.55)`. Disabled: fundo `#1A2A40`, texto `#5A6B82`.
 
-**Layout & espaçamento.** Generoso. Base 4px. Container ~1120–1200px. Header sticky com blur. Footer com logos Nerta + Provisão separados.
+**Layout & espaçamento.** Generoso. Base 4px. Container ~1120–1200px. Header sticky com blur. Footer com logo Nerta.
 
 **Imagery.** Caminhões/frotas limpos, máquinas agrícolas, detailing com espuma ativa, ambientes industriais organizados; iluminação controlada, paleta fria/escura coerente com o navy. Produto **recortado, fundo removido, float sobre navy, sem sombra** (padrão Apple/Dyson/BASF). Evitar foto amadora, lava-rápido de bairro, banco de imagens genérico.
 
@@ -85,7 +85,7 @@ O PDF não traz um icon set próprio; descreve **ícones de benefício em teal**
 
 **`tokens/`** — `fonts.css` (Google Fonts), `colors.css`, `typography.css`, `spacing.css` (espaço/raio/borda/sombra/motion), `base.css` (reset + canvas navy).
 
-**`assets/`** — `nerta-logo.svg` (pill), `nerta-logo-dark.svg` (sobre navy), `provisao-logo.svg`. ⚠️ Recriações em SVG (sem binário oficial).
+**`assets/`** — `nerta-logo.svg` (pill), `nerta-logo-dark.svg` (sobre navy). ⚠️ Recriações em SVG (sem binário oficial).
 
 **`components/`**
 - `core/` — **Button** (primary/partner/secondary/ghost/**danger**, estado "Produto Indisponível"), **Badge**, **Card**, **AccentBlock**, **Switch** (toggle), **Modal** (confirmação/scrim).
