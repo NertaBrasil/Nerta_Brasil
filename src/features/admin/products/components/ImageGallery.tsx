@@ -147,15 +147,13 @@ export function ImageGallery({ productId, images: initialImages }: ImageGalleryP
               <img
                 src={image.url}
                 alt={`Imagem ${image.position}`}
-                onLoad={(event) =>
+                onLoad={(event) => {
+                  const { naturalWidth: width, naturalHeight: height } = event.currentTarget;
                   setDimensionsById((current) => ({
                     ...current,
-                    [image.id]: {
-                      width: event.currentTarget.naturalWidth,
-                      height: event.currentTarget.naturalHeight,
-                    },
-                  }))
-                }
+                    [image.id]: { width, height },
+                  }));
+                }}
                 className="aspect-square w-full rounded-md border border-navy-border object-cover transition-opacity duration-fast hover:opacity-80"
               />
             </button>
