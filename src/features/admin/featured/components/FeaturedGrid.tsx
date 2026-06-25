@@ -4,6 +4,7 @@ import { useState, type DragEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/shared/components/ui/Badge";
 import { Card } from "@/shared/components/ui/Card";
+import { EmptyState } from "@/shared/components/ui/EmptyState";
 import type { FeaturedProduct } from "../queries";
 import { reorderFeatured, toggleFeatured } from "../actions";
 
@@ -21,9 +22,11 @@ export function FeaturedGrid({ products: initialProducts }: FeaturedGridProps) {
 
   if (products.length === 0) {
     return (
-      <p className="font-body text-sm text-muted-text">
-        Nenhum produto está marcado como destaque no momento.
-      </p>
+      <EmptyState
+        title="Nenhum produto está marcado como destaque no momento"
+        description="Marque produtos como destaque na listagem de produtos para que apareçam aqui."
+        action={{ label: "Ver produtos", href: "/admin/produtos" }}
+      />
     );
   }
 

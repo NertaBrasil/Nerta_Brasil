@@ -1,4 +1,5 @@
 import { getCurrentAdminProfile } from "@/features/admin/auth";
+import { EmptyState } from "@/shared/components/ui/EmptyState";
 import { getAdminUsers } from "../actions";
 import { UserRow } from "./UserRow";
 
@@ -11,7 +12,12 @@ export async function UserList() {
   }
 
   if (result.data.length === 0) {
-    return <p className="font-body text-sm text-muted-text">Nenhum usuário cadastrado.</p>;
+    return (
+      <EmptyState
+        title="Nenhum usuário cadastrado"
+        description="Use o formulário acima para criar o primeiro usuário administrativo."
+      />
+    );
   }
 
   return (

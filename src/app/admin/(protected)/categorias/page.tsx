@@ -5,7 +5,7 @@ export default function AdminCategoriesPage() {
     <div>
       <h1 className="text-h2">Categorias</h1>
 
-      <div className="mt-6 max-w-3xl">
+      <div className="mt-6">
         <CategoryForm />
       </div>
 

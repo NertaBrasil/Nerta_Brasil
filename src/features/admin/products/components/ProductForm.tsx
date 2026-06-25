@@ -88,6 +88,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
       <Input
         label="Slug"
         required
+        hint="Identifica o produto na URL pública (ex: /produtos/nerta-agro-power). Gerado automaticamente a partir do nome — edite só se quiser um valor específico."
         value={slug}
         onChange={(e) => {
           setSlugTouched(true);
