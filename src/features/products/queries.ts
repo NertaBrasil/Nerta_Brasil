@@ -3,6 +3,7 @@ import type { Category, Product, ProductSummary, ProductImage } from "./types";
 
 type GetProductsFilters = {
   category_slug?: string;
+  search?: string;
   /** Uso administrativo — inclui produtos inativos (bypassa o filtro `active = true`). */
   includeInactive?: boolean;
 };
@@ -60,6 +61,10 @@ export async function getProducts(filters: GetProductsFilters = {}): Promise<Pro
 
   if (filters.category_slug) {
     query = query.eq("category.slug", filters.category_slug);
+  }
+
+  if (filters.search) {
+    query = query.ilike("name", `%${filters.search}%`);
   }
 
   const { data, error } = await query;
