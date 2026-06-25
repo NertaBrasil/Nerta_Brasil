@@ -12,12 +12,18 @@ describe("ImageUploader", () => {
     const file = new File(["conteudo"], "documento.pdf", { type: "application/pdf" });
     const input = screen.getByLabelText(/adicionar imagem/i);
 
-    await userEvent.upload(input, file);
+    await userEvent.upload(input, file, { applyAccept: false });
 
     expect(onFileSelected).not.toHaveBeenCalled();
     expect(
       screen.getByText(/selecione um arquivo de imagem válido/i)
     ).toBeInTheDocument();
+  });
+
+  it("restringe a seleção de arquivos a imagens via atributo accept", () => {
+    render(<ImageUploader onFileSelected={vi.fn()} />);
+
+    expect(screen.getByLabelText(/adicionar imagem/i)).toHaveAttribute("accept", "image/*");
   });
 
   it("aceita arquivo de imagem válido e chama onFileSelected", async () => {

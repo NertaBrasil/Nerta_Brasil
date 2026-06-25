@@ -52,7 +52,7 @@ describe("ImageGallery", () => {
   it("exibe a imagem de position 1 com o indicador 'Principal'", () => {
     render(<ImageGallery productId="prod-1" images={IMAGES} />);
 
-    expect(screen.getAllByText(/principal/i)).toHaveLength(1);
+    expect(screen.getAllByText("Principal")).toHaveLength(1);
     expect(screen.getByAltText("Imagem 1")).toHaveAttribute("src", "https://cdn/a.png");
   });
 
@@ -84,7 +84,34 @@ describe("ImageGallery", () => {
     expect(remaining).toHaveLength(1);
     expect(remaining[0]).toHaveAttribute("src", "https://cdn/b.png");
     expect(remaining[0]).toHaveAttribute("alt", "Imagem 1");
-    expect(screen.getAllByText(/principal/i)).toHaveLength(1);
+    expect(screen.getAllByText("Principal")).toHaveLength(1);
+  });
+
+  it("não exibe 'Tornar principal' para a imagem que já é a principal", () => {
+    render(<ImageGallery productId="prod-1" images={IMAGES} />);
+
+    expect(screen.getAllByRole("button", { name: "Tornar principal" })).toHaveLength(1);
+  });
+
+  it("permite tornar uma imagem secundária em principal explicitamente", async () => {
+    reorderProductImagesMock.mockResolvedValue({ success: true, data: undefined });
+    render(<ImageGallery productId="prod-1" images={IMAGES} />);
+
+    await userEvent.click(screen.getByRole("button", { name: "Tornar principal" }));
+
+    expect(reorderProductImagesMock).toHaveBeenCalledWith({
+      product_id: "prod-1",
+      image_ids: ["img-2", "img-1"],
+    });
+    expect(await screen.findByAltText("Imagem 1")).toHaveAttribute("src", "https://cdn/b.png");
+  });
+
+  it("abre o lightbox ao clicar para ampliar uma imagem", async () => {
+    render(<ImageGallery productId="prod-1" images={IMAGES} />);
+
+    await userEvent.click(screen.getByRole("button", { name: "Ampliar imagem 1" }));
+
+    expect(screen.getByRole("button", { name: "Fechar" })).toBeInTheDocument();
   });
 
   it("permite upload: seleciona arquivo, confirma o recorte, e adiciona a imagem à galeria", async () => {

@@ -37,6 +37,7 @@ export function ImageUploader({ onFileSelected }: ImageUploaderProps) {
       <input
         id={inputId}
         type="file"
+        accept="image/*"
         className="sr-only"
         onChange={handleChange}
       />
