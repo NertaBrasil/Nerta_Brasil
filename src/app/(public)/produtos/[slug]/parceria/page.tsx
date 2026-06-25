@@ -15,9 +15,11 @@ export default async function PartnerApplicationPage({ params }: PartnerApplicat
   return (
     <main className="mx-auto max-w-3xl px-4 py-12">
       <p className="text-sm text-muted-text">{product.line}</p>
-      <h1 className="text-h1">Programa de Qualificação de Parceiros</h1>
+      <h1 className="text-h1">Solicitar {product.name}</h1>
       <p className="mt-2 text-base text-light-gray">
-        Candidatura para <strong>{product.name}</strong>
+        Preencha o formulário abaixo para comprar este produto ou se tornar um parceiro Nerta Brasil.
+        Atendemos tanto pessoas físicas quanto empresas — nossa equipe entrará em contato para
+        finalizar o pedido.
       </p>
 
       <div className="mt-8">

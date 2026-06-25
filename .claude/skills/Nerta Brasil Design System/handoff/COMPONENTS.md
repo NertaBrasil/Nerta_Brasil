@@ -9,7 +9,7 @@ CTA primário da marca. Pílula (radius 999px), display font bold, tracking −0
 
 | Prop | Valores | Nota |
 |---|---|---|
-| `variant` | `primary` · `partner` · `secondary` · `ghost` | primary=azul Nerta, partner=dourado Provisão, secondary=outline, ghost=quieto |
+| `variant` | `primary` · `partner` · `secondary` · `ghost` | primary=azul Nerta, partner=dourado parceiro, secondary=outline, ghost=quieto |
 | `size` | `sm` (36px) · `md` (44px) · `lg` (52px) | hit target ≥ 44px no mobile |
 | `fullWidth` | bool | |
 | `disabled` | bool | fundo `#1A2A40`, texto `#5A6B82` |
@@ -30,13 +30,13 @@ CTA primário da marca. Pílula (radius 999px), display font bold, tracking −0
 ---
 
 ## Badge (`core/Badge`)
-Pill em CAIXA ALTA, tracking +0.08em, borda fina. `tone`: `blue` (produto) · `gold` (Provisão) · `teal` (benefício) · `neutral`. `solid` preenche.
+Pill em CAIXA ALTA, tracking +0.08em, borda fina. `tone`: `blue` (produto) · `gold` (parceiro/institucional) · `teal` (benefício) · `neutral`. `solid` preenche.
 
 ---
 
 ## Card + AccentBlock (`core/Card`)
 - **Card** — superfície navy-mid, borda fina `#1E3A5A`, radius 12px. `accent` (blue/gold/teal) desenha a **barra lateral esquerda** (motivo assinatura, 3–4px). `interactive` aplica lift `translateY(-2px)` no hover. `raised` usa navy-light.
-- **AccentBlock** — bloco de destaque só com a barra lateral + título + texto. azul=performance, teal=tecnologia, dourado=Provisão.
+- **AccentBlock** — bloco de destaque só com a barra lateral + título + texto. azul=performance, teal=tecnologia, dourado=institucional.
 
 ---
 

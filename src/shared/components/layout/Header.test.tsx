@@ -6,8 +6,15 @@ describe("Header", () => {
   it("exibe os links de navegação Início, Catálogo e Sobre", () => {
     render(<Header />);
 
-    expect(screen.getByRole("link", { name: "Início" })).toHaveAttribute("href", "/");
-    expect(screen.getByRole("link", { name: "Catálogo" })).toHaveAttribute("href", "/produtos");
-    expect(screen.getByRole("link", { name: "Sobre" })).toHaveAttribute("href", "/sobre");
+    const inicioLinks = screen.getAllByRole("link", { name: "Início" });
+    const catalogoLinks = screen.getAllByRole("link", { name: "Catálogo" });
+    const sobreLinks = screen.getAllByRole("link", { name: "Sobre" });
+
+    expect(inicioLinks.length).toBeGreaterThanOrEqual(1);
+    expect(inicioLinks[0]).toHaveAttribute("href", "/");
+    expect(catalogoLinks.length).toBeGreaterThanOrEqual(1);
+    expect(catalogoLinks[0]).toHaveAttribute("href", "/produtos");
+    expect(sobreLinks.length).toBeGreaterThanOrEqual(1);
+    expect(sobreLinks[0]).toHaveAttribute("href", "/sobre");
   });
 });

@@ -50,9 +50,15 @@ const FIXTURE_FULL_ROW = {
 };
 
 function createOrderQueryBuilder(data: unknown, count = 0, error: unknown = null) {
-  const builder: Record<string, ReturnType<typeof vi.fn>> & {
+  type Builder = {
+    select: ReturnType<typeof vi.fn>;
+    ilike: ReturnType<typeof vi.fn>;
+    eq: ReturnType<typeof vi.fn>;
+    order: ReturnType<typeof vi.fn>;
+    range: ReturnType<typeof vi.fn>;
     then: (resolve: (value: { data: unknown; count: number; error: unknown }) => unknown) => Promise<unknown>;
-  } = {
+  };
+  const builder: Builder = {
     select: vi.fn(() => builder),
     ilike: vi.fn(() => builder),
     eq: vi.fn(() => builder),

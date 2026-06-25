@@ -15,7 +15,7 @@ export function BuyButton({ slug, stock, mlUrl, purchaseMode = "mercado_livre" }
   if (purchaseMode === "formulario_parceria") {
     return (
       <Button variant="primary" size="lg" fullWidth href={`/produtos/${slug}/parceria`}>
-        Quero ser parceiro Nerta Brasil
+        Comprar este produto
       </Button>
     );
   }

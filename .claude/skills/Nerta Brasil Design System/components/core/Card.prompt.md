@@ -12,4 +12,4 @@ Superfície de card navy escura com borda fina e barra de destaque opcional. Nun
 ```
 
 `Card`: `accent` (blue/gold/teal) desenha a barra lateral; `interactive` adiciona lift no hover; `raised` usa navy-light.
-`AccentBlock`: o motivo mais recorrente do PDF — azul=performance, teal=tecnologia, dourado=Provisão.
+`AccentBlock`: o motivo mais recorrente do PDF — azul=performance, teal=tecnologia, dourado=institucional.
