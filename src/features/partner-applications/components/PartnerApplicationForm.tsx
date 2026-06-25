@@ -8,6 +8,17 @@ import { Button } from "@/shared/components/ui/Button";
 import { isValidCnpj, isValidCpf } from "../document-validation";
 import { partnerApplicationSchema } from "../schemas";
 import { submitPartnerApplication } from "../actions";
+import {
+  EMPLOYEE_COUNT_OPTIONS,
+  GEOGRAPHIC_SCOPE_OPTIONS,
+  MAIN_CHALLENGE_OPTIONS,
+  MARKET_SEGMENT_OPTIONS,
+  PIONEER_OPTIONS,
+  PURCHASE_POTENTIAL_OPTIONS,
+  RELATIONSHIP_OPTIONS,
+  SUPPLIER_PRIORITY_OPTIONS,
+  YEARS_OPTIONS,
+} from "../labels";
 import type {
   DocumentType,
   EmployeeCount,
@@ -91,83 +102,6 @@ const INITIAL_ANSWERS: Answers = {
   interested_in_training: false,
   pioneer_partners_interest: "apenas_acompanhar",
 };
-
-const RELATIONSHIP_OPTIONS = [
-  { value: "consumidor_final", label: "Consumidor final" },
-  { value: "revendedor_autorizado", label: "Revendedor autorizado" },
-  { value: "distribuidor_regional", label: "Distribuidor regional" },
-  { value: "parceiro_tecnico_aplicador", label: "Parceiro técnico/aplicador" },
-  { value: "conhecendo_marca", label: "Estou conhecendo a marca" },
-  { value: "outro", label: "Outro" },
-];
-
-const MARKET_SEGMENT_OPTIONS = [
-  { value: "transporte", label: "Transporte" },
-  { value: "logistica", label: "Logística" },
-  { value: "lavagem_profissional", label: "Lavagem profissional" },
-  { value: "agricultura", label: "Agricultura" },
-  { value: "construcao", label: "Construção" },
-  { value: "industria", label: "Indústria" },
-  { value: "oficina_mecanica", label: "Oficina mecânica" },
-  { value: "comercio", label: "Comércio" },
-  { value: "outro", label: "Outro" },
-];
-
-const YEARS_OPTIONS = [
-  { value: "menos_2", label: "Menos de 2 anos" },
-  { value: "2_a_5", label: "2 a 5 anos" },
-  { value: "5_a_10", label: "5 a 10 anos" },
-  { value: "mais_10", label: "Mais de 10 anos" },
-];
-
-const EMPLOYEE_COUNT_OPTIONS = [
-  { value: "até_5", label: "Até 5" },
-  { value: "6_a_20", label: "6 a 20" },
-  { value: "21_a_50", label: "21 a 50" },
-  { value: "51_a_100", label: "51 a 100" },
-  { value: "mais_100", label: "Mais de 100" },
-];
-
-const MAIN_CHALLENGE_OPTIONS: { value: MainChallenge; label: string }[] = [
-  { value: "alto_consumo", label: "Alto consumo de produtos" },
-  { value: "custos_elevados", label: "Custos elevados" },
-  { value: "baixa_eficiencia", label: "Baixa eficiência" },
-  { value: "tempo_excessivo", label: "Tempo excessivo" },
-  { value: "falta_assistencia", label: "Falta de assistência técnica" },
-  { value: "problemas_ambientais", label: "Problemas ambientais" },
-  { value: "outro", label: "Outro" },
-];
-
-const SUPPLIER_PRIORITY_OPTIONS: { value: SupplierPriority; label: string }[] = [
-  { value: "qualidade", label: "Qualidade" },
-  { value: "preco", label: "Preço" },
-  { value: "suporte_tecnico", label: "Suporte técnico" },
-  { value: "disponibilidade_estoque", label: "Disponibilidade de estoque" },
-  { value: "formacao", label: "Formação/treinamento" },
-  { value: "inovacao", label: "Inovação" },
-  { value: "sustentabilidade", label: "Sustentabilidade" },
-];
-
-const GEOGRAPHIC_SCOPE_OPTIONS = [
-  { value: "local", label: "Local" },
-  { value: "regional", label: "Regional" },
-  { value: "estadual", label: "Estadual" },
-  { value: "nacional", label: "Nacional" },
-];
-
-const PURCHASE_POTENTIAL_OPTIONS = [
-  { value: "até_5000", label: "Até R$ 5.000" },
-  { value: "5000_a_20000", label: "R$ 5.000 a R$ 20.000" },
-  { value: "20000_a_50000", label: "R$ 20.000 a R$ 50.000" },
-  { value: "acima_50000", label: "Acima de R$ 50.000" },
-  { value: "nao_consigo_estimar", label: "Não consigo estimar" },
-];
-
-const PIONEER_OPTIONS = [
-  { value: "sim_tenho_interesse", label: "Sim, tenho interesse" },
-  { value: "quero_mais_detalhes", label: "Quero mais detalhes" },
-  { value: "apenas_acompanhar", label: "Apenas acompanhar" },
-];
 
 const STEP_TITLES = [
   "Identificação",

@@ -1,5 +1,18 @@
 import type { ReactNode } from "react";
 import type { PartnerApplication } from "@/features/partner-applications";
+import {
+  EMPLOYEE_COUNT_OPTIONS,
+  GEOGRAPHIC_SCOPE_OPTIONS,
+  MAIN_CHALLENGE_OPTIONS,
+  MARKET_SEGMENT_OPTIONS,
+  PIONEER_OPTIONS,
+  PURCHASE_POTENTIAL_OPTIONS,
+  RELATIONSHIP_OPTIONS,
+  SUPPLIER_PRIORITY_OPTIONS,
+  YEARS_OPTIONS,
+  lookupLabel,
+  lookupLabels,
+} from "@/features/partner-applications/labels";
 
 type PartnerApplicationDetailProps = {
   application: PartnerApplication;
@@ -48,22 +61,40 @@ export function PartnerApplicationDetail({ application: a }: PartnerApplicationD
       </Section>
 
       <Section title="Perfil de relacionamento">
-        <Field label="Interesse" value={a.relationship_interest} />
+        <Field
+          label="Interesse"
+          value={lookupLabel(RELATIONSHIP_OPTIONS, a.relationship_interest)}
+        />
         <Field label="Detalhe" value={a.relationship_interest_other} />
         <Field label="Motivo do interesse" value={a.interest_reason} />
       </Section>
 
       <Section title="Perfil de mercado">
-        <Field label="Segmento" value={a.market_segment} />
+        <Field
+          label="Segmento"
+          value={lookupLabel(MARKET_SEGMENT_OPTIONS, a.market_segment)}
+        />
         <Field label="Detalhe do segmento" value={a.market_segment_other} />
-        <Field label="Tempo de atuação" value={a.years_in_market} />
-        <Field label="Colaboradores" value={a.employee_count} />
+        <Field
+          label="Tempo de atuação"
+          value={lookupLabel(YEARS_OPTIONS, a.years_in_market)}
+        />
+        <Field
+          label="Colaboradores"
+          value={lookupLabel(EMPLOYEE_COUNT_OPTIONS, a.employee_count)}
+        />
       </Section>
 
       <Section title="Desafios e prioridades">
-        <Field label="Principais desafios" value={a.main_challenges.join(", ")} />
+        <Field
+          label="Principais desafios"
+          value={lookupLabels(MAIN_CHALLENGE_OPTIONS, a.main_challenges)}
+        />
         <Field label="Detalhe do desafio" value={a.main_challenges_other} />
-        <Field label="Prioridades no fornecedor" value={a.supplier_priorities.join(", ")} />
+        <Field
+          label="Prioridades no fornecedor"
+          value={lookupLabels(SUPPLIER_PRIORITY_OPTIONS, a.supplier_priorities)}
+        />
       </Section>
 
       <Section title="Crescimento, estrutura e planejamento de compra">
@@ -72,10 +103,19 @@ export function PartnerApplicationDetail({ application: a }: PartnerApplicationD
           value={a.works_with_professional_products ? "Sim" : "Não"}
         />
         <Field label="Marcas atuais" value={a.current_brands} />
-        <Field label="Área geográfica" value={a.geographic_scope} />
+        <Field
+          label="Área geográfica"
+          value={lookupLabel(GEOGRAPHIC_SCOPE_OPTIONS, a.geographic_scope)}
+        />
         <Field label="Possui equipe comercial" value={a.has_sales_team ? "Sim" : "Não"} />
-        <Field label="Possui estrutura logística" value={a.has_logistics_structure ? "Sim" : "Não"} />
-        <Field label="Potencial de compra mensal" value={a.initial_purchase_potential} />
+        <Field
+          label="Possui estrutura logística"
+          value={a.has_logistics_structure ? "Sim" : "Não"}
+        />
+        <Field
+          label="Potencial de compra mensal"
+          value={lookupLabel(PURCHASE_POTENTIAL_OPTIONS, a.initial_purchase_potential)}
+        />
         <Field
           label="Interesse em treinamentos"
           value={a.interested_in_training ? "Sim" : "Não"}
@@ -83,7 +123,10 @@ export function PartnerApplicationDetail({ application: a }: PartnerApplicationD
       </Section>
 
       <Section title="NERTA Pioneer Partners">
-        <Field label="Interesse no programa" value={a.pioneer_partners_interest} />
+        <Field
+          label="Interesse no programa"
+          value={lookupLabel(PIONEER_OPTIONS, a.pioneer_partners_interest)}
+        />
       </Section>
 
       <p className="font-body text-xs text-muted-text">
