@@ -23,3 +23,5 @@ Controle manual de execução por ambiente. Ver [PROCEDURE.md](./PROCEDURE.md) p
 | 0009 | UP | grant_service_role_admin_profiles | local | supabase/migrations/20260622204526_grant_service_role_admin_profiles.sql | 2026-06-22 | Matheus Dias Campos | executado ✅ |
 | 0009 | DOWN | grant_service_role_admin_profiles | local | rollback validado via psql (UP→DOWN→UP) | 2026-06-22 | Matheus Dias Campos | rollback validado ✅ |
 | 0010 | UP | add_partner_viewer_role | produção (Supabase) | supabase/migrations/20260623000000_add_partner_viewer_role.sql | 2026-06-23 | Lucas Vital | executado ✅ |
+| 0011 | UP | products_price | produção (Supabase) | supabase/migrations/20260626000000_products_price.sql | 2026-06-26 | Matheus Dias Campos | executado ✅ |
+| 0011 | DOWN | products_price | — | — | — | — | pendente |

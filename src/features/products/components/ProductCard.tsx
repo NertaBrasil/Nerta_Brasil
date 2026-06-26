@@ -37,6 +37,11 @@ export function ProductCard({ product }: ProductCardProps) {
           {product.short_description && (
             <p className="line-clamp-2 text-sm text-muted-text">{product.short_description}</p>
           )}
+          {product.price != null && (
+            <p className="mt-auto pt-2 font-body text-base font-semibold text-white">
+              {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(product.price)}
+            </p>
+          )}
         </div>
       </Card>
     </Link>

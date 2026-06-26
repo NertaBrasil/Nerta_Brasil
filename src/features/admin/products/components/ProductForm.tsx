@@ -32,6 +32,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
   const [shortDescription, setShortDescription] = useState(product?.short_description ?? "");
   const [description, setDescription] = useState(product?.description ?? "");
   const [stock, setStock] = useState(product ? String(product.stock) : "");
+  const [price, setPrice] = useState(product?.price != null ? String(product.price) : "");
   const [active, setActive] = useState(product?.active ?? true);
   const [purchaseMode, setPurchaseMode] = useState<PurchaseMode>(
     product?.purchase_mode ?? "mercado_livre"
@@ -63,6 +64,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
       short_description: shortDescription || null,
       description: description || null,
       stock: Number(stock),
+      price: price ? Number(price) : null,
       active,
       purchase_mode: purchaseMode,
       ml_url: purchaseMode === "mercado_livre" ? mlUrl || null : null,
@@ -135,6 +137,15 @@ export function ProductForm({ categories, product }: ProductFormProps) {
         required
         value={stock}
         onChange={(e) => setStock(e.target.value)}
+      />
+      <Input
+        label="Preço (R$)"
+        type="number"
+        min={0}
+        step={0.01}
+        hint="Opcional. Deixe em branco se o preço não for exibido publicamente."
+        value={price}
+        onChange={(e) => setPrice(e.target.value)}
       />
       <Select
         label="Modo de compra"
