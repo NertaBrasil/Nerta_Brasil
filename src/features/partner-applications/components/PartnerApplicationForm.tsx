@@ -33,8 +33,8 @@ import type {
 } from "../types";
 
 type PartnerApplicationFormProps = {
-  productId: string;
-  productName: string;
+  productId?: string | null;
+  productName?: string | null;
 };
 
 type Answers = {
@@ -158,7 +158,7 @@ export function PartnerApplicationForm({ productId, productName }: PartnerApplic
   async function handleSubmit() {
     setError(null);
 
-    const payload = { ...answers, product_id: productId };
+    const payload = { ...answers, product_id: productId ?? null };
     const parsed = partnerApplicationSchema.safeParse(payload);
     if (!parsed.success) {
       setError(parsed.error.issues[0].message);
@@ -182,8 +182,13 @@ export function PartnerApplicationForm({ productId, productName }: PartnerApplic
       <div className="flex flex-col gap-3">
         <h2 className="text-h3">Candidatura enviada!</h2>
         <p className="font-body text-sm text-muted-text">
-          Recebemos sua candidatura ao Programa de Qualificação de Parceiros Nerta Brasil para o
-          produto <strong>{productName}</strong>. Nossa equipe entrará em contato em breve.
+          Recebemos sua candidatura ao Programa de Qualificação de Parceiros Nerta Brasil
+          {productName ? (
+            <>
+              {" "}para o produto <strong>{productName}</strong>
+            </>
+          ) : null}
+          . Nossa equipe entrará em contato em breve.
         </p>
       </div>
     );

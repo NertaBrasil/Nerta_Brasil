@@ -16,6 +16,7 @@ export type {
 export { isValidCnpj, isValidCpf } from "./document-validation";
 export { submitPartnerApplication } from "./actions";
 export { PartnerApplicationForm } from "./components/PartnerApplicationForm";
+export { PartnerButton } from "./components/PartnerButton";
 export {
   EMPLOYEE_COUNT_OPTIONS,
   GEOGRAPHIC_SCOPE_OPTIONS,

@@ -6,7 +6,7 @@ const TRADE_NAME_NOT_ALLOWED_ERROR = "Nome Fantasia não se aplica para Pessoa F
 
 export const partnerApplicationSchema = z
   .object({
-    product_id: z.string().min(1, "Produto de origem é obrigatório."),
+    product_id: z.string().nullable().default(null),
     document_type: z.enum(["cnpj", "cpf"]),
     document_number: z.string().trim().min(1, "Documento é obrigatório."),
     legal_name: z.string().trim().min(1, "Campo obrigatório."),

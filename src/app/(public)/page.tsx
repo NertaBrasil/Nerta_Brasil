@@ -3,6 +3,7 @@ import { Button } from "@/shared/components/ui/Button";
 import { KpiStat } from "@/shared/components/ui/KpiStat";
 import { AccentBlock } from "@/shared/components/ui/Card";
 import { getFeaturedProducts, FeaturedSection } from "@/features/products";
+import { PartnerButton } from "@/features/partner-applications";
 
 function HeroSection() {
   return (
@@ -32,6 +33,7 @@ function HeroSection() {
             <Button href="#tecnologia" variant="secondary" size="lg">
               A tecnologia
             </Button>
+            <PartnerButton />
           </div>
         </div>
 
