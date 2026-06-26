@@ -110,6 +110,20 @@ export default async function HomePage() {
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-10">
         <FeaturedSection products={featuredProducts} />
       </section>
+      <div className="border-y border-navy-border bg-navy-deeper py-3.5">
+        <div className="mx-auto flex max-w-6xl items-center justify-center gap-4 px-4 sm:px-10">
+          <span className="font-body text-xs text-muted-text">
+            Distribuição exclusiva no Brasil por
+          </span>
+          <div className="h-3.5 w-px bg-navy-border" />
+          <span className="font-display text-sm font-extrabold leading-none tracking-tight text-provisao-gold">
+            provisão
+          </span>
+          <span className="font-body text-[9px] font-semibold uppercase tracking-[0.2em] text-muted-text">
+            Comércio Internacional
+          </span>
+        </div>
+      </div>
       <PartnerCTASection />
       <TechSection />
     </main>

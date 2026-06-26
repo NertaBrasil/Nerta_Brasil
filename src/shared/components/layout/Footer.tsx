@@ -13,6 +13,20 @@ export function Footer() {
               Química automotiva premium de origem belga. Alta performance para frotas, agro,
               animal care e detailing profissional.
             </p>
+            <div className="mt-4 flex w-fit items-center gap-2.5 rounded-lg border border-provisao-gold/25 bg-provisao-gold/[0.06] px-3.5 py-2.5">
+              <span className="font-body text-[10px] font-semibold uppercase tracking-[0.1em] text-muted-text whitespace-nowrap">
+                Distribuído por
+              </span>
+              <div className="w-px h-7 bg-provisao-gold/20" />
+              <div>
+                <p className="font-display text-sm font-extrabold leading-none tracking-tight text-provisao-gold">
+                  provisão
+                </p>
+                <p className="mt-0.5 font-body text-[7px] font-semibold uppercase tracking-[0.22em] text-muted-text">
+                  Comércio Internacional
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Navigation */}
