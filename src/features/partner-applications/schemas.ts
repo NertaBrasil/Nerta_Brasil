@@ -12,11 +12,26 @@ export const partnerApplicationSchema = z
     legal_name: z.string().trim().min(1, "Campo obrigatório."),
     trade_name: z.string().trim().nullable().default(null),
     city: z.string().trim().min(1, "Cidade é obrigatória."),
-    state: z.string().trim().min(1, "Estado é obrigatório."),
-    website: z.string().trim().nullable().default(null),
+    state: z
+      .string()
+      .trim()
+      .length(2, "Use a sigla do estado (ex: SP, MG).")
+      .toUpperCase(),
+    website: z
+      .string()
+      .trim()
+      .nullable()
+      .default(null)
+      .refine((v) => !v || /^https?:\/\/.+/.test(v), "Website deve começar com http:// ou https://."),
     contact_name: z.string().trim().min(1, "Nome do responsável é obrigatório."),
     contact_role: z.string().trim().min(1, "Cargo é obrigatório."),
-    phone: z.string().trim().min(1, "Telefone é obrigatório."),
+    phone: z
+      .string()
+      .trim()
+      .refine(
+        (v) => /^\d{8,15}$/.test(v.replace(/[\s\-()+]/g, "")),
+        "Telefone inválido."
+      ),
     email: z.string().trim().email("E-mail inválido."),
     linkedin_url: z.string().trim().nullable().default(null),
     relationship_interest: z.enum([
@@ -110,6 +125,30 @@ export const partnerApplicationSchema = z
         code: z.ZodIssueCode.custom,
         message: INVALID_DOCUMENT_ERROR,
         path: ["document_number"],
+      });
+    }
+
+    if (data.relationship_interest === "outro" && !data.relationship_interest_other?.trim()) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Detalhe seu interesse.",
+        path: ["relationship_interest_other"],
+      });
+    }
+
+    if (data.market_segment === "outro" && !data.market_segment_other?.trim()) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Detalhe o segmento.",
+        path: ["market_segment_other"],
+      });
+    }
+
+    if (data.main_challenges.includes("outro") && !data.main_challenges_other?.trim()) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Detalhe o desafio.",
+        path: ["main_challenges_other"],
       });
     }
   });
