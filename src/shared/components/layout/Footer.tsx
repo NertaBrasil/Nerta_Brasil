@@ -52,15 +52,6 @@ export function Footer() {
                   contato@nertabrasil.com.br
                 </a>
               </li>
-              <li>
-                <a
-                  href="tel:+551100000000"
-                  className="transition-colors duration-fast hover:text-white"
-                >
-                  (11) 0000-0000
-                </a>
-              </li>
-              <li className="mt-1">São Paulo — SP, Brasil</li>
             </ul>
 
             {/* Social */}
@@ -91,12 +82,9 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-1 border-t border-navy-border pt-6 sm:flex-row sm:justify-between">
+        <div className="mt-10 border-t border-navy-border pt-6">
           <p className="font-body text-xs text-muted-text">
             © 2026 Nerta Brasil. Todos os direitos reservados.
-          </p>
-          <p className="font-body text-xs text-muted-text">
-            CNPJ: 00.000.000/0001-00
           </p>
         </div>
       </div>
