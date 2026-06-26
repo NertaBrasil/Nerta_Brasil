@@ -107,5 +107,5 @@ export type SubmitPartnerApplicationInput = Omit<
   PartnerApplication,
   "id" | "product_name_snapshot" | "created_at"
 > & {
-  product_id: string;
+  product_id: string | null;
 };
