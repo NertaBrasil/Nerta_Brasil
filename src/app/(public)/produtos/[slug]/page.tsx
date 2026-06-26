@@ -48,6 +48,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
           <ProductSpecs dilution={product.dilution} attributes={product.attributes} />
 
+          {product.price != null && (
+            <p className="font-body text-2xl font-semibold text-white">
+              {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(product.price)}
+            </p>
+          )}
+
           {product.description && (
             <p className="text-base leading-body text-light-gray">{product.description}</p>
           )}
