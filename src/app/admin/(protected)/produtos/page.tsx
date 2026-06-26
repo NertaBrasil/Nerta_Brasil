@@ -1,5 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { getCurrentAdminProfile } from "@/features/admin/auth";
 import { getCategories } from "@/features/products";
 import { ProductFilters } from "@/features/admin/products/components/ProductFilters";
 import { ProductList } from "@/features/admin/products";
@@ -12,6 +14,9 @@ type SearchParams = Promise<{
 }>;
 
 export default async function AdminProductsPage({ searchParams }: { searchParams: SearchParams }) {
+  const profile = await getCurrentAdminProfile();
+  if (profile?.role === "partner_viewer") redirect("/admin/parcerias");
+
   const params = await searchParams;
   const page = Math.max(1, Number(params.page) || 1);
   const search = params.search ?? "";

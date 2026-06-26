@@ -1,4 +1,5 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { getCurrentAdminProfile } from "@/features/admin/auth";
 import { getCategories } from "@/features/products";
 import { ProductForm, ImageGallery, getProductById } from "@/features/admin/products";
 import { BackLink } from "@/shared/components/ui/BackLink";
@@ -8,6 +9,9 @@ type AdminEditProductPageProps = {
 };
 
 export default async function AdminEditProductPage({ params }: AdminEditProductPageProps) {
+  const profile = await getCurrentAdminProfile();
+  if (profile?.role === "partner_viewer") redirect("/admin/parcerias");
+
   const { id } = await params;
   const [product, categories] = await Promise.all([getProductById(id), getCategories()]);
 

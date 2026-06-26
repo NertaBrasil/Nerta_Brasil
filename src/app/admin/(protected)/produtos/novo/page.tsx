@@ -1,8 +1,13 @@
+import { redirect } from "next/navigation";
+import { getCurrentAdminProfile } from "@/features/admin/auth";
 import { getCategories } from "@/features/products";
 import { ProductForm } from "@/features/admin/products";
 import { BackLink } from "@/shared/components/ui/BackLink";
 
 export default async function AdminNewProductPage() {
+  const profile = await getCurrentAdminProfile();
+  if (profile?.role === "partner_viewer") redirect("/admin/parcerias");
+
   const categories = await getCategories();
 
   return (

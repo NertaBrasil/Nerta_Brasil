@@ -11,6 +11,7 @@ import type { AdminRole } from "../types";
 const ROLE_OPTIONS = [
   { value: "editor", label: "Editor" },
   { value: "admin", label: "Admin" },
+  { value: "partner_viewer", label: "Visualizador de Parcerias" },
 ];
 
 export function UserForm() {
