@@ -4,6 +4,7 @@ import { UserList, UserForm } from "@/features/admin/users";
 
 export default async function AdminUsersPage() {
   const profile = await getCurrentAdminProfile();
+  if (profile?.role === "partner_viewer") redirect("/admin/parcerias");
   if (profile?.role !== "admin") redirect("/admin");
 
   return (

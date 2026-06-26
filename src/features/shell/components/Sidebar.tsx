@@ -23,9 +23,11 @@ const NAV_LINKS = [
 export function Sidebar({ profile, mobileOpen, onNavigate }: SidebarProps) {
   const pathname = usePathname();
   const links =
-    profile.role === "admin"
-      ? [...NAV_LINKS, { href: "/admin/usuarios", label: "Usuários" }]
-      : NAV_LINKS;
+    profile.role === "partner_viewer"
+      ? [{ href: "/admin/parcerias", label: "Parcerias" }]
+      : profile.role === "admin"
+        ? [...NAV_LINKS, { href: "/admin/usuarios", label: "Usuários" }]
+        : NAV_LINKS;
 
   return (
     <aside

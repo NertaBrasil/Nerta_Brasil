@@ -2,7 +2,7 @@ import { cache } from "react";
 import { createClient } from "@/infrastructure/supabase/server";
 import type { AdminProfile, AdminRole } from "@/features/admin/users";
 
-const VALID_ROLES: AdminRole[] = ["admin", "editor"];
+const VALID_ROLES: AdminRole[] = ["admin", "editor", "partner_viewer"];
 
 export const getCurrentAdminProfile = cache(async (): Promise<AdminProfile | null> => {
   const supabase = await createClient();
