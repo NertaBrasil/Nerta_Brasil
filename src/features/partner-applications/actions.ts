@@ -16,17 +16,22 @@ export async function submitPartnerApplication(
 
   const supabase = await createClient();
 
-  const { data: product, error: productError } = await supabase
-    .from("products")
-    .select("name")
-    .eq("id", parsed.data.product_id)
-    .single();
+  let productNameSnapshot = "";
 
-  if (productError || !product) return { success: false, error: PRODUCT_NOT_FOUND_ERROR };
+  if (parsed.data.product_id) {
+    const { data: product, error: productError } = await supabase
+      .from("products")
+      .select("name")
+      .eq("id", parsed.data.product_id)
+      .single();
+
+    if (productError || !product) return { success: false, error: PRODUCT_NOT_FOUND_ERROR };
+    productNameSnapshot = product.name;
+  }
 
   const { error } = await supabase.from("partner_applications").insert({
     ...parsed.data,
-    product_name_snapshot: product.name,
+    product_name_snapshot: productNameSnapshot,
   });
 
   if (error) return { success: false, error: SUBMIT_ERROR };
