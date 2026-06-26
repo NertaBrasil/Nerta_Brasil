@@ -5,6 +5,28 @@ import { AccentBlock } from "@/shared/components/ui/Card";
 import { getFeaturedProducts, FeaturedSection } from "@/features/products";
 import { PartnerButton } from "@/features/partner-applications";
 
+function PartnerCTASection() {
+  return (
+    <section className="border-y border-navy-border bg-navy-deeper">
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-10">
+        <div className="max-w-xl">
+          <div className="text-label font-medium uppercase tracking-label text-provisao-gold">
+            Programa de Parceiros
+          </div>
+          <h2 className="mt-3 text-h2">Distribua Nerta no Brasil</h2>
+          <p className="mt-4 text-sm leading-body text-muted-text">
+            Selecionamos distribuidores e revendedores que compartilham o padrão técnico da marca.
+            Preencha o formulário — nossa equipe analisa e entra em contato.
+          </p>
+          <div className="mt-8">
+            <PartnerButton />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-[linear-gradient(135deg,_var(--color-navy-deep)_0%,_var(--color-navy-light)_100%)] px-4 py-16 sm:px-10 sm:py-24">
@@ -88,6 +110,7 @@ export default async function HomePage() {
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-10">
         <FeaturedSection products={featuredProducts} />
       </section>
+      <PartnerCTASection />
       <TechSection />
     </main>
   );
