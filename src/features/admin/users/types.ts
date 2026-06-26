@@ -1,4 +1,4 @@
-export type AdminRole = "admin" | "editor";
+export type AdminRole = "admin" | "editor" | "partner_viewer";
 
 export type AdminProfile = {
   id: string;

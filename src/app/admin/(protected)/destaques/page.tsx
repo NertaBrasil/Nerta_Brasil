@@ -1,6 +1,11 @@
+import { redirect } from "next/navigation";
+import { getCurrentAdminProfile } from "@/features/admin/auth";
 import { FeaturedGrid, getFeaturedProductsForAdmin } from "@/features/admin/featured";
 
 export default async function AdminFeaturedPage() {
+  const profile = await getCurrentAdminProfile();
+  if (profile?.role === "partner_viewer") redirect("/admin/parcerias");
+
   const products = await getFeaturedProductsForAdmin();
 
   return (

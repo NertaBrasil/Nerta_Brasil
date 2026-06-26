@@ -20,7 +20,9 @@ export function UserRow({ user, currentUserId }: UserRowProps) {
       <td className="py-3 font-body text-sm text-white">{user.name}</td>
       <td className="py-3 font-body text-sm text-muted-text">{user.email}</td>
       <td className="py-3">
-        <Badge tone={user.role === "admin" ? "gold" : "blue"}>{user.role}</Badge>
+        <Badge tone={user.role === "admin" ? "gold" : user.role === "partner_viewer" ? "teal" : "blue"}>
+          {user.role === "partner_viewer" ? "Parcerias" : user.role}
+        </Badge>
       </td>
       <td className="py-3 text-right">
         {isSelf ? (

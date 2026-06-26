@@ -1,7 +1,9 @@
+import { redirect } from "next/navigation";
 import { getCurrentAdminProfile } from "@/features/admin/auth";
 
 export default async function AdminHomePage() {
   const profile = await getCurrentAdminProfile();
+  if (profile?.role === "partner_viewer") redirect("/admin/parcerias");
 
   return (
     <div>

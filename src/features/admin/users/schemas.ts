@@ -4,7 +4,7 @@ export const createUserSchema = z.object({
   name: z.string().min(1),
   email: z.string().email(),
   password: z.string().min(8),
-  role: z.enum(["admin", "editor"]),
+  role: z.enum(["admin", "editor", "partner_viewer"]),
 });
 
 export type CreateUserSchemaInput = z.infer<typeof createUserSchema>;
