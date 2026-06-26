@@ -9,10 +9,10 @@ type GetProductsFilters = {
 };
 
 const PRODUCT_CARD_SELECT =
-  "id, slug, name, line, short_description, stock, featured, active, ml_url, category:categories(id, name, slug, created_at), images:product_images(id, product_id, storage_path, url, position, created_at)";
+  "id, slug, name, line, short_description, stock, featured, active, price, ml_url, category:categories(id, name, slug, created_at), images:product_images(id, product_id, storage_path, url, position, created_at)";
 
 const PRODUCT_CARD_SELECT_FILTERED_BY_CATEGORY =
-  "id, slug, name, line, short_description, stock, featured, active, ml_url, category:categories!inner(id, name, slug, created_at), images:product_images(id, product_id, storage_path, url, position, created_at)";
+  "id, slug, name, line, short_description, stock, featured, active, price, ml_url, category:categories!inner(id, name, slug, created_at), images:product_images(id, product_id, storage_path, url, position, created_at)";
 
 type ProductRow = {
   id: string;
@@ -23,6 +23,7 @@ type ProductRow = {
   stock: number;
   featured: boolean;
   active: boolean;
+  price: number | null;
   ml_url: string | null;
   category: ProductSummary["category"] | null;
   images: ProductImage[];
@@ -41,6 +42,7 @@ function toProductSummary(row: ProductRow): ProductSummary {
     stock: row.stock,
     featured: row.featured,
     active: row.active,
+    price: row.price,
     ml_url: row.ml_url,
     cover_image,
   };
@@ -74,7 +76,7 @@ export async function getProducts(filters: GetProductsFilters = {}): Promise<Pro
 }
 
 const PRODUCT_DETAIL_SELECT =
-  "id, slug, name, line, category_id, category:categories(id, name, slug, created_at), dilution, attributes, short_description, description, stock, featured, active, ml_url, purchase_mode, images:product_images(id, product_id, storage_path, url, position, created_at), created_at, updated_at";
+  "id, slug, name, line, category_id, category:categories(id, name, slug, created_at), dilution, attributes, short_description, description, stock, featured, active, price, ml_url, purchase_mode, images:product_images(id, product_id, storage_path, url, position, created_at), created_at, updated_at";
 
 type ProductDetailRow = Omit<Product, "images" | "cover_image">  & {
   images: ProductImage[];

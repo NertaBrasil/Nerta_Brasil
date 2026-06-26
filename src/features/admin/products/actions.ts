@@ -19,7 +19,7 @@ const INVALID_IMAGE_ERROR = "Arquivo inválido. Selecione uma imagem.";
 const IMAGES_BUCKET = "product-images";
 
 const PRODUCT_SELECT =
-  "id, slug, name, line, category_id, category:categories(id, name, slug, created_at), dilution, attributes, short_description, description, stock, featured, active, ml_url, purchase_mode, images:product_images(id, product_id, storage_path, url, position, created_at), created_at, updated_at";
+  "id, slug, name, line, category_id, category:categories(id, name, slug, created_at), dilution, attributes, short_description, description, stock, featured, active, price, ml_url, purchase_mode, images:product_images(id, product_id, storage_path, url, position, created_at), created_at, updated_at";
 
 type ProductRow = Omit<Product, "images" | "cover_image"> & { images: ProductImage[] };
 

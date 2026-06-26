@@ -30,6 +30,7 @@ export type Product = {
   stock: number;
   featured: boolean;
   active: boolean;
+  price: number | null;
   ml_url: string | null;
   purchase_mode: PurchaseMode;
   images: ProductImage[];
@@ -51,6 +52,7 @@ export type ProductSummary = Pick<
   | "stock"
   | "featured"
   | "active"
+  | "price"
   | "ml_url"
 > & {
   cover_image: ProductImage | null;

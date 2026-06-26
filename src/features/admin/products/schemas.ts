@@ -17,6 +17,7 @@ const productFields = z.object({
   short_description: z.string().trim().nullable().default(null),
   description: z.string().trim().nullable().default(null),
   stock: z.coerce.number().int().nonnegative("Estoque deve ser um número inteiro não-negativo."),
+  price: z.coerce.number().positive("Preço deve ser maior que zero.").nullable().default(null),
   active: z.boolean(),
   ml_url: z.string().trim().nullable().default(null),
   purchase_mode: z.enum(["mercado_livre", "formulario_parceria"]).default("mercado_livre"),
