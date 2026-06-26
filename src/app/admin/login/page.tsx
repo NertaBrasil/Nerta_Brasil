@@ -24,7 +24,7 @@ export default async function AdminLoginPage() {
         </div>
 
         <span className="relative font-body text-xs text-muted-text">
-          Química automotiva premium · Uso interno
+          Distribuição exclusiva · Provisão Comércio Internacional
         </span>
       </section>
 
