@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     template: "%s | Nerta Brasil",
   },
   description:
-    "Química automotiva premium de origem belga. Produtos de alta performance para frotas, agro, animal care e detailing profissional no Brasil.",
+    "Química automotiva premium de origem belga, distribuída pela Provisão Comércio Internacional. Produtos de alta performance para frotas, agro, animal care e detailing profissional no Brasil.",
   metadataBase: new URL("https://nertabrasil.com.br"),
   openGraph: {
     type: "website",
