@@ -3,7 +3,7 @@ import type { MainChallenge, SupplierPriority } from "./types";
 export const RELATIONSHIP_OPTIONS = [
   { value: "consumidor_final", label: "Consumidor final" },
   { value: "revendedor_autorizado", label: "Revendedor autorizado" },
-  { value: "distribuidor_regional", label: "Distribuidor regional" },
+  { value: "distribuidor_regional", label: "Agente" },
   { value: "parceiro_tecnico_aplicador", label: "Parceiro técnico/aplicador" },
   { value: "conhecendo_marca", label: "Estou conhecendo a marca" },
   { value: "outro", label: "Outro" },
