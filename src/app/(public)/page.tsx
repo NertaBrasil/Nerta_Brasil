@@ -15,7 +15,7 @@ function PartnerCTASection() {
           </div>
           <h2 className="mt-3 text-h2">Agente Nerta no Brasil</h2>
           <p className="mt-4 text-sm leading-body text-muted-text">
-            Selecionamos distribuidores e revendedores que compartilham o padrão técnico da marca.
+            Selecionamos agentes e revendedores que compartilham o padrão técnico da marca.
             Preencha o formulário — nossa equipe analisa e entra em contato.
           </p>
           <div className="mt-8">
