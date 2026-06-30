@@ -13,7 +13,7 @@ function PartnerCTASection() {
           <div className="text-label font-medium uppercase tracking-label text-provisao-gold">
             Programa de Parceiros
           </div>
-          <h2 className="mt-3 text-h2">Distribua Nerta no Brasil</h2>
+          <h2 className="mt-3 text-h2">Agente Nerta no Brasil</h2>
           <p className="mt-4 text-sm leading-body text-muted-text">
             Selecionamos distribuidores e revendedores que compartilham o padrão técnico da marca.
             Preencha o formulário — nossa equipe analisa e entra em contato.
