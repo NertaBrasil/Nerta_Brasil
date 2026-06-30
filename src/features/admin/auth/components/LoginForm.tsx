@@ -12,6 +12,7 @@ export function LoginForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const [blocked, setBlocked] = useState(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -21,6 +22,8 @@ export function LoginForm() {
     const result = await login({ email, password });
 
     if (!result.success) {
+      const isRateLimit = result.error.startsWith("Muitas tentativas");
+      setBlocked(isRateLimit);
       setError(result.error);
       setPending(false);
       return;
@@ -39,6 +42,7 @@ export function LoginForm() {
         required
         value={email}
         onChange={(event) => setEmail(event.target.value)}
+        disabled={blocked}
       />
       <Input
         label="Senha"
@@ -48,14 +52,18 @@ export function LoginForm() {
         required
         value={password}
         onChange={(event) => setPassword(event.target.value)}
+        disabled={blocked}
       />
       {error && (
-        <p className="font-body text-sm text-[#E5634D]" role="alert">
+        <p
+          className={`font-body text-sm ${blocked ? "text-[#C9951A]" : "text-[#E5634D]"}`}
+          role="alert"
+        >
           {error}
         </p>
       )}
-      <Button type="submit" size="lg" fullWidth disabled={pending}>
-        {pending ? "Entrando..." : "Acessar painel"}
+      <Button type="submit" size="lg" fullWidth disabled={pending || blocked}>
+        {pending ? "Entrando..." : blocked ? "Acesso bloqueado" : "Acessar painel"}
       </Button>
     </form>
   );
