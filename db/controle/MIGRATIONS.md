@@ -25,3 +25,5 @@ Controle manual de execução por ambiente. Ver [PROCEDURE.md](./PROCEDURE.md) p
 | 0010 | UP | add_partner_viewer_role | produção (Supabase) | supabase/migrations/20260623000000_add_partner_viewer_role.sql | 2026-06-23 | Lucas Vital | executado ✅ |
 | 0011 | UP | products_price | produção (Supabase) | supabase/migrations/20260626000000_products_price.sql | 2026-06-26 | Matheus Dias Campos | executado ✅ |
 | 0011 | DOWN | products_price | — | — | — | — | pendente |
+| 0012 | UP | login_attempts | — | supabase/migrations/20260626120000_login_attempts.sql | — | — | pendente |
+| 0012 | DOWN | login_attempts | — | — | — | — | pendente |
