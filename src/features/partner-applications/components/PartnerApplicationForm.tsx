@@ -9,6 +9,7 @@ import { isValidCnpj, isValidCpf } from "../document-validation";
 import { partnerApplicationSchema } from "../schemas";
 import { submitPartnerApplication } from "../actions";
 import {
+  BRAZILIAN_STATE_OPTIONS,
   EMPLOYEE_COUNT_OPTIONS,
   GEOGRAPHIC_SCOPE_OPTIONS,
   MAIN_CHALLENGE_OPTIONS,
@@ -112,6 +113,47 @@ const STEP_TITLES = [
   "NERTA Pioneer Partners",
 ];
 
+const IDENTIFICATION_FIELDS: ReadonlySet<PropertyKey> = new Set([
+  "document_type",
+  "document_number",
+  "legal_name",
+  "trade_name",
+  "city",
+  "state",
+  "website",
+  "contact_name",
+  "contact_role",
+  "phone",
+  "email",
+  "linkedin_url",
+]);
+
+const FIELD_STEP: Partial<Record<keyof Answers, number>> = {
+  relationship_interest: 1,
+  relationship_interest_other: 1,
+  interest_reason: 1,
+  market_segment: 2,
+  market_segment_other: 2,
+  years_in_market: 2,
+  employee_count: 2,
+  main_challenges: 3,
+  main_challenges_other: 3,
+  supplier_priorities: 3,
+  works_with_professional_products: 4,
+  current_brands: 4,
+  geographic_scope: 4,
+  has_sales_team: 4,
+  has_logistics_structure: 4,
+  initial_purchase_potential: 4,
+  interested_in_training: 4,
+  pioneer_partners_interest: 5,
+};
+
+function stepOfField(field: PropertyKey): number {
+  if (IDENTIFICATION_FIELDS.has(field)) return 0;
+  return FIELD_STEP[field as keyof Answers] ?? STEP_TITLES.length - 1;
+}
+
 function toggleArrayValue<T>(array: T[], value: T): T[] {
   return array.includes(value) ? array.filter((item) => item !== value) : [...array, value];
 }
@@ -134,7 +176,11 @@ export function PartnerApplicationForm({ productId, productName }: PartnerApplic
         : isValidCnpj(answers.document_number);
 
     if (!documentValid) return "Documento inválido. Verifique os dígitos informados.";
-    return null;
+
+    const parsed = partnerApplicationSchema.safeParse({ ...answers, product_id: productId ?? null });
+    if (parsed.success) return null;
+    const issue = parsed.error.issues.find((i) => stepOfField(i.path[0]) === 0);
+    return issue?.message ?? null;
   }
 
   function handleNext() {
@@ -161,7 +207,9 @@ export function PartnerApplicationForm({ productId, productName }: PartnerApplic
     const payload = { ...answers, product_id: productId ?? null };
     const parsed = partnerApplicationSchema.safeParse(payload);
     if (!parsed.success) {
-      setError(parsed.error.issues[0].message);
+      const issue = parsed.error.issues[0];
+      setStep(stepOfField(issue.path[0]));
+      setError(issue.message);
       return;
     }
 
@@ -256,9 +304,11 @@ export function PartnerApplicationForm({ productId, productName }: PartnerApplic
             value={answers.city}
             onChange={(e) => update("city", e.target.value)}
           />
-          <Input
+          <Select
             label="Estado"
             required
+            placeholder="Selecione"
+            options={BRAZILIAN_STATE_OPTIONS}
             value={answers.state}
             onChange={(e) => update("state", e.target.value)}
           />
