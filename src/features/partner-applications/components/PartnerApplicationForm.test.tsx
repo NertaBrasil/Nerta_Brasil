@@ -7,11 +7,11 @@ vi.mock("../actions", () => ({ submitPartnerApplication: submitPartnerApplicatio
 
 const { PartnerApplicationForm } = await import("./PartnerApplicationForm");
 
-async function fillIdentificationStep(documentNumber = "11222333000181") {
+async function fillIdentificationStep(documentNumber = "11222333000181", state: string | null = "SP") {
   await userEvent.type(screen.getByLabelText(/razão social/i), "Transportes Exemplo Ltda");
   await userEvent.type(screen.getByLabelText(/cnpj|cpf/i), documentNumber);
   await userEvent.type(screen.getByLabelText(/cidade/i), "São Paulo");
-  await userEvent.type(screen.getByLabelText(/^estado/i), "SP");
+  if (state) await userEvent.selectOptions(screen.getByLabelText(/^estado/i), state);
   await userEvent.type(screen.getByLabelText(/nome do responsável/i), "Maria Silva");
   await userEvent.type(screen.getByLabelText(/cargo/i), "Gerente de Compras");
   await userEvent.type(screen.getByLabelText(/telefone/i), "+55 11 99999-0000");
@@ -56,6 +56,16 @@ describe("PartnerApplicationForm", () => {
       await screen.findByText(/documento inválido/i)
     ).toBeInTheDocument();
     expect(screen.getByLabelText(/razão social/i)).toBeInTheDocument();
+  });
+
+  it("bloqueia o avanço na identificação quando o estado não foi selecionado", async () => {
+    render(<PartnerApplicationForm productId="prod-1" productName="Truck Clean" />);
+
+    await fillIdentificationStep(undefined, null);
+    await userEvent.click(screen.getByRole("button", { name: /avançar/i }));
+
+    expect(await screen.findByText(/sigla do estado/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/^estado/i)).toBeInTheDocument();
   });
 
   it("envia o formulário completo e exibe confirmação ao concluir todas as etapas", async () => {

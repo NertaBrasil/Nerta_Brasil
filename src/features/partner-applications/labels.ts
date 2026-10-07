@@ -87,3 +87,8 @@ export function lookupLabel(options: Option[], value: string | null): string | n
 export function lookupLabels(options: Option[], values: string[]): string {
   return values.map((v) => options.find((o) => o.value === v)?.label ?? v).join(", ");
 }
+
+export const BRAZILIAN_STATE_OPTIONS = [
+  "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA",
+  "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO",
+].map((uf) => ({ value: uf, label: uf }));
